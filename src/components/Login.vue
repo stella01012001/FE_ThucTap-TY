@@ -9,22 +9,17 @@
 
           <div class="form-group">
             <label for="email">Username: </label>
-
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Enter Username"
-              v-model="username"
-            />
+            <input type="text" class="form-control" :class="{'is-invalid': erorrs.username}" placeholder="Enter Username" v-model="user.username"/>
+            <div v-if="erorrs.username" class="invalid-feedback">
+              {{erorrs.username[0]}}
+            </div>
           </div>
           <div class="form-group">
             <label for="pwd">Password:</label>
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Enter password"
-              v-model="password"
-            />
+            <input type="password" class="form-control" :class="{'is-invalid': erorrs.password}" placeholder="Enter password" v-model="user.password"/>
+            <div v-if="erorrs.password" class="invalid-feedback">
+              {{erorrs.password[0]}}
+            </div>
           </div>
           <button type="submit" class="btn btn-primary">Login</button>
         </form>
@@ -39,8 +34,11 @@ export default {
   name: "Login",
   data() {
     return {
-      username: "",
-      password: "",
+      user: {
+        username: '',
+        password: ''
+      },
+      erorrs: {}
     };
   },
   computed: {
@@ -48,20 +46,16 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const data = {
-        username: this.username,
-        password: this.password,
-      };
-      console.log(data);
       axios
-        .post("login", data)
+        .post("login", this.user)
         .then((result) => {
           console.log(result);
           window.localStorage.setItem('token', result.data.token);
-          this.$router.push('/');
+          this.$router.push('/menu');
         })
         .catch((err) => {
-          console.log(err);
+          this.erorrs = err.response.data.errors;
+          console.log(err.response.data.errors);
         });
     },
   },
@@ -71,7 +65,7 @@ export default {
 <style lang="css">
 .jumbotron {
   margin: unset;
-  background: url(https://scontent-hkg4-2.xx.fbcdn.net/v/t1.18169-9/26230647_2025678734376646_8716683300838614448_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=-mX8O-Ngzg4AX9IsCo9&tn=aYXSSniwU4XMkkl4&_nc_ht=scontent-hkg4-2.xx&oh=08d92a3579af00df5289dcd113fec3c6&oe=60FBDA92);
+  /* background: url(https://scontent-hkg4-2.xx.fbcdn.net/v/t1.18169-9/26230647_2025678734376646_8716683300838614448_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=-mX8O-Ngzg4AX9IsCo9&tn=aYXSSniwU4XMkkl4&_nc_ht=scontent-hkg4-2.xx&oh=08d92a3579af00df5289dcd113fec3c6&oe=60FBDA92); */
 }
 
 .row {
