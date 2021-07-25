@@ -12,7 +12,10 @@ export default {
 
         }
     },
-    mounted() {
+    // mounted() {
+    //     this.checkLoggedIn();
+    // },
+    created() {
         this.checkLoggedIn();
     },
     methods: {
@@ -21,9 +24,7 @@ export default {
             if (token == null) {
                 this.$router.push('/login');
             }
-            axios.get('user', {
-                headers: {Authorization: 'Bearer ' + token}
-            })
+            axios.get('user')
             .then(function(response) {
                 console.log(response);
             })
