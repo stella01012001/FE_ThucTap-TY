@@ -15,7 +15,7 @@
             <div class="wrapp-icon">
               <i class="fas fa-building"></i>
             </div>
-            <span>BLOCK</span>
+            <router-link to="/menu/block">BLOCK</router-link>
           </el-menu-item>
           <el-menu-item index="2">
             <div class="wrapp-icon">
@@ -33,8 +33,7 @@
             <div class="wrapp-icon">
               <i class="el-icon-s-custom"></i>
             </div>
-
-            <span>CUSTOMER</span>
+            <router-link to="/menu/customer">CUSTOMER</router-link>
           </el-menu-item>
           <el-menu-item index="5">
             <div class="wrapp-icon">
@@ -107,7 +106,7 @@ export default {
     this.checkLoggedIn();
   },
   methods: {
-    checkLoggedIn: function() {
+    checkLoggedIn: function () {
       // let token = window.localStorage.getItem("token");
       // if (token == null) {
       //   this.$router.push("/login");
