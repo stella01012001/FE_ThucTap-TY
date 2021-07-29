@@ -24,6 +24,7 @@
         </el-form-item>
         <el-form-item label="Gender" :label-width="formLabelWidth">
           <el-input v-model="form.gender" autocomplete="off"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -33,20 +34,13 @@
 
     <el-table :data="customers">
       <el-table-column prop="id" label="Id"> </el-table-column>
-      <el-table-column prop="name" label="Name">
-      </el-table-column>
-      <el-table-column prop="gender" label="Gender">
-      </el-table-column>
-      <el-table-column prop="taxCode" label="Tax Code">
-      </el-table-column>
-      <el-table-column prop="birth" label="Birth">
-      </el-table-column>
-      <el-table-column prop="phone" label="Phone">
-      </el-table-column>
-      <el-table-column prop="address" label="Address">
-      </el-table-column>
-      <el-table-column prop="email" label="Email">
-      </el-table-column>
+      <el-table-column prop="name" label="Name"> </el-table-column>
+      <el-table-column prop="gender" label="Gender"> </el-table-column>
+      <el-table-column prop="taxCode" label="Tax Code"> </el-table-column>
+      <el-table-column prop="birth" label="Birth"> </el-table-column>
+      <el-table-column prop="phone" label="Phone"> </el-table-column>
+      <el-table-column prop="address" label="Address"> </el-table-column>
+      <el-table-column prop="email" label="Email"> </el-table-column>
       <el-table-column prop="aciton" label="Action">
         <el-button
           type="primary"
