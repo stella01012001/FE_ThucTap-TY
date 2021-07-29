@@ -66,8 +66,7 @@
             <div class="wrapp-icon">
               <i class="fas fa-calendar-alt"></i>
             </div>
-
-            <span>EVENT</span>
+            <router-link to="/menu/event-type">EVENT</router-link>
           </el-menu-item>
           <el-menu-item index="10">
             <div class="wrapp-icon">
@@ -85,24 +84,14 @@
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>View</el-dropdown-item>
-            <el-dropdown-item>Add</el-dropdown-item>
-            <el-dropdown-item>Delete</el-dropdown-item>
+            <el-dropdown-item>Log Out</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span>Tom</span>
       </el-header>
 
       <el-main>
-        <el-col :span="24"><el-button type="primary">Thêm</el-button></el-col>
-        <el-table :data="tableData">
-          <el-table-column prop="date" label="Date" width="140">
-          </el-table-column>
-          <el-table-column prop="name" label="Name" width="120">
-          </el-table-column>
-          <el-table-column prop="address" label="Address"> </el-table-column>
-          <el-table-column prop="aciton" label="Action"> </el-table-column>
-        </el-table>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>
@@ -111,17 +100,6 @@
 <script>
 // import axios from "axios";
 export default {
-  data() {
-    const item = {
-      date: "2016-05-02",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-      action: `<el-button type="info" icon="el-icon-message" circle></el-button><el-button type="danger" icon="el-icon-delete" circle></el-button>`,
-    };
-    return {
-      tableData: Array(20).fill(item),
-    };
-  },
   // mounted() {
   //     this.checkLoggedIn();
   // },
@@ -129,7 +107,7 @@ export default {
     this.checkLoggedIn();
   },
   methods: {
-    checkLoggedIn: function () {
+    checkLoggedIn: function() {
       // let token = window.localStorage.getItem("token");
       // if (token == null) {
       //   this.$router.push("/login");
