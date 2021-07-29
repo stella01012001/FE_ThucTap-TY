@@ -12,16 +12,69 @@
           @close="handleClose"
         >
           <el-menu-item index="1">
-            <i class="el-icon-menu"></i>
-            <span>Navigator Two</span>
+            <div class="wrapp-icon">
+              <i class="fas fa-building"></i>
+            </div>
+            <span>BLOCK</span>
           </el-menu-item>
           <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span>Navigator Two</span>
+            <div class="wrapp-icon">
+              <i class="fas fa-kaaba"></i>
+            </div>
+            <span>FLOOR</span>
           </el-menu-item>
           <el-menu-item index="3">
-            <i class="el-icon-setting"></i>
-            <span>Navigator Four</span>
+            <div class="wrapp-icon">
+              <i class="fas fa-warehouse"></i>
+            </div>
+            <span>UNIT</span>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <div class="wrapp-icon">
+              <i class="el-icon-s-custom"></i>
+            </div>
+
+            <span>CUSTOMER</span>
+          </el-menu-item>
+          <el-menu-item index="5">
+            <div class="wrapp-icon">
+              <i class="fas fa-user-tie"></i>
+            </div>
+
+            <span>EMPLOYEE</span>
+          </el-menu-item>
+          <el-menu-item index="6">
+            <div class="wrapp-icon">
+              <i class="el-icon-document-remove"></i>
+            </div>
+
+            <span>PAYMENT_TERMS</span>
+          </el-menu-item>
+          <el-menu-item index="7">
+            <div class="wrapp-icon">
+              <i class="fas fa-file-contract"></i>
+            </div>
+            <span>CONTRACT</span>
+          </el-menu-item>
+          <el-menu-item index="8">
+            <div class="wrapp-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <span>EVENT_TYPE</span>
+          </el-menu-item>
+          <el-menu-item index="9">
+            <div class="wrapp-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+
+            <span>EVENT</span>
+          </el-menu-item>
+          <el-menu-item index="10">
+            <div class="wrapp-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+
+            <span>PENDDING_EVENT</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -76,7 +129,7 @@ export default {
     this.checkLoggedIn();
   },
   methods: {
-    checkLoggedIn: function() {
+    checkLoggedIn: function () {
       // let token = window.localStorage.getItem("token");
       // if (token == null) {
       //   this.$router.push("/login");
@@ -101,6 +154,11 @@ export default {
 </script>
 
 <style>
+.wrapp-icon {
+  width: 25px;
+  text-align: center;
+  display: inline-block;
+}
 .el-header {
   background-color: #b3c0d1;
   color: #333;
