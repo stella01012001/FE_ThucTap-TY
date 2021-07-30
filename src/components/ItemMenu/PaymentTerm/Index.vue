@@ -15,7 +15,7 @@
       </span>
     </el-dialog>
 
-    <el-table :data="blocks">
+    <el-table :data="paymentterms">
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="description" label="Description">
       </el-table-column>
@@ -39,7 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      blocks: [],
+      paymentterms: [],
       dialogFormVisible: false,
       form: {
         description: "",
@@ -47,29 +47,26 @@ export default {
     };
   },
   created() {
-      this.getAllBlock()
+      this.getAllPaymentterms()
   },
   methods: {
-    getEvent_type(id) {
-      console.log(id);
-    },
     handSubmit() {
       axios
-        .post("block", this.form)
+        .post("paymentTerm", this.form)
         .then((result) => {
           console.log(result);
           this.dialogFormVisible = false;
-          this.getAllBlock();
+          this.getAllPaymentterms();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getAllBlock() {
+    getAllPaymentterms() {
       axios
-        .get("block")
+        .get("paymentTerm")
         .then((result) => {
-          this.blocks = result.data.data;
+          this.paymentterms = result.data.data;
           console.log(this.blocks);
         })
         .catch((err) => {
@@ -78,9 +75,9 @@ export default {
     },
     handleDelete(index, row) {
         axios
-        .delete(`block/${row.id}`)
+        .delete(`paymentTerm/${row.id}`)
         .then(() => {
-            this.getAllBlock();
+            this.getAllPaymentterms();
         })
         .catch((err) => {
           console.log(err);

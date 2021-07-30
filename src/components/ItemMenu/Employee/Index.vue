@@ -1,14 +1,40 @@
 <template>
   <div>
+
     <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
+
+     <!-- Sửa -->
+    <el-dialog title="Chỉnh sửa trạng thái" :visible.sync="dialogFormEdit">
+      <el-form :model="editform">
+        <el-form-item label="Name" :label-width="formLabelWidth">
+          <el-input :value="editform.name" autocomplete="off" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="Birth" :label-width="formLabelWidth">
+          <el-input v-model="editform.birth" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Phone" :label-width="formLabelWidth">
+          <el-input v-model="editform.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Address" :label-width="formLabelWidth">
+          <el-input v-model="editform.address" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Email" :label-width="formLabelWidth">
+          <el-input v-model="editform.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Gender" :label-width="formLabelWidth">
+          <el-input v-model="editform.gender" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormEdit = false">Hủy Bỏ</el-button>
+        <el-button type="primary" @click="editEmployee">Ghi</el-button>
+      </span>
+    </el-dialog>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Tax Code" :label-width="formLabelWidth">
-          <el-input v-model="form.taxCode" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Birth" :label-width="formLabelWidth">
           <el-input v-model="form.birth" autocomplete="off"></el-input>
@@ -32,15 +58,15 @@
       </span>
     </el-dialog>
 
-    <el-table :data="customers">
+    <el-table :data="employees">
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>
-      <el-table-column prop="taxCode" label="Tax Code"> </el-table-column>
       <el-table-column prop="birth" label="Birth"> </el-table-column>
       <el-table-column prop="phone" label="Phone"> </el-table-column>
       <el-table-column prop="address" label="Address"> </el-table-column>
       <el-table-column prop="email" label="Email"> </el-table-column>
+      <el-table-column prop="idAcc" label="Account"> </el-table-column>
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
@@ -67,12 +93,20 @@ import axios from "axios";
 export default {
   data() {
     return {
-      formLabelWidth: "120px",
-      customers: [],
+      employees: [],
       dialogFormVisible: false,
       form: {
         name: "",
-        taxCode: "",
+        birth: "",
+        phone: "",
+        address: "",
+        email: "",
+        gender: "",
+      },
+      dialogFormEdit: false,
+      editform: {
+        id: null,
+        name: "",
         birth: "",
         phone: "",
         address: "",
@@ -82,43 +116,55 @@ export default {
     };
   },
   created() {
-    this.getAllCus();
+    this.getAllEmployee()
   },
   methods: {
-    getEvent_type(id) {
-      console.log(id);
-    },
     handSubmit() {
+      
       axios
-        .post("customer", this.form)
+        .post("employee", this.form)
         .then((result) => {
           console.log(result);
-          this.dialogFormVisible = false;
-          this.getAllCus();
+          this.dialogFormVisible = false
+          this.getAllEmployee();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getAllCus() {
+    getAllEmployee() {
       axios
-        .get("block")
-        .then((result) => {
-          this.blocks = result.data.data;
-          console.log(this.blocks);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .get("employee")
+      .then((result) => {
+        this.employees = result.data.data;
+        console.log(this.eventTypes);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
     handleEdit(index, row) {
+      this.dialogFormEdit = true;
+      this.editform = row;
       console.log(index, row);
+    },
+    editEmployee() {
+        axios
+        .post("employee", this.editform)
+        .then((result) => {
+          console.log(result);
+          this.dialogFormEdit = false
+          this.getAllEmployee();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleDelete(index, row) {
         axios
-        .delete(`customer/${row.id}`)
+        .delete(`employee/${row.id}`)
         .then(() => {
-            this.getAllCus();
+            this.getAllEmployee();
         })
         .catch((err) => {
           console.log(err);

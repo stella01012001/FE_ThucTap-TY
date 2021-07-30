@@ -26,13 +26,21 @@
       <el-table-column prop="description" label="Description">
       </el-table-column>
       <el-table-column prop="aciton" label="Action">
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          circle
-          @click="getEvent_type"
-        ></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        <template slot-scope="scope">
+          <el-button
+            icon="el-icon-edit"
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)"
+            >Sửa</el-button
+          >
+          <el-button
+            icon="el-icon-delete"
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >Xóa</el-button
+          >
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -81,7 +89,20 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-    }
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+        axios
+        .delete(`event-type/${row.id}`)
+        .then(() => {
+            this.getAllEventType();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

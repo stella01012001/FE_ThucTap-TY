@@ -6,6 +6,9 @@ import Menu from './components/Menu.vue'
 import EventType from './components/ItemMenu/Event-Type/Index.vue'
 import Block from './components/ItemMenu/Block/Index.vue'
 import Customer from './components/ItemMenu/Customer/Index.vue'
+import Employee from './components/ItemMenu/Employee/Index.vue'
+import Floor from './components/ItemMenu/Floor/Index.vue'
+import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 
 
 Vue.use(Router)
@@ -20,6 +23,9 @@ export default new Router({
                 { path: '/menu/event-type', component: EventType },
                 { path: '/menu/block', component: Block },
                 { path: '/menu/customer', component: Customer },
+                { path: '/menu/employee', component: Employee },
+                { path: '/menu/floor', component: Floor },
+                { path: '/menu/paymentterm', component: PaymentTerm },
             ]
         }
     ]

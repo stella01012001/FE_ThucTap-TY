@@ -5,6 +5,9 @@
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
+          <el-form-item label="Num of Floor" :label-width="formLabelWidth">
+          <el-input v-model="form.numFloor" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item label="Description" :label-width="formLabelWidth">
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
@@ -15,8 +18,9 @@
       </span>
     </el-dialog>
 
-    <el-table :data="blocks">
+    <el-table :data="floors">
       <el-table-column prop="id" label="Id"> </el-table-column>
+      <el-table-column prop="numFloor" label="Num Floor"> </el-table-column>
       <el-table-column prop="description" label="Description">
       </el-table-column>
       <el-table-column prop="aciton" label="Action">
@@ -39,15 +43,16 @@ import axios from "axios";
 export default {
   data() {
     return {
-      blocks: [],
+      floors: [],
       dialogFormVisible: false,
       form: {
+        numFloor: "",
         description: "",
       },
     };
   },
   created() {
-      this.getAllBlock()
+    this.getAllFloor();
   },
   methods: {
     getEvent_type(id) {
@@ -55,32 +60,32 @@ export default {
     },
     handSubmit() {
       axios
-        .post("block", this.form)
+        .post("floor", this.form)
         .then((result) => {
           console.log(result);
           this.dialogFormVisible = false;
-          this.getAllBlock();
+          this.getAllFloor();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getAllBlock() {
+    getAllFloor() {
       axios
-        .get("block")
+        .get("floor")
         .then((result) => {
-          this.blocks = result.data.data;
-          console.log(this.blocks);
+          this.floors = result.data.data;
+          console.log(this.floors);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     handleDelete(index, row) {
-        axios
-        .delete(`block/${row.id}`)
+      axios
+        .delete(`floor/${row.id}`)
         .then(() => {
-            this.getAllBlock();
+          this.getAllFloor();
         })
         .catch((err) => {
           console.log(err);

@@ -21,7 +21,7 @@
             <div class="wrapp-icon">
               <i class="fas fa-kaaba"></i>
             </div>
-            <span>FLOOR</span>
+            <router-link to="/menu/floor">FLOOR</router-link>
           </el-menu-item>
           <el-menu-item index="3">
             <div class="wrapp-icon">
@@ -39,15 +39,13 @@
             <div class="wrapp-icon">
               <i class="fas fa-user-tie"></i>
             </div>
-
-            <span>EMPLOYEE</span>
+            <router-link to="/menu/employee">EMPLOYEE</router-link>
           </el-menu-item>
           <el-menu-item index="6">
             <div class="wrapp-icon">
               <i class="el-icon-document-remove"></i>
             </div>
-
-            <span>PAYMENT_TERMS</span>
+            <router-link to="/menu/paymentterm">PAYMENT TERM</router-link>
           </el-menu-item>
           <el-menu-item index="7">
             <div class="wrapp-icon">
