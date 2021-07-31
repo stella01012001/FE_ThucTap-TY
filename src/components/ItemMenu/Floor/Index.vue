@@ -1,11 +1,10 @@
 <template>
   <div>
-
     <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-          <el-form-item label="Num of Floor" :label-width="formLabelWidth">
+        <el-form-item label="Num of Floor" :label-width="formLabelWidth">
           <el-input v-model="form.numFloor" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Description" :label-width="formLabelWidth">
@@ -49,6 +48,7 @@ export default {
         numFloor: "",
         description: "",
       },
+      formLabelWidth: "120px",
     };
   },
   created() {
@@ -82,13 +82,42 @@ export default {
         });
     },
     handleDelete(index, row) {
-      axios
-        .delete(`floor/${row.id}`)
-        .then(() => {
-          this.getAllFloor();
+      console.log(index, row);
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chứ?",
+          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, xóa nó!",
+          cancelButtonText: "Không!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          console.log(err);
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`floor/${row.id}`)
+              .then(() => {
+                this.getAllFloor();
+                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+          }
         });
     },
   },

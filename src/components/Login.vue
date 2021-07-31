@@ -9,16 +9,28 @@
 
           <div class="form-group">
             <label for="email">Username: </label>
-            <input type="text" class="form-control" :class="{'is-invalid': erorrs.username}" placeholder="Enter Username" v-model="user.username"/>
+            <input
+              type="text"
+              class="form-control"
+              :class="{ 'is-invalid': erorrs.username }"
+              placeholder="Enter Username"
+              v-model="user.username"
+            />
             <div v-if="erorrs.username" class="invalid-feedback">
-              {{erorrs.username[0]}}
+              {{ erorrs.username[0] }}
             </div>
           </div>
           <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" :class="{'is-invalid': erorrs.password}" placeholder="Enter password" v-model="user.password"/>
+            <input
+              type="password"
+              class="form-control"
+              :class="{ 'is-invalid': erorrs.password }"
+              placeholder="Enter password"
+              v-model="user.password"
+            />
             <div v-if="erorrs.password" class="invalid-feedback">
-              {{erorrs.password[0]}}
+              {{ erorrs.password[0] }}
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Login</button>
@@ -35,23 +47,36 @@ export default {
   data() {
     return {
       user: {
-        username: '',
-        password: ''
+        username: "",
+        password: "",
       },
-      erorrs: {}
+      erorrs: {},
     };
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     handleSubmit() {
       axios
         .post("login", this.user)
         .then((result) => {
-          console.log(result);
-          window.localStorage.setItem('token', result.data.accessToken);
-          this.$router.push('/menu');
+          if (result.data.data.flag == 1) {
+            console.log(result);
+            this.$swal({
+              icon: "success",
+              title: "Đăng nhập thành công!!!",
+              showConfirmButton: false,
+            });
+            window.localStorage.setItem("token", result.data.accessToken);
+            this.$store.dispatch("id", result.data.data.id);
+            this.$store.dispatch("user", result.data.data.username);
+            this.$router.push("/menu");
+          } else {
+            this.$swal({
+              icon: "error",
+              title: "Tài khoản đã bị khóa",
+              showConfirmButton: false,
+            });
+          }
         })
         .catch((err) => {
           this.erorrs = err.response.data.errors;

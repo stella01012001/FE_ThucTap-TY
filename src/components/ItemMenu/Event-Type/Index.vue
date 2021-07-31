@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
@@ -14,9 +13,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handSubmit"
-          >Confirm</el-button
-        >
+        <el-button type="primary" @click="handSubmit">Confirm</el-button>
       </span>
     </el-dialog>
 
@@ -27,12 +24,7 @@
       </el-table-column>
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
-          <el-button
-            icon="el-icon-edit"
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
-            >Sửa</el-button
-          >
+          <el-button icon="el-icon-edit" size="mini">Sửa</el-button>
           <el-button
             icon="el-icon-delete"
             size="mini"
@@ -56,24 +48,28 @@ export default {
       form: {
         code: "",
         description: "",
-        
       },
+      formLabelWidth: "120px",
     };
   },
   created() {
-    this.getAllEventType()
+    this.getAllEventType();
   },
   methods: {
     getEvent_type(id) {
       console.log(id);
     },
     handSubmit() {
-      
       axios
         .post("event-type", this.form)
         .then((result) => {
           console.log(result);
-          this.dialogFormVisible = false
+          this.dialogFormVisible = false;
+          this.$swal({
+            icon: "success",
+            title: "Thêm Hãng thành công",
+            showConfirmButton: false,
+          });
           this.getAllEventType();
         })
         .catch((err) => {
@@ -82,26 +78,52 @@ export default {
     },
     getAllEventType() {
       axios
-      .get("event-type")
-      .then((result) => {
-        this.eventTypes = result.data.data;
-        console.log(this.eventTypes);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    },
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-        axios
-        .delete(`event-type/${row.id}`)
-        .then(() => {
-            this.getAllEventType();
+        .get("event-type")
+        .then((result) => {
+          this.eventTypes = result.data.data;
+          console.log(this.eventTypes);
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chứ?",
+          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, xóa nó!",
+          cancelButtonText: "Không!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`event-type/${row.id}`)
+              .then(() => {
+                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                this.getAllEventType();
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+          }
         });
     },
   },

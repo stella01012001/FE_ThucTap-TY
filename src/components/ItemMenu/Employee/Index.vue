@@ -1,13 +1,16 @@
 <template>
   <div>
-
     <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
 
-     <!-- Sửa -->
+    <!-- Sửa -->
     <el-dialog title="Chỉnh sửa trạng thái" :visible.sync="dialogFormEdit">
       <el-form :model="editform">
         <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input :value="editform.name" autocomplete="off" :disabled="true"></el-input>
+          <el-input
+            :value="editform.name"
+            autocomplete="off"
+            :disabled="true"
+          ></el-input>
         </el-form-item>
         <el-form-item label="Birth" :label-width="formLabelWidth">
           <el-input v-model="editform.birth" autocomplete="off"></el-input>
@@ -94,6 +97,7 @@ export default {
   data() {
     return {
       employees: [],
+      formLabelWidth: "120px",
       dialogFormVisible: false,
       form: {
         name: "",
@@ -116,16 +120,20 @@ export default {
     };
   },
   created() {
-    this.getAllEmployee()
+    this.getAllEmployee();
   },
   methods: {
     handSubmit() {
-      
       axios
         .post("employee", this.form)
         .then((result) => {
           console.log(result);
-          this.dialogFormVisible = false
+          this.dialogFormVisible = false;
+          this.$swal({
+            icon: "success",
+            title: "Thêm Hãng thành công",
+            showConfirmButton: false,
+          });
           this.getAllEmployee();
         })
         .catch((err) => {
@@ -134,14 +142,14 @@ export default {
     },
     getAllEmployee() {
       axios
-      .get("employee")
-      .then((result) => {
-        this.employees = result.data.data;
-        console.log(this.eventTypes);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .get("employee")
+        .then((result) => {
+          this.employees = result.data.data;
+          console.log(this.eventTypes);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleEdit(index, row) {
       this.dialogFormEdit = true;
@@ -149,11 +157,11 @@ export default {
       console.log(index, row);
     },
     editEmployee() {
-        axios
+      axios
         .post("employee", this.editform)
         .then((result) => {
           console.log(result);
-          this.dialogFormEdit = false
+          this.dialogFormEdit = false;
           this.getAllEmployee();
         })
         .catch((err) => {
@@ -161,13 +169,41 @@ export default {
         });
     },
     handleDelete(index, row) {
-        axios
-        .delete(`employee/${row.id}`)
-        .then(() => {
-            this.getAllEmployee();
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chứ?",
+          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, xóa nó!",
+          cancelButtonText: "Không!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          console.log(err);
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`employee/${row.id}`)
+              .then(() => {
+                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                this.getAllEmployee();
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+          }
         });
     },
   },

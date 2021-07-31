@@ -135,11 +135,16 @@ export default {
       console.log(id);
     },
     handSubmit() {
+      this.dialogFormVisible = false;
       axios
         .post("customer", this.form)
         .then((result) => {
           console.log(result);
-          this.dialogFormVisible = false;
+          this.$swal({
+            icon: "success",
+            title: "Thêm Hãng thành công",
+            showConfirmButton: false,
+          });
           this.getAllCus();
         })
         .catch((err) => {
@@ -163,11 +168,11 @@ export default {
       console.log(index, row);
     },
     editEmployee() {
-        axios
+      axios
         .post("customer", this.editform)
         .then((result) => {
           console.log(result);
-          this.dialogFormEdit = false
+          this.dialogFormEdit = false;
           this.getAllCus();
         })
         .catch((err) => {
@@ -175,13 +180,43 @@ export default {
         });
     },
     handleDelete(index, row) {
-      axios
-        .delete(`customer/${row.id}`)
-        .then(() => {
-          this.getAllCus();
+      console.log(index, row);
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chứ?",
+          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, xóa nó!",
+          cancelButtonText: "Không!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          console.log(err);
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`customer/${row.id}`)
+              .then(() => {
+                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                this.getAllCus();
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+                console.log(err);
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+          }
         });
     },
   },

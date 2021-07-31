@@ -1,92 +1,20 @@
 <template>
   <el-container style="height: 100vh">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-col>
-        <div class="name-web">
-          <h5>Custom colors</h5>
-        </div>
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical"
-          @open="handleOpen"
-          @close="handleClose"
-        >
-          <el-menu-item index="1">
-            <div class="wrapp-icon">
-              <i class="fas fa-building"></i>
-            </div>
-            <router-link to="/menu/block">BLOCK</router-link>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <div class="wrapp-icon">
-              <i class="fas fa-kaaba"></i>
-            </div>
-            <router-link to="/menu/floor">FLOOR</router-link>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <div class="wrapp-icon">
-              <i class="fas fa-warehouse"></i>
-            </div>
-            <span>UNIT</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <div class="wrapp-icon">
-              <i class="el-icon-s-custom"></i>
-            </div>
-            <router-link to="/menu/customer">CUSTOMER</router-link>
-          </el-menu-item>
-          <el-menu-item index="5">
-            <div class="wrapp-icon">
-              <i class="fas fa-user-tie"></i>
-            </div>
-            <router-link to="/menu/employee">EMPLOYEE</router-link>
-          </el-menu-item>
-          <el-menu-item index="6">
-            <div class="wrapp-icon">
-              <i class="el-icon-document-remove"></i>
-            </div>
-            <router-link to="/menu/paymentterm">PAYMENT TERM</router-link>
-          </el-menu-item>
-          <el-menu-item index="7">
-            <div class="wrapp-icon">
-              <i class="fas fa-file-contract"></i>
-            </div>
-            <span>CONTRACT</span>
-          </el-menu-item>
-          <el-menu-item index="8">
-            <div class="wrapp-icon">
-              <i class="fas fa-tasks"></i>
-            </div>
-            <router-link to="/menu/event-type">EVENT TYPE</router-link>
-          </el-menu-item>
-          <el-menu-item index="9">
-            <div class="wrapp-icon">
-              <i class="fas fa-calendar-alt"></i>
-            </div>
-            <router-link to="/menu/event-type">EVENT</router-link>
-          </el-menu-item>
-          <el-menu-item index="10">
-            <div class="wrapp-icon">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-
-            <span>PENDDING_EVENT</span>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
+      <Nav />
     </el-aside>
-
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <el-dropdown>
+          <span>{{ user }}</span>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>Log Out</el-dropdown-item>
+            <el-dropdown-item
+              ><span @click="log_out">Log Out</span></el-dropdown-item
+            >
           </el-dropdown-menu>
         </el-dropdown>
-        <span>Tom</span>
       </el-header>
-
       <el-main>
         <router-view />
       </el-main>
@@ -96,34 +24,27 @@
 
 <script>
 // import axios from "axios";
+import Nav from "./Common/Nav.vue";
+import { mapGetters } from "vuex";
 export default {
-  // mounted() {
-  //     this.checkLoggedIn();
-  // },
-  created() {
-    this.checkLoggedIn();
+  components: {
+    Nav,
   },
+  created() {},
   methods: {
-    checkLoggedIn: function () {
-      // let token = window.localStorage.getItem("token");
-      // if (token == null) {
-      //   this.$router.push("/login");
-      // }
-      // axios
-      //   .get("user")
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(() => {
-      //     this.$router.push("/login");
-      //   });
+    
+    log_out() {
+      localStorage.removeItem("token");
+      this.$swal({
+        icon: "info",
+        title: "Đã đăng xuất",
+        showConfirmButton: false,
+      });
+      this.$router.push("/");
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+  },
+  computed: {
+    ...mapGetters(["user"]),
   },
 };
 </script>
