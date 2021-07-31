@@ -2,6 +2,41 @@
   <div>
     <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
 
+    <!-- Sửa -->
+    <el-dialog title="Chỉnh sửa trạng thái" :visible.sync="dialogFormEdit">
+      <el-form :model="editform">
+        <el-form-item label="Name" :label-width="formLabelWidth">
+          <el-input
+            :value="editform.name"
+            autocomplete="off"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="Tax Code" :label-width="formLabelWidth">
+          <el-input v-model="editform.taxCode" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Birth" :label-width="formLabelWidth">
+          <el-input v-model="editform.birth" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Phone" :label-width="formLabelWidth">
+          <el-input v-model="editform.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Address" :label-width="formLabelWidth">
+          <el-input v-model="editform.address" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Email" :label-width="formLabelWidth">
+          <el-input v-model="editform.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Gender" :label-width="formLabelWidth">
+          <el-input v-model="editform.gender" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormEdit = false">Hủy Bỏ</el-button>
+        <el-button type="primary" @click="editEmployee">Ghi</el-button>
+      </span>
+    </el-dialog>
+
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Name" :label-width="formLabelWidth">
@@ -79,6 +114,17 @@ export default {
         email: "",
         gender: "",
       },
+      dialogFormEdit: false,
+      editform: {
+        id: null,
+        name: "",
+        taxCode: "",
+        birth: "",
+        phone: "",
+        address: "",
+        email: "",
+        gender: "",
+      },
     };
   },
   created() {
@@ -102,23 +148,37 @@ export default {
     },
     getAllCus() {
       axios
-        .get("block")
+        .get("customer")
         .then((result) => {
-          this.blocks = result.data.data;
-          console.log(this.blocks);
+          this.customers = result.data.data;
+          console.log(this.customers);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     handleEdit(index, row) {
+      this.dialogFormEdit = true;
+      this.editform = row;
       console.log(index, row);
     },
-    handleDelete(index, row) {
+    editEmployee() {
         axios
+        .post("customer", this.editform)
+        .then((result) => {
+          console.log(result);
+          this.dialogFormEdit = false
+          this.getAllCus();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleDelete(index, row) {
+      axios
         .delete(`customer/${row.id}`)
         .then(() => {
-            this.getAllCus();
+          this.getAllCus();
         })
         .catch((err) => {
           console.log(err);

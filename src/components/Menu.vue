@@ -57,7 +57,7 @@
             <div class="wrapp-icon">
               <i class="fas fa-tasks"></i>
             </div>
-            <span>EVENT_TYPE</span>
+            <router-link to="/menu/event-type">EVENT TYPE</router-link>
           </el-menu-item>
           <el-menu-item index="9">
             <div class="wrapp-icon">

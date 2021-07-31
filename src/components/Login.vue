@@ -29,7 +29,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "Login",
   data() {
@@ -46,17 +46,17 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // axios
-      //   .post("login", this.user)
-      //   .then((result) => {
-      //     console.log(result);
-      //     window.localStorage.setItem('token', result.data.token);
-      //     this.$router.push('/menu');
-      //   })
-      //   .catch((err) => {
-      //     this.erorrs = err.response.data.errors;
-      //     console.log(err.response.data.errors);
-      //   });
+      axios
+        .post("login", this.user)
+        .then((result) => {
+          console.log(result);
+          window.localStorage.setItem('token', result.data.accessToken);
+          this.$router.push('/menu');
+        })
+        .catch((err) => {
+          this.erorrs = err.response.data.errors;
+          console.log(err.response.data.errors);
+        });
     },
   },
 };
