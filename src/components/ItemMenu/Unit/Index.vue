@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true"
+      >Add new</el-button
+    >
 
     <!-- Sửa
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
@@ -86,7 +88,7 @@
     </el-dialog>
 
     <el-table :data="units">
-      <el-table-column prop="id" label="Id"> </el-table-column>
+      <el-table-column fixed prop="id" label="Id"> </el-table-column>
       <el-table-column prop="idUnitType" label="Unit Type"> </el-table-column>
       <el-table-column prop="unit_code" label="Unit Code"> </el-table-column>
       <el-table-column prop="idBlock" label="Block"> </el-table-column>
@@ -97,10 +99,12 @@
       <el-table-column prop="GFA" label="GFA"> </el-table-column>
       <el-table-column prop="price_NFA" label="Price NFA"> </el-table-column>
       <el-table-column prop="land_area" label="Land Area"> </el-table-column>
-      <el-table-column prop="no_of_br" label="Num of bedroom"> </el-table-column>
-      <el-table-column prop="land_use_fee" label="Land Use Fee"> </el-table-column>
+      <el-table-column prop="no_of_br" label="Num of bedroom">
+      </el-table-column>
+      <el-table-column prop="land_use_fee" label="Land Use Fee">
+      </el-table-column>
       <el-table-column prop="direction" label="Direction"> </el-table-column>
-      <el-table-column prop="aciton" label="Action">
+      <el-table-column fixed="right" prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
