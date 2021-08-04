@@ -87,30 +87,29 @@
       </span>
     </el-dialog>
 
-    <el-table :data="units">
-      <el-table-column fixed prop="id" label="Id"> </el-table-column>
-      <el-table-column prop="idUnitType" label="Unit Type"> </el-table-column>
-      <el-table-column prop="unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column prop="idBlock" label="Block"> </el-table-column>
-      <el-table-column prop="idFloor" label="Floor"> </el-table-column>
-      <el-table-column prop="amount" label="Amount"> </el-table-column>
-      <el-table-column prop="status" label="Status"> </el-table-column>
-      <el-table-column prop="NFA" label="NFA"> </el-table-column>
-      <el-table-column prop="GFA" label="GFA"> </el-table-column>
-      <el-table-column prop="price_NFA" label="Price NFA"> </el-table-column>
-      <el-table-column prop="land_area" label="Land Area"> </el-table-column>
-      <el-table-column prop="no_of_br" label="Num of bedroom">
-      </el-table-column>
-      <el-table-column prop="land_use_fee" label="Land Use Fee">
-      </el-table-column>
-      <el-table-column prop="direction" label="Direction"> </el-table-column>
-      <el-table-column fixed="right" prop="aciton" label="Action">
+    <el-table border :data="units">
+      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
+      <el-table-column align="center" width="95" prop="idUnitType" label="Unit Type"> </el-table-column>
+      <el-table-column align="center" width="95" prop="unit_code" label="Unit Code"> </el-table-column>
+      <el-table-column align="center" prop="idBlock" label="Block"> </el-table-column>
+      <el-table-column align="center" prop="idFloor" label="Floor"> </el-table-column>
+      <el-table-column align="center" width="150" prop="amount" label="Amount"> </el-table-column>
+      <el-table-column align="center" prop="status" label="Status"> </el-table-column>
+      <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
+      <el-table-column align="center" prop="GFA" label="GFA"> </el-table-column>
+      <el-table-column align="center" width="95" prop="price_NFA" label="Price NFA"> </el-table-column>
+      <el-table-column align="center" width="95" prop="land_area" label="Land Area"> </el-table-column>
+      <el-table-column align="center" width="150" prop="no_of_br" label="Num of bedroom"></el-table-column>
+      <el-table-column align="center" width="115" prop="land_use_fee" label="Land Use Fee"> </el-table-column>
+      <el-table-column align="center" width="95" prop="direction" label="Direction"> </el-table-column>
+      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
             size="mini"
+            type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button
+            >Info</el-button
           >
           <el-button
             icon="el-icon-delete"
