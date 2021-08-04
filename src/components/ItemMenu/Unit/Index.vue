@@ -1,0 +1,253 @@
+<template>
+  <div>
+    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
+
+    <!-- Sửa
+    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
+      <el-form :model="editform">
+        <el-form-item label="Name" :label-width="formLabelWidth">
+          <el-input
+            :value="editform.name"
+            autocomplete="off"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="Tax Code" :label-width="formLabelWidth">
+          <el-input v-model="editform.taxCode" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Birth" :label-width="formLabelWidth">
+          <el-input v-model="editform.birth" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Phone" :label-width="formLabelWidth">
+          <el-input v-model="editform.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Address" :label-width="formLabelWidth">
+          <el-input v-model="editform.address" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Email" :label-width="formLabelWidth">
+          <el-input v-model="editform.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Gender" :label-width="formLabelWidth">
+          <el-input v-model="editform.gender" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormEdit = false">Cancel</el-button>
+        <el-button type="primary" @click="editEmployee">Confirm</el-button>
+      </span>
+    </el-dialog> -->
+
+    <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="Unit Type" :label-width="formLabelWidth">
+          <el-input v-model="form.idUnitType" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Unit Code" :label-width="formLabelWidth">
+          <el-input v-model="form.unit_code" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Block" :label-width="formLabelWidth">
+          <el-input v-model="form.idBlock" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Floor" :label-width="formLabelWidth">
+          <el-input v-model="form.idFloor" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Amount" :label-width="formLabelWidth">
+          <el-input v-model="form.amount" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Status" :label-width="formLabelWidth">
+          <el-input v-model="form.status" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="NFA" :label-width="formLabelWidth">
+          <el-input v-model="form.NFA" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="GFA" :label-width="formLabelWidth">
+          <el-input v-model="form.GFA" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Price NFA" :label-width="formLabelWidth">
+          <el-input v-model="form.price_NFA" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Land Area" :label-width="formLabelWidth">
+          <el-input v-model="form.land_area" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Num of bedroom" :label-width="formLabelWidth">
+          <el-input v-model="form.no_of_br" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Land Use Fee" :label-width="formLabelWidth">
+          <el-input v-model="form.land_use_fee" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Direction" :label-width="formLabelWidth">
+          <el-input v-model="form.direction" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handSubmit">Confirm</el-button>
+      </span>
+    </el-dialog>
+
+    <el-table :data="units">
+      <el-table-column prop="id" label="Id"> </el-table-column>
+      <el-table-column prop="idUnitType" label="Unit Type"> </el-table-column>
+      <el-table-column prop="unit_code" label="Unit Code"> </el-table-column>
+      <el-table-column prop="idBlock" label="Block"> </el-table-column>
+      <el-table-column prop="idFloor" label="Floor"> </el-table-column>
+      <el-table-column prop="amount" label="Amount"> </el-table-column>
+      <el-table-column prop="status" label="Status"> </el-table-column>
+      <el-table-column prop="NFA" label="NFA"> </el-table-column>
+      <el-table-column prop="GFA" label="GFA"> </el-table-column>
+      <el-table-column prop="price_NFA" label="Price NFA"> </el-table-column>
+      <el-table-column prop="land_area" label="Land Area"> </el-table-column>
+      <el-table-column prop="no_of_br" label="Num of bedroom"> </el-table-column>
+      <el-table-column prop="land_use_fee" label="Land Use Fee"> </el-table-column>
+      <el-table-column prop="direction" label="Direction"> </el-table-column>
+      <el-table-column prop="aciton" label="Action">
+        <template slot-scope="scope">
+          <el-button
+            icon="el-icon-edit"
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)"
+            >Edit</el-button
+          >
+          <el-button
+            icon="el-icon-delete"
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >Delete</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      formLabelWidth: "120px",
+      units: [],
+      dialogFormVisible: false,
+      form: {
+        idFloor: "",
+        idUnitType: "",
+        amount: "",
+        status: "",
+        unit_code: "",
+        price_NFA: "",
+        NFA: "",
+        GFA: "",
+        land_area: "",
+        no_of_br: "",
+        land_use_fee: "",
+        direction: "",
+        idBlock: "",
+      },
+      dialogFormEdit: false,
+      editform: {
+        id: null,
+        name: "",
+        taxCode: "",
+        birth: "",
+        phone: "",
+        address: "",
+        email: "",
+        gender: "",
+      },
+    };
+  },
+  created() {
+    this.getAllUnit();
+  },
+  methods: {
+    handSubmit() {
+      this.dialogFormVisible = false;
+      axios
+        .post("unit", this.form)
+        .then((result) => {
+          console.log(result);
+          this.$swal({
+            icon: "success",
+            title: "Successful!",
+            showConfirmButton: false,
+          });
+          this.getAllUnit();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllUnit() {
+      axios
+        .get("unit")
+        .then((result) => {
+          this.units = result.data.data;
+          console.log(this.customers);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleEdit(index, row) {
+      this.dialogFormEdit = true;
+      this.editform = row;
+      console.log(index, row);
+    },
+    editEmployee() {
+      axios
+        .post("unit", this.editform)
+        .then((result) => {
+          console.log(result);
+          this.dialogFormEdit = false;
+          this.getAllUnit();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover after deleting!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`customer/${row.id}`)
+              .then(() => {
+                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                this.getAllUnit();
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
+                console.log(err);
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Canceled", "", "error");
+          }
+        });
+    },
+  },
+};
+</script>
+
+<style></style>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
     <!-- Sửa -->
-    <el-dialog title="Chỉnh sửa trạng thái" :visible.sync="dialogFormEdit">
+    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
       <el-form :model="editform">
         <el-form-item label="Name" :label-width="formLabelWidth">
           <el-input
@@ -32,8 +32,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormEdit = false">Hủy Bỏ</el-button>
-        <el-button type="primary" @click="editEmployee">Ghi</el-button>
+        <el-button @click="dialogFormEdit = false">Cancel</el-button>
+        <el-button type="primary" @click="editEmployee">Confirm</el-button>
       </span>
     </el-dialog>
 
@@ -82,14 +82,14 @@
             icon="el-icon-edit"
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
-            >Sửa</el-button
+            >Edit</el-button
           >
           <el-button
             icon="el-icon-delete"
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-            >Xóa</el-button
+            >Delete</el-button
           >
         </template>
       </el-table-column>
@@ -142,7 +142,7 @@ export default {
           console.log(result);
           this.$swal({
             icon: "success",
-            title: "Thêm Hãng thành công",
+            title: "Successful!",
             showConfirmButton: false,
           });
           this.getAllCus();
@@ -191,12 +191,12 @@ export default {
 
       swalWithBootstrapButtons
         .fire({
-          title: "Bạn có chắc chứ?",
-          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          title: "Are you sure?",
+          text: "You will not be able to recover after deleting!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Vâng, xóa nó!",
-          cancelButtonText: "Không!",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No!",
           reverseButtons: true,
         })
         .then((result) => {
@@ -204,18 +204,18 @@ export default {
             axios
               .delete(`customer/${row.id}`)
               .then(() => {
-                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                swalWithBootstrapButtons.fire("Deleted!", "", "success");
                 this.getAllCus();
               })
               .catch((err) => {
-                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+                swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
                 console.log(err);
               });
           } else if (
             /* Read more about handling dismissals below */
             result.dismiss === this.$swal.DismissReason.cancel
           ) {
-            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+            swalWithBootstrapButtons.fire("Canceled", "", "error");
           }
         });
     },

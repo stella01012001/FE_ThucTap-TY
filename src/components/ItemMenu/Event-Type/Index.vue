@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -24,13 +24,13 @@
       </el-table-column>
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini">Sửa</el-button>
+          <el-button icon="el-icon-edit" size="mini">Edit</el-button>
           <el-button
             icon="el-icon-delete"
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-            >Xóa</el-button
+            >Delete</el-button
           >
         </template>
       </el-table-column>
@@ -67,7 +67,7 @@ export default {
           this.dialogFormVisible = false;
           this.$swal({
             icon: "success",
-            title: "Thêm Hãng thành công",
+            title: "Successful!",
             showConfirmButton: false,
           });
           this.getAllEventType();
@@ -99,12 +99,12 @@ export default {
 
       swalWithBootstrapButtons
         .fire({
-          title: "Bạn có chắc chứ?",
-          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          title: "Are you sure?",
+          text: "You will not be able to recover after deleting!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Vâng, xóa nó!",
-          cancelButtonText: "Không!",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No!",
           reverseButtons: true,
         })
         .then((result) => {
@@ -112,17 +112,17 @@ export default {
             axios
               .delete(`event-type/${row.id}`)
               .then(() => {
-                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                swalWithBootstrapButtons.fire("Deleted!", "", "success");
                 this.getAllEventType();
               })
               .catch((err) => {
-                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+                swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
               });
           } else if (
             /* Read more about handling dismissals below */
             result.dismiss === this.$swal.DismissReason.cancel
           ) {
-            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+            swalWithBootstrapButtons.fire("Canceled", "", "error");
           }
         });
     },

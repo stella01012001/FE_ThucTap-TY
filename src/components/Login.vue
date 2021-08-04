@@ -59,7 +59,8 @@ export default {
       axios
         .post("login", this.user)
         .then((result) => {
-          if (result.data.data.flag == 1) {
+          console.log(result);
+          if (result.data.status == 1) {
             console.log(result);
             this.$swal({
               icon: "success",
@@ -67,8 +68,8 @@ export default {
               showConfirmButton: false,
             });
             window.localStorage.setItem("token", result.data.accessToken);
-            this.$store.dispatch("id", result.data.data.id);
-            this.$store.dispatch("user", result.data.data.username);
+            this.$store.dispatch("id", result.data.id);
+            this.$store.dispatch("user", result.data.username);
             this.$router.push("/menu");
           } else {
             this.$swal({

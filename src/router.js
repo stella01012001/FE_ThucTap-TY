@@ -8,6 +8,7 @@ import Customer from './components/ItemMenu/Customer/Index.vue'
 import Employee from './components/ItemMenu/Employee/Index.vue'
 import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
+import Unit from './components/ItemMenu/Unit/Index.vue'
 
 
 Vue.use(Router)
@@ -24,6 +25,7 @@ export default new Router({
                 { path: '/menu/employee', component: Employee },
                 { path: '/menu/floor', component: Floor },
                 { path: '/menu/paymentterm', component: PaymentTerm },
+                { path: '/menu/unit', component: Unit },
             ]
         }
     ]

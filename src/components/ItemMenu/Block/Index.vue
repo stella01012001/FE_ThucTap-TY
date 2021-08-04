@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Thêm</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -25,7 +25,7 @@
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-            >Xóa</el-button
+            >Delete</el-button
           >
         </template>
       </el-table-column>
@@ -54,12 +54,12 @@ export default {
       this.dialogFormVisible = false;
       this.$swal
         .fire({
-          title: "Bạn muốn sửa?",
+          title: "Are you sure?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Vâng tôi đồng ý",
+          confirmButtonText: "I'm sure!",
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -69,7 +69,7 @@ export default {
                 console.log(result);
                 this.$swal({
                   icon: "success",
-                  title: "Sửa Loại Sản Phẩm Thành Công",
+                  title: "Successful!",
                   showConfirmButton: false,
                 });
                 this.getAllBlock();
@@ -103,12 +103,12 @@ export default {
 
       swalWithBootstrapButtons
         .fire({
-          title: "Bạn có chắc chứ?",
-          text: "Bạn sẽ không phục hồi được sau khi xóa!",
+          title: "Are you sure?",
+          text: "You will not be able to recover after deleting!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Vâng, xóa nó!",
-          cancelButtonText: "Không!",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No!",
           reverseButtons: true,
         })
         .then((result) => {
@@ -117,16 +117,16 @@ export default {
               .delete(`block/${row.id}`)
               .then(() => {
                 this.getAllBlock();
-                swalWithBootstrapButtons.fire("Đã Xóa!", "", "success");
+                swalWithBootstrapButtons.fire("Deleted!", "", "success");
               })
               .catch((err) => {
-                swalWithBootstrapButtons.fire("Lỗi~~~", `${err}`, "error");
+                swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
               });
           } else if (
             /* Read more about handling dismissals below */
             result.dismiss === this.$swal.DismissReason.cancel
           ) {
-            swalWithBootstrapButtons.fire("Đã hủy", "", "error");
+            swalWithBootstrapButtons.fire("Canceled!", "", "error");
           }
         });
     },

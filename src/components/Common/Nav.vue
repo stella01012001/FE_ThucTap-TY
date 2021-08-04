@@ -25,7 +25,7 @@
         <div class="wrapp-icon">
           <i class="fas fa-warehouse"></i>
         </div>
-        <span>UNIT</span>
+        <router-link to="/menu/unit">UNIT</router-link>
       </el-menu-item>
       <el-menu-item index="4">
         <div class="wrapp-icon">
