@@ -196,6 +196,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
+      this.$store.dispatch("idUnit", row.id);
     },
     editEmployee() {
       axios

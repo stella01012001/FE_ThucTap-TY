@@ -9,6 +9,7 @@ import Employee from './components/ItemMenu/Employee/Index.vue'
 import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 import Unit from './components/ItemMenu/Unit/Index.vue'
+import EUnit from './components/ItemMenu/Unit/Element.vue'
 
 
 Vue.use(Router)
@@ -17,6 +18,7 @@ export default new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Login },
+        { path: '/detail-unit', component: EUnit },
         {
             path: '/menu', component: Menu, children: [
                 { path: '/menu/event-type', component: EventType },

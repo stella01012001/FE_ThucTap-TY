@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         user: null,
-        id: null
+        id: null,
+        idUnit: null,
     },
     getters: {
         user: (state) => {
@@ -14,6 +15,9 @@ export const store = new Vuex.Store({
         },
         id: (state) => {
             return state.id;
+        },
+        idUnit: (state) => {
+            return state.idUnit;
         }
     },
     actions: {
@@ -22,6 +26,9 @@ export const store = new Vuex.Store({
         },
         id(context, id) {
             context.commit('id', id);
+        }, 
+        idUnit(context, idUnit) {
+            context.commit('idUnit', idUnit);
         }
     },
     mutations: {
@@ -30,6 +37,9 @@ export const store = new Vuex.Store({
         },
         id(state, id) {
             state.id = id;
+        },
+        idUnit(state, idUnit) {
+            state.idUnit = idUnit;
         },
     }
 });
