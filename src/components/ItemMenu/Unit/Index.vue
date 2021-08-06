@@ -89,10 +89,10 @@
 
     <el-table border :data="units">
       <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
-      <el-table-column align="center" width="95" prop="idUnitType" label="Unit Type"> </el-table-column>
+      <el-table-column align="center" width="95" prop="unit_type.description" label="Unit Type"> </el-table-column>
       <el-table-column align="center" width="95" prop="unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" prop="idBlock" label="Block"> </el-table-column>
-      <el-table-column align="center" prop="idFloor" label="Floor"> </el-table-column>
+      <el-table-column align="center" prop="idBlock" label="block.description"> </el-table-column>
+      <el-table-column align="center" prop="idFloor" label="floor.numFloor"> </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount"> </el-table-column>
       <el-table-column align="center" prop="status" label="Status"> </el-table-column>
       <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
@@ -186,7 +186,7 @@ export default {
         .get("unit")
         .then((result) => {
           this.units = result.data.data;
-          console.log(this.customers);
+          console.log(this.units);
         })
         .catch((err) => {
           console.log(err);
@@ -197,6 +197,7 @@ export default {
       this.editform = row;
       console.log(index, row);
       this.$store.dispatch("idUnit", row.id);
+      this.$router.push("/detail-unit")
     },
     editEmployee() {
       axios
