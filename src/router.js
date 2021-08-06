@@ -10,11 +10,11 @@ import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 import Unit from './components/ItemMenu/Unit/Index.vue'
 import EUnit from './components/ItemMenu/Unit/Element.vue'
-
+import ErrorPage from "./components/Error/404.vue"
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Login },
@@ -29,6 +29,18 @@ export default new Router({
                 { path: '/menu/paymentterm', component: PaymentTerm },
                 { path: '/menu/unit', component: Unit },
             ]
-        }
+        },
+        { path: '/404', name: 'errorpage', component: ErrorPage },//token, user
+        { path: '*', redirect: '/404' }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    const loggedIn = localStorage.getItem('token');
+    if (to.path != '/' && !loggedIn) {
+        next('/');
+    }
+    next();
+});
+
+export default router

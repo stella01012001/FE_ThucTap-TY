@@ -1,13 +1,16 @@
 <template>
   <el-col>
     <div class="name-web">
-      <h5>Custom colors</h5>
+      <h5>Phoebus</h5>
     </div>
     <el-menu
-      default-active="2"
+      default-active="1"
       class="el-menu-vertical"
       @open="handleOpen"
       @close="handleClose"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      background-color="#1c4e80"
     >
       <el-menu-item index="1">
         <div class="wrapp-icon">
@@ -86,4 +89,35 @@ export default {
 };
 </script>
 
-<style></style>
+<style >
+.el-menu {
+  border: unset !important;
+}
+
+a {
+  color: #fff;
+  font-weight: 600;
+}
+
+i {
+  color: #fff !important;
+}
+
+a:active,
+a:hover,
+a:focus {
+  color: #ffd04b;
+  text-decoration: underline;
+}
+
+.name-web {
+  text-align: center;
+  padding: 25px 15px;
+  color: #fff;
+  background-color: #073857;
+}
+
+.name-web h5 {
+  margin: unset;
+}
+</style>

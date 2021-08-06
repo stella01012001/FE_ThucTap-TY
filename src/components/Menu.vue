@@ -1,10 +1,12 @@
 <template>
   <el-container style="height: 100vh">
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    <el-aside width="230px">
       <Nav />
     </el-aside>
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
+      <el-header
+        style="text-align: right; font-size: 12px; background-color: #7e909a;"
+      >
         <el-dropdown>
           <span>{{ user }}</span>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
@@ -32,7 +34,6 @@ export default {
   },
   created() {},
   methods: {
-    
     log_out() {
       localStorage.removeItem("token");
       this.$swal({
@@ -63,16 +64,5 @@ export default {
 
 .el-aside {
   color: #333;
-}
-
-.name-web {
-  text-align: center;
-  padding: 25px 15px;
-  color: #fff;
-  background-color: #3c4b64;
-}
-
-.name-web h5 {
-  margin: unset;
 }
 </style>
