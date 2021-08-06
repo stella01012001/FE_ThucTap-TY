@@ -61,7 +61,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="Floor" prop="idFloor">
-                <el-select v-model="ruleForm.floor" placeholder="Activity zone">
+                <el-select v-model="ruleForm.idFloor" placeholder="Activity zone">
                   <el-option
                     v-for="item in data.blocks"
                     :key="item.id"
@@ -231,6 +231,7 @@ export default {
     this.getAllUnitType();
     this.getAllBlock();
     this.getAllFloor();
+    this.getUnitByID();
   },
   methods: {
     getAllUnitType() {
@@ -267,14 +268,14 @@ export default {
       axios
         .get(`unit/${this.$store.getters.idUnit}`)
         .then((result) => {
-          this.data.index = result.data.data;
+          this.ruleForm = result.data.data;
         })
         .catch((err) => {
           console.log(err);
         });
     },
     back_menu() {
-      this.$router.push("/menu");
+      this.$router.push("/menu/unit");
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
