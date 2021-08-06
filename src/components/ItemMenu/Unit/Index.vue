@@ -197,6 +197,7 @@ export default {
       this.editform = row;
       console.log(index, row);
       this.$store.dispatch("idUnit", row.id);
+      this.$router.push("/detail-unit")
     },
     editEmployee() {
       axios
