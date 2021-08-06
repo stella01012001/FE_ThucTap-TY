@@ -91,8 +91,8 @@
       <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
       <el-table-column align="center" width="95" prop="unit_type.description" label="Unit Type"> </el-table-column>
       <el-table-column align="center" width="95" prop="unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" prop="idBlock" label="block.description"> </el-table-column>
-      <el-table-column align="center" prop="idFloor" label="floor.numFloor"> </el-table-column>
+      <el-table-column align="center" prop="block.description" label="Block"> </el-table-column>
+      <el-table-column align="center" prop="floor.numFloor" label="Floor"> </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount"> </el-table-column>
       <el-table-column align="center" prop="status" label="Status"> </el-table-column>
       <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
