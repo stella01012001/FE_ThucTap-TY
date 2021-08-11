@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100vh">
-    <el-aside width="230px">
+    <el-aside width="230px" style="background-color: #1c4e80">
       <Nav />
     </el-aside>
     <el-container>

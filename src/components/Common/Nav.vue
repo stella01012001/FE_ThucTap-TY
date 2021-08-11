@@ -52,7 +52,7 @@
         <div class="wrapp-icon">
           <i class="fas fa-file-contract"></i>
         </div>
-        <span>CONTRACT</span>
+        <span>LEDGER CONTRACT</span>
       </el-menu-item>
       <el-menu-item index="8">
         <div class="wrapp-icon">
@@ -66,11 +66,12 @@
         </div>
         <router-link to="/menu/event-type">EVENT</router-link>
       </el-menu-item>
+
       <el-menu-item index="10">
         <div class="wrapp-icon">
-          <i class="fas fa-calendar-check"></i>
+          <i class="el-icon-s-promotion"></i>
         </div>
-        <span>PENDDING_EVENT</span>
+        <span>DUE LIST PAYMENT</span>
       </el-menu-item>
     </el-menu>
   </el-col>
