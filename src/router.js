@@ -11,6 +11,7 @@ import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 import Unit from './components/ItemMenu/Unit/Index.vue'
 import EUnit from './components/ItemMenu/Unit/Element.vue'
 import ErrorPage from "./components/Error/404.vue"
+import DS from "./components/ItemMenu/Event/DS.vue"
 
 Vue.use(Router)
 
@@ -28,6 +29,7 @@ const router = new Router({
                 { path: '/menu/floor', component: Floor },
                 { path: '/menu/paymentterm', component: PaymentTerm },
                 { path: '/menu/unit', component: Unit },
+                { path: '/menu/ds', component: DS },
             ]
         },
         { path: '/404', name: 'errorpage', component: ErrorPage },//token, user

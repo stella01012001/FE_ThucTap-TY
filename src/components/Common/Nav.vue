@@ -68,7 +68,7 @@
           <span>EVENT</span>
         </template>
         <el-menu-item-group>
-          <router-link to="/menu/category">
+          <router-link to="/menu/ds">
             <el-menu-item index="9-1">Deposit Slip (SPA/LTLA)</el-menu-item></router-link
           >
           <router-link to="/menu/manufacturer">
