@@ -18,7 +18,7 @@
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="description" label="Description">
       </el-table-column>
-      <el-table-column prop="aciton" label="Action">
+      <el-table-column v-if="idRole == '1'" prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-delete"
@@ -35,6 +35,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -48,6 +49,9 @@ export default {
   },
   created() {
     this.getAllBlock();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     handSubmit() {

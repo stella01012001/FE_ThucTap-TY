@@ -70,6 +70,7 @@ export default {
             window.localStorage.setItem("token", result.data.accessToken);
             this.$store.dispatch("id", result.data.id);
             this.$store.dispatch("user", result.data.username);
+            this.$store.dispatch("idRole", result.data.idRole);
             this.$router.push("/menu");
           } else {
             this.$swal({

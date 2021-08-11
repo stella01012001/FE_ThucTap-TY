@@ -60,12 +60,27 @@
         </div>
         <router-link to="/menu/event-type">EVENT TYPE</router-link>
       </el-menu-item>
-      <el-menu-item index="9">
-        <div class="wrapp-icon">
-          <i class="fas fa-calendar-alt"></i>
-        </div>
-        <router-link to="/menu/event-type">EVENT</router-link>
-      </el-menu-item>
+      <el-submenu index="9">
+        <template slot="title">
+          <div class="wrapp-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <span>EVENT</span>
+        </template>
+        <el-menu-item-group>
+          <router-link to="/menu/category">
+            <el-menu-item index="9-1">Deposit Slip (SPA/LTLA)</el-menu-item></router-link
+          >
+          <router-link to="/menu/manufacturer">
+            <el-menu-item index="9-2"
+              >Deposit Agreement</el-menu-item
+            ></router-link
+          >
+          <router-link to="/menu/distributor">
+            <el-menu-item index="9-3">Contract</el-menu-item></router-link
+          >
+        </el-menu-item-group>
+      </el-submenu>
 
       <el-menu-item index="10">
         <div class="wrapp-icon">
@@ -90,7 +105,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .el-menu {
   border: unset !important;
 }
