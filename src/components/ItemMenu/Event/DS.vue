@@ -10,7 +10,7 @@
       <el-form-item label="Purchaser" prop="purchaser">
         <el-select v-model="form.purchaser" placeholder="Purchaser">
           <el-option
-            v-for="item in purchasers"
+            v-for="item in data.purchasers"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -26,7 +26,7 @@
       <el-form-item label="Unit" prop="unit">
         <el-select v-model="form.unit" placeholder="Unit">
           <el-option
-            v-for="item in units"
+            v-for="item in data.units"
             :key="item.id"
             :label="item.amount"
             :value="item.id"
@@ -42,7 +42,7 @@
       <el-form-item label="Payment term" prop="payment_term">
         <el-select v-model="form.payment_term" placeholder="Payment term">
           <el-option
-            v-for="item in payment_terms"
+            v-for="item in data.payment_terms"
             :key="item.id"
             :label="item.description"
             :value="item.id"
@@ -58,7 +58,7 @@
       <el-form-item label="Employee" prop="employee">
         <el-select v-model="form.employee" placeholder="Employee">
           <el-option
-            v-for="item in employee"
+            v-for="item in data.employees"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -185,7 +185,14 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getAllUnit();
+    this.getAllPayment_term();
+    this.getAllPurchaser();
+    this.getAllEmployees();
+  },
   methods: {
+
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -204,7 +211,7 @@ export default {
         .get("unit")
         .then((result) => {
           this.data.units = result.data.data;
-          console.log(this.blocks);
+          console.log(this.data.units);
         })
         .catch((err) => {
           console.log(err);
@@ -212,7 +219,7 @@ export default {
     },
     getAllPayment_term() {
       axios
-        .get("payment_term")
+        .get("paymentTerm")
         .then((result) => {
           this.data.payment_terms = result.data.data;
           console.log(this.blocks);
