@@ -18,13 +18,13 @@
               <el-option
                 v-for="item in data.list_DS"
                 :key="item.id"
-                :label="item.name"
+                :label="item.id"
                 :value="item.id"
               >
-                <span style="float: left">{{ item.name }}</span>
+                <span style="float: left">{{ item.id }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{
-                  item.name
-                }}</span>
+                  item.customer.name
+                }} - {{item.unit.unit_code}}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -33,8 +33,8 @@
           ><el-form-item label="Purchaser" prop="purchaser">
             <el-select v-model="form.add.purchaser" placeholder="Purchaser">
               <el-option
-                :label="data.dsid.cutomers"
-                :value="data.dsid.idCutomers"
+                :label="data.dsid.customer"
+                :value="data.dsid.idCustomer"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -121,7 +121,7 @@
         <el-col :span="16">
           <el-form-item label="DA Amount" prop="da_amount">
             <el-input
-              v-model="form.add.da_amount"
+              
               :value="data.dsid.ddAAmount"
               readonly
               class="set-width"
@@ -220,9 +220,10 @@ export default {
     },
     getAllDS() {
       axios
-        .get("list-for-da")
+        .get("/list-for-da")
         .then((result) => {
           this.data.list_DS = result.data.data;
+          console.log(result);
         })
         .catch((err) => {
           console.log(err);
@@ -234,10 +235,13 @@ export default {
         .get(`/info-for-da/${this.form.add.DS}`)
         .then((result) => {
           this.data.dsid = result.data.data;
+          console.log(result)
         })
         .catch((err) => {
           console.log(err);
         });
+        this.form.add.decription = "Desposit Agreement for DS: " + this.form.add.DS
+        console.log(this.form.add.decription )
     },
     getAllEmployees() {
       axios

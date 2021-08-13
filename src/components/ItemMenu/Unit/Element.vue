@@ -25,7 +25,7 @@
                   <el-option
                     v-for="item in data.units_type"
                     :key="item.id"
-                    :label="item.name"
+                    :label="item.description"
                     :value="item.id"
                   >
                   </el-option>
@@ -36,7 +36,6 @@
               <el-form-item label="Unit Code" prop="unit_code">
                 <el-input
                   v-model="ruleForm.unit_code"
-                  class="format-money"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -127,7 +126,7 @@
               <el-radio label="South-East"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-if="idRole == '1'">
             <el-button type="primary" @click="submitForm('ruleForm')"
               >Create</el-button
             >
@@ -141,6 +140,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "Index",
   data() {
@@ -232,6 +232,9 @@ export default {
     this.getAllBlock();
     this.getAllFloor();
     this.getUnitByID();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     getAllUnitType() {
