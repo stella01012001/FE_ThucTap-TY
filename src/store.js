@@ -7,7 +7,6 @@ export const store = new Vuex.Store({
     state: {
         user: null,
         id: null,
-        idUnit: null,
         idRole: null,
     },
     getters: {
@@ -16,9 +15,6 @@ export const store = new Vuex.Store({
         },
         id: (state) => {
             return state.id || localStorage.getItem('id');
-        },
-        idUnit: (state) => {
-            return state.idUnit ;
         },
         idRole: (state) => {
             return state.idRole || localStorage.getItem('idRole');
@@ -30,9 +26,6 @@ export const store = new Vuex.Store({
         },
         id(context, id) {
             context.commit('id', id);
-        }, 
-        idUnit(context, idUnit) {
-            context.commit('idUnit', idUnit);
         },
         idRole(context, idRole) {
             context.commit('idRole', idRole);
@@ -44,9 +37,6 @@ export const store = new Vuex.Store({
         },
         id(state, id) {
             state.id = id;
-        },
-        idUnit(state, idUnit) {
-            state.idUnit = idUnit;
         },
         idRole(state, idRole) {
             state.idRole = idRole;

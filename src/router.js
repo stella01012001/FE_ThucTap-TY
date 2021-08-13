@@ -19,7 +19,7 @@ const router = new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Login },
-        { path: '/detail-unit', component: EUnit },
+        { path: '/detail-unit/:id', component: EUnit },
         {
             path: '/menu', component: Menu, children: [
                 { path: '/menu/event-type', component: EventType },

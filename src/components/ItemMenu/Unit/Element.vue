@@ -266,7 +266,7 @@ export default {
     },
     getUnitByID() {
       axios
-        .get(`unit/${this.$store.getters.idUnit}`)
+        .get(`unit/${this.$route.params.id}`)
         .then((result) => {
           this.ruleForm = result.data.data;
         })
