@@ -71,7 +71,7 @@
           <router-link to="/menu/ds">
             <el-menu-item index="9-1">Deposit Slip (SPA/LTLA)</el-menu-item></router-link
           >
-          <router-link to="/menu/manufacturer">
+          <router-link to="/menu/da">
             <el-menu-item index="9-2"
               >Deposit Agreement</el-menu-item
             ></router-link
