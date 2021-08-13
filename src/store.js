@@ -12,16 +12,16 @@ export const store = new Vuex.Store({
     },
     getters: {
         user: (state) => {
-            return state.user;
+            return state.user || localStorage.getItem('user');
         },
         id: (state) => {
-            return state.id;
+            return state.id || localStorage.getItem('id');
         },
         idUnit: (state) => {
-            return state.idUnit;
+            return state.idUnit ;
         },
         idRole: (state) => {
-            return state.idRole;
+            return state.idRole || localStorage.getItem('idRole');
         }
     },
     actions: {

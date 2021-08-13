@@ -68,6 +68,9 @@ export default {
               showConfirmButton: false,
             });
             window.localStorage.setItem("token", result.data.accessToken);
+            window.localStorage.setItem("id", result.data.id);
+            window.localStorage.setItem("user", result.data.username);
+            window.localStorage.setItem("idRole", result.data.idRole);
             this.$store.dispatch("id", result.data.id);
             this.$store.dispatch("user", result.data.username);
             this.$store.dispatch("idRole", result.data.idRole);
