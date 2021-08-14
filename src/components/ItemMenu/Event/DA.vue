@@ -22,9 +22,9 @@
                 :value="item.id"
               >
                 <span style="float: left">{{ item.id }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{
-                  item.customer.name
-                }} - {{item.unit.unit_code}}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px"
+                  >{{ item.customer.name }} - {{ item.unit.unit_code }}</span
+                >
               </el-option>
             </el-select>
           </el-form-item>
@@ -70,7 +70,11 @@
       <el-row>
         <el-col :span="16">
           <el-form-item label="DS Amount">
-            <el-input :value="data.dsid.amount" readonly class="set-width"></el-input> </el-form-item
+            <el-input
+              :value="data.dsid.amount"
+              readonly
+              class="set-width"
+            ></el-input> </el-form-item
         ></el-col>
       </el-row>
 
@@ -123,12 +127,19 @@
         <el-col :span="16">
           <el-form-item label="DA Amount" prop="da_amount">
             <el-input
-              
               :value="data.dsid.ddAAmount"
               readonly
               class="set-width"
             ></el-input> </el-form-item
         ></el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="Note" prop="note">
+            <el-input v-model="form.add.note" class="set-width"> </el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
 
       <el-form-item>
@@ -230,13 +241,14 @@ export default {
         .get(`/info-for-da/${this.form.add.DS}`)
         .then((result) => {
           this.data.dsid = result.data.data;
-          console.log(result)
+          console.log(result);
         })
         .catch((err) => {
           console.log(err);
         });
-        this.form.add.description = "Desposit Agreement for DS " + this.form.add.DS
-        console.log(this.form.add.decription )
+      this.form.add.description =
+        "Desposit Agreement for DS " + this.form.add.DS;
+      console.log(this.form.add.decription);
     },
     getAllEmployees() {
       axios
@@ -257,9 +269,7 @@ export default {
 </script>
 
 <style>
-
-.set-width input{
-    width: 552px !important;
+.set-width input {
+  width: 552px !important;
 }
-
 </style>
