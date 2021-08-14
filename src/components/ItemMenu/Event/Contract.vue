@@ -11,7 +11,7 @@
         <el-col :span="8">
           <el-form-item label="DS" prop="DS">
             <el-select
-              v-model="form.add.DS"
+              v-model="form.add.idDS"
               placeholder="DS"
               @change="handleChangeDS"
             >
@@ -22,9 +22,9 @@
                 :value="item.id"
               >
                 <span style="float: left">{{ item.id }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{
-                  item.customer.name
-                }} - {{item.unit.unit_code}}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px"
+                  >{{ item.customer.name }} - {{ item.unit.unit_code }}</span
+                >
               </el-option>
             </el-select>
           </el-form-item>
@@ -70,15 +70,19 @@
       <el-row>
         <el-col :span="16">
           <el-form-item label="DS Amount">
-            <el-input :value="data.dsid.amount" readonly class="set-width"></el-input> </el-form-item
+            <el-input
+              :value="data.dsid.amount"
+              readonly
+              class="set-width"
+            ></el-input> </el-form-item
         ></el-col>
       </el-row>
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="Decription" prop="decription">
+          <el-form-item label="Description" prop="description">
             <el-input
-              v-model="form.add.decription"
+              v-model="form.add.description"
               readonly
               class="set-width"
             ></el-input> </el-form-item
@@ -91,6 +95,8 @@
             <el-form-item prop="event_dateevent_date">
               <el-date-picker
                 type="date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
                 placeholder="Pick a date"
                 v-model="form.add.event_date"
                 style="width: 100%;"
@@ -99,10 +105,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="Agency" prop="agency">
-            <el-select v-model="form.add.agency" placeholder="Agency">
+          <el-form-item label="Agency" prop="employee">
+            <el-select v-model="form.add.employee" placeholder="Agency">
               <el-option
-                v-for="item in data.agencys"
+                v-for="item in data.employees"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -121,19 +127,26 @@
         <el-col :span="16">
           <el-form-item label="DA Amount" prop="da_amount">
             <el-input
-              
-              :value="data.dsid.ddAAmount"
+              v-model="form.add.amount"
               readonly
               class="set-width"
             ></el-input> </el-form-item
         ></el-col>
       </el-row>
 
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="Note" prop="note">
+            <el-input v-model="form.add.note" class="set-width"> </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
+        <el-button type="primary" @click="submitForm('form.add')"
           >Create</el-button
         >
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+        <el-button @click="resetForm('form.add')">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -146,13 +159,27 @@ export default {
     return {
       form: {
         add: {
-          DA: null, //cmb chọn trc
+          idDS: null, //cmb chọn trc
           purchaser: null, //cmb theo ds
           payment_term: null, // theo theo ds
-          decription: "Desposit Agreement for DA ", //cớ địnhtheo ds
+          description: "Desposit Agreement for DS ", //cớ địnhtheo ds
           unit_code: "", //cmbtheo ds
+          contract_amount: null, //set cứng, k lưu theo theo ds
           event_date: "",
-          agency: "", // cmb độc lập
+          employee: "", // cmb độc lập
+          amount: null, //txt theo ds
+          note: "", //
+        },
+        ctr: {
+            idDA: null,
+            purchaser: null, //cmb theo ds
+          payment_term: null, // theo theo ds
+          description: "Contract for DA ", //cớ địnhtheo ds
+          unit_code: "", //cmbtheo ds
+          amount: null, //set cứng, k lưu theo theo ds
+          event_date: "",
+          employee: "", // cmb độc lập
+          note: "", //
         },
       },
       data: {
@@ -167,10 +194,10 @@ export default {
           paymentTerm: "",
           ddAAmount: null,
         },
-        agencys: [],
+        employees: [],
       },
       rules: {
-        DS: [
+        idDS: [
           {
             required: true,
             message: "Please select Activity zone",
@@ -184,14 +211,6 @@ export default {
             trigger: "change",
           },
         ],
-        event_date: [
-          {
-            type: "date",
-            required: true,
-            message: "Please pick a date",
-            trigger: "change",
-          },
-        ],
       },
     };
   },
@@ -200,7 +219,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-            .post(`list-for-da`, this.form.add)
+            .post("/da", this.form.add)
             .then((result) => {
               console.log(result);
             })
@@ -230,22 +249,23 @@ export default {
 
     handleChangeDS() {
       axios
-        .get(`/info-for-da/${this.form.add.DS}`)
+        .get(`/info-for-da/${this.form.add.idDS}`)
         .then((result) => {
           this.data.dsid = result.data.data;
-          console.log(result)
+          console.log(result);
+          this.form.add.amount = this.data.dsid.ddAAmount
         })
         .catch((err) => {
           console.log(err);
         });
-        this.form.add.decription = "Desposit Agreement for DS " + this.form.add.DS
-        console.log(this.form.add.decription )
+      this.form.add.description =
+        "Desposit Agreement for DS " + this.form.add.idDS;
     },
     getAllEmployees() {
       axios
         .get("employee")
         .then((result) => {
-          this.data.agencys = result.data.data;
+          this.data.employees = result.data.data;
         })
         .catch((err) => {
           console.log(err);
@@ -260,9 +280,7 @@ export default {
 </script>
 
 <style>
-
-.set-width input{
-    width: 552px !important;
+.set-width input {
+  width: 552px !important;
 }
-
 </style>

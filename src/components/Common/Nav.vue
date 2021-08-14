@@ -76,7 +76,7 @@
               >Deposit Agreement</el-menu-item
             ></router-link
           >
-          <router-link to="/menu/distributor">
+          <router-link to="/menu/list-ctr">
             <el-menu-item index="9-3">Contract</el-menu-item></router-link
           >
         </el-menu-item-group>

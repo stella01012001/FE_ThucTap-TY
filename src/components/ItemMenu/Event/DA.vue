@@ -11,7 +11,7 @@
         <el-col :span="8">
           <el-form-item label="DS" prop="DS">
             <el-select
-              v-model="form.add.DS"
+              v-model="form.add.idDS"
               placeholder="DS"
               @change="handleChangeDS"
             >
@@ -159,7 +159,7 @@ export default {
     return {
       form: {
         add: {
-          DS: null, //cmb chọn trc
+          idDS: null, //cmb chọn trc
           purchaser: null, //cmb theo ds
           payment_term: null, // theo theo ds
           description: "Desposit Agreement for DS ", //cớ địnhtheo ds
@@ -186,7 +186,7 @@ export default {
         employees: [],
       },
       rules: {
-        DS: [
+        idDS: [
           {
             required: true,
             message: "Please select Activity zone",
@@ -238,7 +238,7 @@ export default {
 
     handleChangeDS() {
       axios
-        .get(`/info-for-da/${this.form.add.DS}`)
+        .get(`/info-for-da/${this.form.add.idDS}`)
         .then((result) => {
           this.data.dsid = result.data.data;
           console.log(result);
@@ -248,8 +248,7 @@ export default {
           console.log(err);
         });
       this.form.add.description =
-        "Desposit Agreement for DS " + this.form.add.DS;
-      console.log(this.form.add.decription);
+        "Desposit Agreement for DS " + this.form.add.idDS;
     },
     getAllEmployees() {
       axios

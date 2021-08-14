@@ -14,7 +14,9 @@ import ErrorPage from "./components/Error/404.vue"
 import DS from "./components/ItemMenu/Event/DS.vue"
 import ListDS from "./components/ItemMenu/Event/ListDS.vue"
 import ListDA from "./components/ItemMenu/Event/ListDA.vue"
+import ListCTR from "./components/ItemMenu/Event/ListContract.vue"
 import DA from "./components/ItemMenu/Event/DA.vue"
+import CTR from "./components/ItemMenu/Event/Contract.vue"
 
 Vue.use(Router)
 
@@ -35,7 +37,9 @@ const router = new Router({
                 { path: '/menu/ds', component: DS },
                 { path: '/menu/list-ds', component: ListDS },
                 { path: '/menu/list-da', component: ListDA },
+                { path: '/menu/list-ctr', component: ListCTR },
                 { path: '/menu/da', component: DA },
+                { path: '/menu/ctr', component: CTR },
             ]
         },
         { path: '/404', name: 'errorpage', component: ErrorPage },//token, user
