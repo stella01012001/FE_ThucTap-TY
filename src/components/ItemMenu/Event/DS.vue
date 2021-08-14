@@ -15,8 +15,8 @@
             :label="item.name"
             :value="item.id"
           >
-            <span style="float: left">{{ item.name }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">{{
+            <span style="float: left">{{ item.id }}</span>
+            <span style="float: right; font-size: 13px"> - {{
               item.name
             }}</span>
           </el-option>
@@ -76,6 +76,8 @@
           <el-form-item prop="event_date">
             <el-date-picker
               type="date"
+              format="yyyy/MM/dd"
+              value-format="yyyy-MM-dd"
               placeholder="Pick a date"
               v-model="form.event_date"
               style="width: 100%;"
@@ -194,9 +196,24 @@ export default {
   methods: {
 
     submitForm(formName) {
+      console.log(this.form);
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+           axios
+              .post("ds", this.form)
+              .then((result) => {
+                console.log(result);
+                this.$swal({
+                  icon: "success",
+                  title: "Successful!",
+                  showConfirmButton: false,
+                });
+                this.getAllBlock();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          
         } else {
           console.log("error submit!!");
           return false;
@@ -208,7 +225,7 @@ export default {
     },
     getAllUnit() {
       axios
-        .get("unit")
+        .get("unit-ds")
         .then((result) => {
           this.data.units = result.data.data;
           console.log(this.data.units);

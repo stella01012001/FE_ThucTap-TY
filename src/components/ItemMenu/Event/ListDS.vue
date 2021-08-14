@@ -1,0 +1,164 @@
+<template>
+  <div>
+    <el-button type="primary" @click="add_new"
+      >Add new</el-button
+    >
+
+    <el-table border :data="listDS">
+      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
+      <el-table-column align="center" fixed width="100" prop="status" label="Status"> </el-table-column>
+      <el-table-column align="center" width="200" prop="customer.name" label="Purchaser"> </el-table-column>
+      <el-table-column align="center" width="150" prop="unit.unit_code" label="Unit Code"> </el-table-column>
+      <el-table-column align="center" width="200" prop="employee.name" label="Employee"> </el-table-column>
+      <el-table-column align="center" width="250" prop="payment_term.description" label="Payment Term"> </el-table-column>
+      <el-table-column align="center" width="150" prop="event_date" label="Event Date"> </el-table-column>
+      <el-table-column align="center" width="450" prop="description" label="Description"> </el-table-column>
+      <el-table-column align="center" width="250" prop="note" label="Note"> </el-table-column>
+      <el-table-column align="center" width="250" prop="amount" label="Amount"> </el-table-column>
+      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
+        <template slot-scope="scope">
+          <el-button
+            icon="el-icon-edit"
+            size="mini"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)"
+            >Info</el-button
+          >
+          <el-button
+            icon="el-icon-delete"
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >Delete</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      formLabelWidth: "120px",
+      listDS: [],
+      dialogFormVisible: false,
+      form: {
+        idFloor: "",
+        idUnitType: "",
+        amount: "",
+        status: "",
+        unit_code: "",
+        price_NFA: "",
+        NFA: "",
+        GFA: "",
+        land_area: "",
+        no_of_br: "",
+        land_use_fee: "",
+        direction: "",
+        idBlock: "",
+      },
+    };
+  },
+  created() {
+    this.getAllDS();
+  },
+  methods: {
+    handSubmit() {
+      this.dialogFormVisible = false;
+      axios
+        .post("unit", this.form)
+        .then((result) => {
+          console.log(result);
+          this.$swal({
+            icon: "success",
+            title: "Successful!",
+            showConfirmButton: false,
+          });
+          this.getAllDS();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllDS() {
+      axios
+        .get("ds")
+        .then((result) => {
+          this.listDS = result.data.data;
+          console.log(this.listDS);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleEdit(index, row) {
+      this.dialogFormEdit = true;
+      this.editform = row;
+      console.log(index, row);
+      this.$router.push(`/detail-unit/${row.id}`)
+    },
+    editEmployee() {
+      axios
+        .post("unit", this.editform)
+        .then((result) => {
+          console.log(result);
+          this.dialogFormEdit = false;
+          this.getAllDS();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success btn-margin",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover after deleting!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`customer/${row.id}`)
+              .then(() => {
+                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                this.getAllDS();
+              })
+              .catch((err) => {
+                swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
+                console.log(err);
+              });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire("Canceled", "", "error");
+          }
+        });
+    },
+    add_new(){
+        this.$router.push('/menu/ds')
+    }
+  },
+};
+</script>
+
+<style>
+
+</style>

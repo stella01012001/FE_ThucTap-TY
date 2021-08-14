@@ -146,15 +146,13 @@ export default {
     return {
       form: {
         add: {
-          DS: null, //cmb chọn trc
+          DA: null, //cmb chọn trc
           purchaser: null, //cmb theo ds
           payment_term: null, // theo theo ds
-          decription: "Desposit Agreement for DS ", //cớ địnhtheo ds
+          decription: "Desposit Agreement for DA ", //cớ địnhtheo ds
           unit_code: "", //cmbtheo ds
-          contract_amount: null, //set cứng, k lưu theo theo ds
           event_date: "",
           agency: "", // cmb độc lập
-          da_amount: null, //txt theo ds
         },
       },
       data: {

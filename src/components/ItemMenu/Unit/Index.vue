@@ -56,9 +56,6 @@
         <el-form-item label="Amount" :label-width="formLabelWidth">
           <el-input v-model="form.amount" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Status" :label-width="formLabelWidth">
-          <el-input v-model="form.status" autocomplete="off"></el-input>
-        </el-form-item>
         <el-form-item label="NFA" :label-width="formLabelWidth">
           <el-input v-model="form.NFA" autocomplete="off"></el-input>
         </el-form-item>
@@ -136,7 +133,6 @@ export default {
         idFloor: "",
         idUnitType: "",
         amount: "",
-        status: "",
         unit_code: "",
         price_NFA: "",
         NFA: "",
