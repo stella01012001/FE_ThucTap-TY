@@ -22,7 +22,7 @@
           <el-tag
             :type="scope.row.status === 'Pendding' ? 'primary' : 'success'"
             disable-transitions
-            >{{ scope.row.tag }}</el-tag
+            >{{ scope.row.status }}</el-tag
           >
         </template>
       </el-table-column>
