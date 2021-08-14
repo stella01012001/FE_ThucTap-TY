@@ -8,7 +8,11 @@
       class="demo-ruleForm"
     >
       <el-form-item label="Purchaser" prop="purchaser">
-        <el-select v-model="form.purchaser" placeholder="Purchaser">
+        <el-select
+          v-model="form.purchaser"
+          placeholder="Purchaser"
+          @change="getIDPurchaser"
+        >
           <el-option
             v-for="item in data.purchasers"
             :key="item.id"
@@ -16,9 +20,9 @@
             :value="item.id"
           >
             <span style="float: left">{{ item.id }}</span>
-            <span style="float: right; font-size: 13px"> - {{
-              item.name
-            }}</span>
+            <span style="float: right; font-size: 13px">
+              - {{ item.name }}</span
+            >
           </el-option>
         </el-select>
       </el-form-item>
@@ -194,26 +198,24 @@ export default {
     this.getAllEmployees();
   },
   methods: {
-
     submitForm(formName) {
       console.log(this.form);
       this.$refs[formName].validate((valid) => {
         if (valid) {
-           axios
-              .post("ds", this.form)
-              .then((result) => {
-                console.log(result);
-                this.$swal({
-                  icon: "success",
-                  title: "Successful!",
-                  showConfirmButton: false,
-                });
-                this.getAllBlock();
-              })
-              .catch((err) => {
-                console.log(err);
+          axios
+            .post("ds", this.form)
+            .then((result) => {
+              console.log(result);
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
               });
-          
+              this.getAllBlock();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -245,13 +247,21 @@ export default {
           console.log(err);
         });
     },
+    getIDPurchaser() {
+      this.data.purchasers.forEach(element => {
+        if (element.id == this.form.purchaser){
+          this.form.description +=
+                  element.id + "-" + element.name;
+        }
+      });
+
+    },
     getAllPurchaser() {
       axios
         .get("customer")
         .then((result) => {
           this.data.purchasers = result.data.data;
           console.log(this.blocks);
-          this.form.description += this.data.purchasers.id + "-" + this.data.purchasers.name;
         })
         .catch((err) => {
           console.log(err);
