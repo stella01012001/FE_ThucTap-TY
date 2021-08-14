@@ -1,21 +1,84 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new"
-      >Add new</el-button
-    >
+    <el-button type="primary" @click="add_new">Add new</el-button>
 
     <el-table border :data="listDS">
-      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
-      <el-table-column align="center" fixed width="100" prop="status" label="Status"> </el-table-column>
-      <el-table-column align="center" width="200" prop="customer.name" label="Purchaser"> </el-table-column>
-      <el-table-column align="center" width="150" prop="unit.unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" width="200" prop="employee.name" label="Employee"> </el-table-column>
-      <el-table-column align="center" width="250" prop="payment_term.description" label="Payment Term"> </el-table-column>
-      <el-table-column align="center" width="150" prop="event_date" label="Event Date"> </el-table-column>
-      <el-table-column align="center" width="450" prop="description" label="Description"> </el-table-column>
-      <el-table-column align="center" width="250" prop="note" label="Note"> </el-table-column>
-      <el-table-column align="center" width="250" prop="amount" label="Amount"> </el-table-column>
-      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
+      <el-table-column align="center" fixed prop="id" label="Id">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        fixed
+        width="100"
+        prop="status"
+        label="Status"
+        :filters="[
+          { text: 'Pendding', value: 'Pendding' },
+          { text: 'Approved', value: 'Approved' },
+        ]"
+        :filter-method="filterTag"
+        filter-placement="bottom-end"
+      >
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.status === 'Pendding' ? 'primary' : 'success'"
+            disable-transitions
+            >{{ scope.row.tag }}</el-tag
+          >
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="200"
+        prop="customer.name"
+        label="Purchaser"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="unit.unit_code"
+        label="Unit Code"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="200"
+        prop="employee.name"
+        label="Employee"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="250"
+        prop="payment_term.description"
+        label="Payment Term"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="event_date"
+        label="Event Date"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="450"
+        prop="description"
+        label="Description"
+      >
+      </el-table-column>
+      <el-table-column align="center" width="250" prop="note" label="Note">
+      </el-table-column>
+      <el-table-column align="center" width="250" prop="amount" label="Amount">
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        width="200"
+        align="center"
+        prop="aciton"
+        label="Action"
+      >
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
@@ -81,7 +144,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`)
+      this.$router.push(`/detail-unit/${row.id}`);
     },
     editEmployee() {
       axios
@@ -135,13 +198,11 @@ export default {
           }
         });
     },
-    add_new(){
-        this.$router.push('/menu/ds')
-    }
+    add_new() {
+      this.$router.push("/menu/ds");
+    },
   },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

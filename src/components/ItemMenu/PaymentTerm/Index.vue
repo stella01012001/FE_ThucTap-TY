@@ -99,7 +99,7 @@ export default {
           reverseButtons: true,
         })
         .then((result) => {
-          if (result.isConfirmed) {
+          if (result.isConfirmed) { 
             axios
               .delete(`paymentTerm/${row.id}`)
               .then(() => {
