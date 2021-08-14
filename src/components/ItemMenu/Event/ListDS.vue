@@ -20,6 +20,7 @@
       >
         <template slot-scope="scope">
           <el-tag
+            @click="changeStatus(scope.row)"
             :type="scope.row.status === 'Pendding' ? 'primary' : 'success'"
             disable-transitions
             >{{ scope.row.tag }}</el-tag
@@ -196,6 +197,20 @@ export default {
           ) {
             swalWithBootstrapButtons.fire("Canceled", "", "error");
           }
+        });
+    },
+    changeStatus(row) {
+      axios
+        .get(`approved-ds/${row.id}`)
+        .then(() => {
+          this.$message({
+            showClose: true,
+            message: "Congrats, this is a success message.",
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     add_new() {
