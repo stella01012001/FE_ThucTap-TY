@@ -9,7 +9,7 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="DA" prop="DA">
+          <el-form-item label="DA" prop="idDA">
             <el-select
               v-model="form.add.idDA"
               placeholder="DA"
@@ -23,7 +23,7 @@
               >
                 <span style="float: left">{{ item.id }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px"
-                  >{{ item.customer.name }} - {{ item.unit.unit_code }}</span
+                  >{{ item.customer }} - {{ item.unit }}</span
                 >
               </el-option>
             </el-select>
@@ -90,7 +90,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="Event date" required>
-            <el-form-item prop="event_dateevent_date">
+            <el-form-item prop="event_date">
               <el-date-picker
                 type="date"
                 format="yyyy/MM/dd"
@@ -205,7 +205,7 @@ export default {
       axios
         .get("/list-for-ctr")
         .then((result) => {
-          this.data.list_DS = result.data.data;
+          this.data.list_DA = result.data.data;
           console.log(result);
         })
         .catch((err) => {
