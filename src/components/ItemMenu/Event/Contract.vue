@@ -9,7 +9,7 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="DA" prop="idDA">
+          <el-form-item label="DA" prop="idDA" >
             <el-select
               v-model="form.add.idDA"
               placeholder="DA"
@@ -35,6 +35,7 @@
             <el-select v-model="form.add.purchaser" placeholder="Purchaser">
               <el-option
                 :label="data.daid.customer"
+                :value="data.daid.customer"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -50,6 +51,7 @@
             >
               <el-option
                 :label="data.daid.paymentTerm"
+                :value="data.daid.paymentTerm"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -59,6 +61,7 @@
             <el-select v-model="form.add.unit_code" placeholder="Unit code">
               <el-option
                 :label="data.daid.unit"
+                :value="data.daid.unit"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -69,7 +72,7 @@
         <el-col :span="16">
           <el-form-item label="Amount">
             <el-input
-              :value="data.daid.amount"
+              v-model="form.add.amount"
               readonly
               class="set-width"
             ></el-input> </el-form-item
@@ -89,7 +92,7 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="Event date" required>
+          <el-form-item label="Event date" >
             <el-form-item prop="event_date">
               <el-date-picker
                 type="date"
