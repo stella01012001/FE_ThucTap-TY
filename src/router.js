@@ -13,6 +13,7 @@ import EUnit from './components/ItemMenu/Unit/Element.vue'
 import ErrorPage from "./components/Error/404.vue"
 import DS from "./components/ItemMenu/Event/DS.vue"
 import ListDS from "./components/ItemMenu/Event/ListDS.vue"
+import ListDA from "./components/ItemMenu/Event/ListDA.vue"
 import DA from "./components/ItemMenu/Event/DA.vue"
 
 Vue.use(Router)
@@ -33,6 +34,7 @@ const router = new Router({
                 { path: '/menu/unit', component: Unit },
                 { path: '/menu/ds', component: DS },
                 { path: '/menu/list-ds', component: ListDS },
+                { path: '/menu/list-da', component: ListDA },
                 { path: '/menu/da', component: DA },
             ]
         },

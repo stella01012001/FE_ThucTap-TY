@@ -4,13 +4,13 @@
       >Add new</el-button
     >
 
-    <el-table border :data="listDS">
+    <el-table border :data="listDA">
       <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
       <el-table-column align="center" fixed width="100" prop="status" label="Status"> </el-table-column>
-      <el-table-column align="center" width="200" prop="customer.name" label="Purchaser"> </el-table-column>
-      <el-table-column align="center" width="150" prop="unit.unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" width="200" prop="employee.name" label="Employee"> </el-table-column>
-      <el-table-column align="center" width="250" prop="payment_term.description" label="Payment Term"> </el-table-column>
+      <el-table-column align="center" width="200" prop="customer" label="Purchaser"> </el-table-column>
+      <el-table-column align="center" width="150" prop="unit" label="Unit Code"> </el-table-column>
+      <el-table-column align="center" width="200" prop="name" label="Employee"> </el-table-column>
+      <el-table-column align="center" width="250" prop="paymentTerm" label="Payment Term"> </el-table-column>
       <el-table-column align="center" width="150" prop="event_date" label="Event Date"> </el-table-column>
       <el-table-column align="center" width="450" prop="description" label="Description"> </el-table-column>
       <el-table-column align="center" width="250" prop="note" label="Note"> </el-table-column>
@@ -42,36 +42,19 @@ import axios from "axios";
 export default {
   data() {
     return {
-      listDS: [],
+      listDA: [],
     };
   },
   created() {
-    this.getAllDS();
+    this.getListDA();
   },
   methods: {
-    handSubmit() {
-      this.dialogFormVisible = false;
+    getListDA() {
       axios
-        .post("unit", this.form)
+        .get("da")
         .then((result) => {
-          console.log(result);
-          this.$swal({
-            icon: "success",
-            title: "Successful!",
-            showConfirmButton: false,
-          });
-          this.getAllDS();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    getAllDS() {
-      axios
-        .get("ds")
-        .then((result) => {
-          this.listDS = result.data.data;
-          console.log(this.listDS);
+          this.listDA = result.data.data;
+          console.log(this.listDA);
         })
         .catch((err) => {
           console.log(err);
@@ -89,7 +72,7 @@ export default {
         .then((result) => {
           console.log(result);
           this.dialogFormEdit = false;
-          this.getAllDS();
+          this.getListDA();
         })
         .catch((err) => {
           console.log(err);
@@ -121,7 +104,7 @@ export default {
               .delete(`customer/${row.id}`)
               .then(() => {
                 swalWithBootstrapButtons.fire("Deleted!", "", "success");
-                this.getAllDS();
+                this.getListDA();
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
@@ -136,7 +119,7 @@ export default {
         });
     },
     add_new(){
-        this.$router.push('/menu/ds')
+        this.$router.push('/menu/da')
     }
   },
 };

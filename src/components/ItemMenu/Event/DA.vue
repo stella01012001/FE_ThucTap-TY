@@ -91,6 +91,8 @@
             <el-form-item prop="event_dateevent_date">
               <el-date-picker
                 type="date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
                 placeholder="Pick a date"
                 v-model="form.add.event_date"
                 style="width: 100%;"
