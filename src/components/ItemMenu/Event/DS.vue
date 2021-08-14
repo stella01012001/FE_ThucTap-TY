@@ -143,49 +143,40 @@ export default {
             trigger: "blur",
           },
         ],
-        region: [
+        purchaser: [
           {
             required: true,
             message: "Please select Activity zone",
             trigger: "change",
           },
         ],
-        date1: [
+        unit: [
+          {
+            required: true,
+            message: "Please select Activity zone",
+            trigger: "change",
+          },
+        ],
+        payment_term: [
+          {
+            required: true,
+            message: "Please select Activity zone",
+            trigger: "change",
+          },
+        ],
+        employee: [
+          {
+            required: true,
+            message: "Please select Activity zone",
+            trigger: "change",
+          },
+        ],
+        event_date: [
           {
             type: "date",
             required: true,
             message: "Please pick a date",
             trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "Please pick a time",
-            trigger: "change",
-          },
-        ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "Please select at least one activity type",
-            trigger: "change",
-          },
-        ],
-        resource: [
-          {
-            required: true,
-            message: "Please select activity resource",
-            trigger: "change",
-          },
-        ],
-        desc: [
-          {
-            required: true,
-            message: "Please input activity form",
-            trigger: "blur",
           },
         ],
       },
