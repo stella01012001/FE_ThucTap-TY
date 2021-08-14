@@ -115,7 +115,7 @@ export default {
         payment_term: "", // cmb lưu id
         event_date: "", //date picker
         amount: 200000000,
-        description: "",
+        description: "Deposit Slip (SPA/LTLA) ",
         note: "",
         employee: null, //cmb lưu id
       },
@@ -251,6 +251,7 @@ export default {
         .then((result) => {
           this.data.purchasers = result.data.data;
           console.log(this.blocks);
+          this.form.description += this.data.purchasers.id + "-" + this.data.purchasers.name;
         })
         .catch((err) => {
           console.log(err);
