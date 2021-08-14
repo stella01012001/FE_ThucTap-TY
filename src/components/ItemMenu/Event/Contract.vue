@@ -222,7 +222,7 @@ export default {
         .then((result) => {
           this.data.daid = result.data.data;
           console.log(result);
-          this.form.add.amount = this.data.daid.ddAAmount;
+          this.form.add.amount = this.data.daid.amount;
         })
         .catch((err) => {
           console.log(err);

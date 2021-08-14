@@ -21,6 +21,13 @@
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
+            icon="el-icon-edit"
+            size="mini"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)"
+            >Info</el-button
+          >
+          <el-button
             icon="el-icon-delete"
             size="mini"
             type="danger"
