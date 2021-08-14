@@ -157,6 +157,7 @@ export default {
           event_date: "",
           employee: "", // cmb độc lập
           da_amount: null, //txt theo ds
+          note: "", //
         },
       },
       data: {
