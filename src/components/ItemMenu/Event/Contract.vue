@@ -9,14 +9,14 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="DS" prop="DS">
+          <el-form-item label="DA" prop="DA">
             <el-select
-              v-model="form.add.idDS"
-              placeholder="DS"
-              @change="handleChangeDS"
+              v-model="form.add.idDA"
+              placeholder="DA"
+              @change="handleChangeDA"
             >
               <el-option
-                v-for="item in data.list_DS"
+                v-for="item in data.list_DA"
                 :key="item.id"
                 :label="item.id"
                 :value="item.id"
@@ -29,12 +29,12 @@
             </el-select>
           </el-form-item>
         </el-col>
+
         <el-col :span="8"
           ><el-form-item label="Purchaser" prop="purchaser">
             <el-select v-model="form.add.purchaser" placeholder="Purchaser">
               <el-option
-                :label="data.dsid.customer"
-                :value="data.dsid.idCustomer"
+                :label="data.daid.customer"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -49,8 +49,7 @@
               placeholder="Payment term"
             >
               <el-option
-                :label="data.dsid.paymentTerm"
-                :value="data.dsid.idPaymentTerm"
+                :label="data.daid.paymentTerm"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -59,8 +58,7 @@
           <el-form-item label="Unit code" prop="unit_code">
             <el-select v-model="form.add.unit_code" placeholder="Unit code">
               <el-option
-                :label="data.dsid.unit"
-                :value="data.dsid.idUnit"
+                :label="data.daid.unit"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -69,9 +67,9 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="DS Amount">
+          <el-form-item label="Amount">
             <el-input
-              :value="data.dsid.amount"
+              :value="data.daid.amount"
               readonly
               class="set-width"
             ></el-input> </el-form-item
@@ -125,17 +123,6 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="DA Amount" prop="da_amount">
-            <el-input
-              v-model="form.add.amount"
-              readonly
-              class="set-width"
-            ></el-input> </el-form-item
-        ></el-col>
-      </el-row>
-
-      <el-row>
-        <el-col :span="16">
           <el-form-item label="Note" prop="note">
             <el-input v-model="form.add.note" class="set-width"> </el-input>
           </el-form-item>
@@ -159,52 +146,31 @@ export default {
     return {
       form: {
         add: {
-          idDS: null, //cmb chọn trc
-          purchaser: null, //cmb theo ds
-          payment_term: null, // theo theo ds
-          description: "Desposit Agreement for DS ", //cớ địnhtheo ds
-          unit_code: "", //cmbtheo ds
-          contract_amount: null, //set cứng, k lưu theo theo ds
-          event_date: "",
-          employee: "", // cmb độc lập
-          amount: null, //txt theo ds
-          note: "", //
-        },
-        ctr: {
-            idDA: null,
-            purchaser: null, //cmb theo ds
-          payment_term: null, // theo theo ds
-          description: "Contract for DA ", //cớ địnhtheo ds
-          unit_code: "", //cmbtheo ds
-          amount: null, //set cứng, k lưu theo theo ds
-          event_date: "",
-          employee: "", // cmb độc lập
-          note: "", //
+          idDA: null, //cmb chọn trc by id`
+          purchaser: null, //cmb theo da
+          payment_term: null, // theo theo da
+          description: "Contract for DA ", //cớ định theo da  `
+          unit_code: "", //cmb theo da
+          amount: null, //set cứng, lưu`
+          event_date: "", //tạo mới `
+          employee: "", // cmb độc lập `
+          note: "", //`
         },
       },
       data: {
-        list_DS: [],
-        dsid: {
-          idCustomer: null,
-          customer: "",
-          idUnit: null,
-          unit: "",
-          amount: null,
-          idPaymentTerm: null,
-          paymentTerm: "",
-          ddAAmount: null,
-        },
+        list_DA: [],
+        daid: {},
         employees: [],
       },
       rules: {
-        idDS: [
+        idDA: [
           {
             required: true,
             message: "Please select Activity zone",
             trigger: "change",
           },
         ],
-        agency: [
+        employee: [
           {
             required: true,
             message: "Please select Activity zone",
@@ -219,7 +185,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-            .post("/da", this.form.add)
+            .post("/contract", this.form.add)
             .then((result) => {
               console.log(result);
             })
@@ -235,9 +201,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    getAllDS() {
+    getAllCtr() {
       axios
-        .get("/list-for-da")
+        .get("/list-for-ctr")
         .then((result) => {
           this.data.list_DS = result.data.data;
           console.log(result);
@@ -247,19 +213,18 @@ export default {
         });
     },
 
-    handleChangeDS() {
+    handleChangeDA() {
       axios
-        .get(`/info-for-da/${this.form.add.idDS}`)
+        .get(`/info-for-ctr/${this.form.add.idDA}`)
         .then((result) => {
-          this.data.dsid = result.data.data;
+          this.data.daid = result.data.data;
           console.log(result);
-          this.form.add.amount = this.data.dsid.ddAAmount
+          this.form.add.amount = this.data.daid.ddAAmount;
         })
         .catch((err) => {
           console.log(err);
         });
-      this.form.add.description =
-        "Desposit Agreement for DS " + this.form.add.idDS;
+      this.form.add.description += this.form.add.idDA;
     },
     getAllEmployees() {
       axios
@@ -274,7 +239,7 @@ export default {
   },
   mounted() {
     this.getAllEmployees();
-    this.getAllDS();
+    this.getAllCtr();
   },
 };
 </script>
