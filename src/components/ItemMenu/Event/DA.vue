@@ -127,7 +127,7 @@
         <el-col :span="16">
           <el-form-item label="DA Amount" prop="da_amount">
             <el-input
-              :value="data.dsid.ddAAmount"
+              v-model="form.add.amount"
               readonly
               class="set-width"
             ></el-input> </el-form-item
@@ -167,7 +167,7 @@ export default {
           contract_amount: null, //set cứng, k lưu theo theo ds
           event_date: "",
           employee: "", // cmb độc lập
-          da_amount: null, //txt theo ds
+          amount: null, //txt theo ds
           note: "", //
         },
       },
@@ -242,6 +242,7 @@ export default {
         .then((result) => {
           this.data.dsid = result.data.data;
           console.log(result);
+          this.form.add.amount = this.data.dsid.ddAAmount
         })
         .catch((err) => {
           console.log(err);
