@@ -171,14 +171,6 @@ export default {
             trigger: "change",
           },
         ],
-        event_date: [
-          {
-            type: "date",
-            required: true,
-            message: "Please pick a date",
-            trigger: "change",
-          },
-        ],
       },
     };
   },

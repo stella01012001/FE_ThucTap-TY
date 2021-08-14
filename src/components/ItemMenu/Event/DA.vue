@@ -76,9 +76,9 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="Decription" prop="decription">
+          <el-form-item label="Description" prop="description">
             <el-input
-              v-model="form.add.decription"
+              v-model="form.add.description"
               readonly
               class="set-width"
             ></el-input> </el-form-item
@@ -101,10 +101,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="Agency" prop="agency">
-            <el-select v-model="form.add.agency" placeholder="Agency">
+          <el-form-item label="Agency" prop="employee">
+            <el-select v-model="form.add.employee" placeholder="Agency">
               <el-option
-                v-for="item in data.agencys"
+                v-for="item in data.employees"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -132,10 +132,10 @@
       </el-row>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
+        <el-button type="primary" @click="submitForm('form.add')"
           >Create</el-button
         >
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+        <el-button @click="resetForm('form.add')">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -151,11 +151,11 @@ export default {
           DS: null, //cmb chọn trc
           purchaser: null, //cmb theo ds
           payment_term: null, // theo theo ds
-          decription: "Desposit Agreement for DS ", //cớ địnhtheo ds
+          description: "Desposit Agreement for DS ", //cớ địnhtheo ds
           unit_code: "", //cmbtheo ds
           contract_amount: null, //set cứng, k lưu theo theo ds
           event_date: "",
-          agency: "", // cmb độc lập
+          employee: "", // cmb độc lập
           da_amount: null, //txt theo ds
         },
       },
@@ -171,7 +171,7 @@ export default {
           paymentTerm: "",
           ddAAmount: null,
         },
-        agencys: [],
+        employees: [],
       },
       rules: {
         DS: [
@@ -188,14 +188,6 @@ export default {
             trigger: "change",
           },
         ],
-        event_date: [
-          {
-            type: "date",
-            required: true,
-            message: "Please pick a date",
-            trigger: "change",
-          },
-        ],
       },
     };
   },
@@ -204,7 +196,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-            .post(`list-for-da`, this.form.add)
+            .post("/da", this.form.add)
             .then((result) => {
               console.log(result);
             })
@@ -242,14 +234,14 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-        this.form.add.decription = "Desposit Agreement for DS " + this.form.add.DS
+        this.form.add.description = "Desposit Agreement for DS " + this.form.add.DS
         console.log(this.form.add.decription )
     },
     getAllEmployees() {
       axios
         .get("employee")
         .then((result) => {
-          this.data.agencys = result.data.data;
+          this.data.employees = result.data.data;
         })
         .catch((err) => {
           console.log(err);
