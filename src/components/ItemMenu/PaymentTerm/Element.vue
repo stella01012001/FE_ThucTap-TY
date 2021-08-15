@@ -19,10 +19,13 @@
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button @click="handleClick" type="text" size="small"
+            <el-button size="mini" type="primary" @click="handleClick"
               >Fix</el-button
             >
-            <el-button type="text" size="small" @click="handleDelete(scope.row)"
+            <el-button
+              type="primary"
+              size="small"
+              @click="handleDelete(scope.row)"
               >Delete</el-button
             >
           </el-button-group>
