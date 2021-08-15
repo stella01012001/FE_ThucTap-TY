@@ -23,7 +23,7 @@
         <template slot-scope="scope">
           <el-tag
             @click="changeStatus(scope.row)"
-            :type="scope.row.payment === '' ? 'primary' : 'success'"
+            :type="scope.row.payment === 'Pendding' ? 'primary' : 'success'"
             disable-transitions
             >{{ scope.row.payment }}</el-tag
           >
@@ -150,14 +150,14 @@ export default {
     },
     changeStatus(row) {
       axios
-        .get(`approved-da/${row.id}`) //api chua lam
+        .get(`contract-pay/${row.id}`) //api chua lam
         .then(() => {
           this.$message({
             showClose: true,
             message: "Congrats, this is a success message.",
             type: "success",
           });
-          this.getListDA();
+          this.getListCTR();
         })
         .catch((err) => {
           console.log(err);

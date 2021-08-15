@@ -9,7 +9,7 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="DA" prop="idDA" >
+          <el-form-item label="DA" prop="idDA">
             <el-select
               v-model="form.add.idDA"
               placeholder="DA"
@@ -92,7 +92,7 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="Event date" >
+          <el-form-item label="Event date">
             <el-form-item prop="event_date">
               <el-date-picker
                 type="date"
@@ -191,6 +191,11 @@ export default {
             .post("/contract", this.form.add)
             .then((result) => {
               console.log(result);
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
+              });
             })
             .catch((err) => {
               console.log(err);

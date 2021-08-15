@@ -82,23 +82,30 @@ export default {
   },
   methods: {
     searchResult() {
-      console.log("'" +this.period + "'")
+      console.log("'" + this.period + "'");
       if (this.period) {
-          axios
-            .post("/due-date", {
-              period : this.period
-            })
-            .then((result) => {
-              console.log(result);
-              this.data.periods = result.data.data;
-               this.$message({
+        axios
+          .post("/due-date", {
+            period: this.period,
+          })
+          .then((result) => {
+            console.log(result);
+            this.data.periods = result.data.data;
+            this.data.periods.forEach((element) => {
+              if (element.payment == "") {
+                element.payment = "Pendding";
+              } else {
+                element.payment = "Approved";
+              }
+            });
+            this.$message({
               message: "Congrats, this is a success data.",
               type: "success",
             });
-            })
-            .catch((err) => {
-                this.$message.error(`Oops, this is a error ${err}.`);
-            });
+          })
+          .catch((err) => {
+            this.$message.error(`Oops, this is a error ${err}.`);
+          });
       } else {
         this.$notify({
           title: "Warning",

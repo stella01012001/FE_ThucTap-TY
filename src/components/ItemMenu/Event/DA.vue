@@ -211,6 +211,11 @@ export default {
             .post("/da", this.form.add)
             .then((result) => {
               console.log(result);
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
+              });
             })
             .catch((err) => {
               console.log(err);
@@ -242,7 +247,7 @@ export default {
         .then((result) => {
           this.data.dsid = result.data.data;
           console.log(result);
-          this.form.add.amount = this.data.dsid.ddAAmount
+          this.form.add.amount = this.data.dsid.ddAAmount;
         })
         .catch((err) => {
           console.log(err);
