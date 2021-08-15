@@ -8,6 +8,9 @@ import Customer from './components/ItemMenu/Customer/Index.vue'
 import Employee from './components/ItemMenu/Employee/Index.vue'
 import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
+import Ele_PaymentTerm from './components/ItemMenu/PaymentTerm/Element.vue'
+
+
 import Unit from './components/ItemMenu/Unit/Index.vue'
 import EUnit from './components/ItemMenu/Unit/Element.vue'
 import ErrorPage from "./components/Error/404.vue"
@@ -35,6 +38,7 @@ const router = new Router({
                 { path: '/menu/employee', component: Employee },
                 { path: '/menu/floor', component: Floor },
                 { path: '/menu/paymentterm', component: PaymentTerm },
+                { path: '/menu/paymentterm/:id', component: Ele_PaymentTerm },
                 { path: '/menu/unit', component: Unit },
                 { path: '/menu/ds', component: DS },
                 { path: '/menu/list-ds', component: ListDS },

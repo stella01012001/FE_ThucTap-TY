@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true"
+      >Add new</el-button
+    >
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -20,20 +22,25 @@
       </el-table-column>
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
-          <el-button
-            icon="el-icon-edit"
-            size="mini"
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
-          >
-          <el-button
-            icon="el-icon-delete"
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
-          >
+          <el-button-group>
+            <el-button size="mini" icon="el-icon-share" @click="handleClick(scope.row)"
+              >See more</el-button
+            >
+            <el-button
+              icon="el-icon-edit"
+              size="mini"
+              type="primary"
+              @click="handleEdit(scope.$index, scope.row)"
+              >Fix</el-button
+            >
+            <el-button
+              icon="el-icon-delete"
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >Delete</el-button
+            >
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -106,7 +113,7 @@ export default {
           reverseButtons: true,
         })
         .then((result) => {
-          if (result.isConfirmed) { 
+          if (result.isConfirmed) {
             axios
               .delete(`paymentTerm/${row.id}`)
               .then(() => {
@@ -123,6 +130,9 @@ export default {
             swalWithBootstrapButtons.fire("Canceled", "", "error");
           }
         });
+    },
+    handleClick(row) {
+      this.$router.push({ path: `/menu/paymentterm/${row.id}` });
     },
   },
 };
