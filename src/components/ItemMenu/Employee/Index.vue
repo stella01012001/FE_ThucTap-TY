@@ -70,7 +70,7 @@
       <el-table-column prop="address" label="Address"> </el-table-column>
       <el-table-column prop="email" label="Email"> </el-table-column>
       <el-table-column prop="idAcc" label="Account"> </el-table-column>
-      <el-table-column prop="aciton" label="Action">
+      <el-table-column width="190" prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
