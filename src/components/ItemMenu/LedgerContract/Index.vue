@@ -1,16 +1,17 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new"
-      >Add new</el-button
-    >
+    <el-button type="primary" @click="add_new">...</el-button>
 
-    <el-table border :data="listDA">
-      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
+    <el-table border :data="listCTR">
+        <el-table-column align="center" fixed prop="id" label="id">
+      </el-table-column>
+      <el-table-column align="center" fixed width="100" prop="idContract" label="#contract">
+      </el-table-column>
       <el-table-column
         align="center"
-        fixed
+        fixed="right"
         width="100"
-        prop="status"
+        prop="payment"
         label="Status"
         :filters="[
           { text: 'Pendding', value: 'Pendding' },
@@ -22,38 +23,40 @@
         <template slot-scope="scope">
           <el-tag
             @click="changeStatus(scope.row)"
-            :type="scope.row.status === 'Pendding' ? 'primary' : 'success'"
+            :type="scope.row.payment === '' ? 'primary' : 'success'"
             disable-transitions
-            >{{ scope.row.status }}</el-tag
+            >{{ scope.row.payment }}</el-tag
           >
         </template>
       </el-table-column>
-      <el-table-column align="center" width="200" prop="customer" label="Purchaser"> </el-table-column>
-      <el-table-column align="center" width="150" prop="unit" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" width="200" prop="name" label="Employee"> </el-table-column>
-      <el-table-column align="center" width="250" prop="paymentTerm" label="Payment Term"> </el-table-column>
-      <el-table-column align="center" width="150" prop="event_date" label="Event Date"> </el-table-column>
-      <el-table-column align="center" width="450" prop="description" label="Description"> </el-table-column>
-      <el-table-column align="center" width="250" prop="note" label="Note"> </el-table-column>
-      <el-table-column align="center" width="250" prop="amount" label="Amount"> </el-table-column>
-      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
-        <template slot-scope="scope">
-          <el-button
-            icon="el-icon-edit"
-            size="mini"
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
-          >
-          <el-button
-            icon="el-icon-delete"
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
-          >
-        </template>
+      <el-table-column
+        align="center"
+        width="200"
+        prop="customer"
+        label="Purchaser"
+      >
       </el-table-column>
+      <el-table-column align="center" width="150" prop="unit" label="Unit Code">
+      </el-table-column>
+      <el-table-column align="center" width="150" prop="customer" label="Purchaser">
+      </el-table-column> 
+      <el-table-column align="center" width="200" prop="dueDate" label="Due Date">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="250"
+        prop="description"
+        label="Description"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="amount"
+        label="Amount"
+      >
+      </el-table-column>
+
     </el-table>
   </div>
 </template>
@@ -63,19 +66,19 @@ import axios from "axios";
 export default {
   data() {
     return {
-      listDA: [],
+      listCTR: [],
     };
   },
   created() {
-    this.getListDA();
+    this.getListCTR();
   },
   methods: {
-    getListDA() {
+    getListCTR() {
       axios
-        .get("da")
+        .get("contract-pay")
         .then((result) => {
-          this.listDA = result.data.data;
-          console.log(this.listDA);
+          this.listCTR = result.data.data;
+          console.log(this.listCTR);
         })
         .catch((err) => {
           console.log(err);
@@ -85,15 +88,15 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`)
+      this.$router.push(`/detail-unit/${row.id}`);
     },
     editEmployee() {
       axios
-        .post("unit", this.editform)
+        .post("contract", this.editform)
         .then((result) => {
           console.log(result);
           this.dialogFormEdit = false;
-          this.getListDA();
+          this.getListCTR();
         })
         .catch((err) => {
           console.log(err);
@@ -125,7 +128,7 @@ export default {
               .delete(`customer/${row.id}`)
               .then(() => {
                 swalWithBootstrapButtons.fire("Deleted!", "", "success");
-                this.getListDA();
+                this.getListCTR();
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
@@ -141,7 +144,7 @@ export default {
     },
     changeStatus(row) {
       axios
-        .get(`approved-da/${row.id}`)
+        .get(`approved-da/${row.id}`) //api chua lam
         .then(() => {
           this.$message({
             showClose: true,
@@ -154,13 +157,11 @@ export default {
           console.log(err);
         });
     },
-    add_new(){
-        this.$router.push('/menu/da')
-    }
+    add_new() {
+      this.$router.push("/menu/ctr");
+    },
   },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

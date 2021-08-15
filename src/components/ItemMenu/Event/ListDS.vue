@@ -208,6 +208,7 @@ export default {
             message: "Congrats, this is a success message.",
             type: "success",
           });
+          this.getAllDS();
         })
         .catch((err) => {
           console.log(err);

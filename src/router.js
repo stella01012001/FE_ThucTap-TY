@@ -17,6 +17,7 @@ import ListDA from "./components/ItemMenu/Event/ListDA.vue"
 import ListCTR from "./components/ItemMenu/Event/ListContract.vue"
 import DA from "./components/ItemMenu/Event/DA.vue"
 import CTR from "./components/ItemMenu/Event/Contract.vue"
+import LGCTR from "./components/ItemMenu/LedgerContract/Index.vue"
 
 Vue.use(Router)
 
@@ -40,6 +41,7 @@ const router = new Router({
                 { path: '/menu/list-ctr', component: ListCTR },
                 { path: '/menu/da', component: DA },
                 { path: '/menu/ctr', component: CTR },
+                { path: '/menu/lgctr', component: LGCTR },
             ]
         },
         { path: '/404', name: 'errorpage', component: ErrorPage },//token, user

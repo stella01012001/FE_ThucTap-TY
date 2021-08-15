@@ -52,7 +52,7 @@
         <div class="wrapp-icon">
           <i class="fas fa-file-contract"></i>
         </div>
-        <span>LEDGER CONTRACT</span>
+        <router-link to="/menu/lgctr">LEDGER CONTRACT</router-link>
       </el-menu-item>
       <el-menu-item index="8">
         <div class="wrapp-icon">
@@ -87,6 +87,14 @@
           <i class="el-icon-s-promotion"></i>
         </div>
         <span>DUE LIST PAYMENT</span>
+      </el-menu-item>
+
+
+      <el-menu-item index="11">
+        <div class="wrapp-icon">
+          <i class="el-icon-s-promotion"></i>
+        </div>
+        <span>REPORT</span>
       </el-menu-item>
     </el-menu>
   </el-col>
