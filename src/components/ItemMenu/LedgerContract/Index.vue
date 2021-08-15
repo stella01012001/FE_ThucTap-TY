@@ -77,8 +77,14 @@ export default {
       axios
         .get("contract-pay")
         .then((result) => {
-          this.listCTR = result.data.data;
-          console.log(this.listCTR);
+          this.listCTR = result.data.data;  
+          this.listCTR.forEach(element => {
+            if (element.payment == '') {
+              element.payment = 'Pendding'
+            } else {
+              element.payment = 'Approved'
+            }
+          });
         })
         .catch((err) => {
           console.log(err);

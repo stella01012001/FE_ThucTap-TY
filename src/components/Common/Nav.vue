@@ -14,62 +14,64 @@
     >
       <el-menu-item index="1">
         <div class="wrapp-icon">
-          <i class="fas fa-building"></i>
+          <i class="fas fa-building icon-color"></i>
         </div>
         <router-link to="/menu/block">BLOCK</router-link>
       </el-menu-item>
       <el-menu-item index="2">
         <div class="wrapp-icon">
-          <i class="fas fa-kaaba"></i>
+          <i class="fas fa-kaaba icon-color"></i>
         </div>
         <router-link to="/menu/floor">FLOOR</router-link>
       </el-menu-item>
       <el-menu-item index="3">
         <div class="wrapp-icon">
-          <i class="fas fa-warehouse"></i>
+          <i class="fas fa-warehouse icon-color"></i>
         </div>
         <router-link to="/menu/unit">UNIT</router-link>
       </el-menu-item>
       <el-menu-item index="4">
         <div class="wrapp-icon">
-          <i class="el-icon-s-custom"></i>
+          <i class="el-icon-s-custom icon-color"></i>
         </div>
         <router-link to="/menu/customer">CUSTOMER</router-link>
       </el-menu-item>
       <el-menu-item index="5">
-        <div class="wrapp-icon">
+        <div class="wrapp-icon icon-color">
           <i class="fas fa-user-tie"></i>
         </div>
         <router-link to="/menu/employee">EMPLOYEE</router-link>
       </el-menu-item>
       <el-menu-item index="6">
         <div class="wrapp-icon">
-          <i class="el-icon-document-remove"></i>
+          <i class="el-icon-document-remove icon-color"></i>
         </div>
         <router-link to="/menu/paymentterm">PAYMENT TERM</router-link>
       </el-menu-item>
       <el-menu-item index="7">
         <div class="wrapp-icon">
-          <i class="fas fa-file-contract"></i>
+          <i class="fas fa-file-contract icon-color"></i>
         </div>
         <router-link to="/menu/lgctr">LEDGER CONTRACT</router-link>
       </el-menu-item>
       <el-menu-item index="8">
         <div class="wrapp-icon">
-          <i class="fas fa-tasks"></i>
+          <i class="fas fa-tasks icon-color"></i>
         </div>
         <router-link to="/menu/event-type">EVENT TYPE</router-link>
       </el-menu-item>
       <el-submenu index="9">
         <template slot="title">
           <div class="wrapp-icon">
-            <i class="fas fa-calendar-alt"></i>
+            <i class="fas fa-calendar-alt icon-color"></i>
           </div>
           <span>EVENT</span>
         </template>
         <el-menu-item-group>
           <router-link to="/menu/list-ds">
-            <el-menu-item index="9-1">Deposit Slip (SPA/LTLA)</el-menu-item></router-link
+            <el-menu-item index="9-1"
+              >Deposit Slip (SPA/LTLA)</el-menu-item
+            ></router-link
           >
           <router-link to="/menu/list-da">
             <el-menu-item index="9-2"
@@ -83,16 +85,17 @@
       </el-submenu>
 
       <el-menu-item index="10">
-        <div class="wrapp-icon">
-          <i class="el-icon-s-promotion"></i>
-        </div>
-        <span>DUE LIST PAYMENT</span>
+        <router-link to="/menu/period">
+          <div class="wrapp-icon">
+            <i class="el-icon-s-promotion icon-color"></i>
+          </div>
+          <span>DUE LIST PAYMENT</span>
+        </router-link>
       </el-menu-item>
-
 
       <el-menu-item index="11">
         <div class="wrapp-icon">
-          <i class="el-icon-s-promotion"></i>
+          <i class="el-icon-s-promotion icon-color"></i>
         </div>
         <span>REPORT</span>
       </el-menu-item>
@@ -123,7 +126,7 @@ a {
   font-weight: 600;
 }
 
-i {
+.icon-color {
   color: #fff !important;
 }
 
