@@ -4,11 +4,11 @@
       <span class="demonstration">Month </span>
       <el-date-picker
         prefix-icon
-        v-model="dateGet"
+        v-model="period"
         type="month"
         placeholder="Pick a month"
-        format="yyyy/MM"
-        value-format="yyyy/MM"
+        format="yyyy-MM"
+        value-format="yyyy-MM"
       >
       </el-date-picker>
       <el-button type="primary" icon="el-icon-search" @click="searchResult">
@@ -16,8 +16,8 @@
       >
     </div>
     <el-table
-      v-if="!data.period"
-      :data="data.period"
+      v-if="data.periods"
+      :data="data.periods"
       style="width: 100%"
       max-height="250"
     >
@@ -74,27 +74,31 @@ import axios from "axios";
 export default {
   data() {
     return {
-      dateGet: "",
+      period: "",
       data: {
-        period: [],
+        periods: [],
       },
     };
   },
   methods: {
     searchResult() {
-      if (this.dateGet) {
-        axios
-          .post(`/due-date`, this.dateGet)
-          .then((result) => {
-            this.data.period = result.data.data;
-            this.$message({
+      console.log("'" +this.period + "'")
+      if (this.period) {
+          axios
+            .post("/due-date", {
+              period : this.period
+            })
+            .then((result) => {
+              console.log(result);
+              this.data.periods = result.data.data;
+               this.$message({
               message: "Congrats, this is a success data.",
               type: "success",
             });
-          })
-          .catch((err) => {
-            this.$message.error(`Oops, this is a error ${err}.`);
-          });
+            })
+            .catch((err) => {
+                this.$message.error(`Oops, this is a error ${err}.`);
+            });
       } else {
         this.$notify({
           title: "Warning",
