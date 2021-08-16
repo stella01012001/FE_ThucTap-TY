@@ -4,7 +4,7 @@
       <div class="back-menu" @click="back_menu">
         <i class="el-icon-back"></i> Back
       </div>
-      <div class="title-header">Detail Unit</div>
+      <div class="title-header">Add New Unit</div>
     </header>
     <div class="container-form">
       <div class="wrapp-form">
@@ -75,7 +75,10 @@
           </el-row>
 
           <el-form-item label="Amount" prop="amount">
-            <el-input v-model="ruleForm.amount" class="format-money"></el-input>
+            <el-input
+              v-model.number="ruleForm.amount"
+              class="format-money"
+            ></el-input>
           </el-form-item>
 
           <el-row :gutter="20">
@@ -143,7 +146,6 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
-  name: "Index",
   data() {
     return {
       data: {
@@ -262,7 +264,6 @@ export default {
     this.getAllUnitType();
     this.getAllBlock();
     this.getAllFloor();
-    this.getUnitByID();
   },
   computed: {
     ...mapGetters(["idRole"]),
@@ -298,23 +299,26 @@ export default {
           console.log(err);
         });
     },
-    getUnitByID() {
-      axios
-        .get(`unit/${this.$route.params.id}`)
-        .then((result) => {
-          this.ruleForm = result.data.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     back_menu() {
       this.$router.push("/menu/unit");
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          axios
+            .post("unit", this.ruleForm)
+            .then((result) => {
+              console.log(result);
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
+              });
+              this.getAllUnit();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -328,57 +332,4 @@ export default {
 };
 </script>
 
-<style>
-.container-header {
-  display: flex;
-  align-items: center;
-  height: 85px;
-  font-size: 18px;
-  padding: 20px;
-  font-weight: 600;
-  box-shadow: 0 2px 2px 0 rgba(60, 75, 100, 0.14),
-    0 3px 1px -2px rgba(60, 75, 100, 0.12), 0 1px 5px 0 rgba(60, 75, 100, 0.2);
-}
-
-.back-menu {
-  padding-right: 15px;
-  cursor: pointer;
-}
-
-.title-header {
-  border-left: 2px solid #000;
-  padding-left: 15px;
-}
-
-.container-form {
-  background-color: #ebedef;
-  padding: 35px;
-}
-
-.wrapp-form {
-  width: 980px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 15px;
-}
-
-.format-money {
-  position: relative;
-}
-
-.format-money input {
-  padding-left: 35px;
-}
-
-.format-money::before {
-  content: "đ";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 25px 15px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 4px;
-}
-</style>
+<style></style>

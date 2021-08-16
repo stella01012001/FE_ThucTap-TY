@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true"
+    <el-button type="primary" @click="swicthToAdd"
       >Add new</el-button
     >
 
@@ -160,6 +160,9 @@ export default {
     this.getAllUnit();
   },
   methods: {
+    swicthToAdd(){
+       this.$router.push(`/add-unit`)
+    },
     handSubmit() {
       this.dialogFormVisible = false;
       axios

@@ -13,6 +13,7 @@ import Ele_PaymentTerm from './components/ItemMenu/PaymentTerm/Element.vue'
 
 import Unit from './components/ItemMenu/Unit/Index.vue'
 import EUnit from './components/ItemMenu/Unit/Element.vue'
+import AUnit from './components/ItemMenu/Unit/AddUnit.vue'
 import ErrorPage from "./components/Error/404.vue"
 import DS from "./components/ItemMenu/Event/DS.vue"
 import ListDS from "./components/ItemMenu/Event/ListDS.vue"
@@ -31,6 +32,7 @@ const router = new Router({
     routes: [
         { path: '/', component: Login },
         { path: '/detail-unit/:id', component: EUnit },
+        { path: '/add-unit/', component: AUnit },
         {
             path: '/menu', component: Menu, children: [
                 { path: '/menu/event-type', component: EventType },
