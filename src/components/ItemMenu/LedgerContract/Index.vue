@@ -2,8 +2,8 @@
   <div>
     <el-button type="primary" @click="add_new">...</el-button>
 
-    <el-table border :data="listCTR">
-        <el-table-column align="center" fixed prop="id" label="id">
+    <el-table  :data="listCTR">
+        <el-table-column align="center" fixed prop="id" width="50" label="id">
       </el-table-column>
       <el-table-column align="center" fixed width="100" prop="idContract" label="#contract">
       </el-table-column>
@@ -29,13 +29,6 @@
           >
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="200"
-        prop="customer"
-        label="Purchaser"
-      >
-      </el-table-column>
       <el-table-column align="center" width="150" prop="unit" label="Unit Code">
       </el-table-column>
       <el-table-column align="center" width="150" prop="customer" label="Purchaser">
@@ -54,6 +47,27 @@
         width="150"
         prop="amount"
         label="Amount"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="principal"
+        label="Principal"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="amount_vat"
+        label="Amount_vat"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="land_use_fee"
+        label="Land_use_fee"
       >
       </el-table-column>
 

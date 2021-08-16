@@ -21,9 +21,9 @@
       style="width: 100%"
       max-height="250"
     >
-      <el-table-column fixed prop="id" label="ID" width="150">
+      <el-table-column fixed prop="id" label="ID" width="50">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         fixed
         prop="payment"
         label="Payment"
@@ -43,7 +43,7 @@
             >{{ scope.row.payment }}</el-tag
           >
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="idContract" label="Contract" width="120">
       </el-table-column>
       <el-table-column prop="installmentNo" label="InstallmentNo" width="120">
@@ -54,15 +54,32 @@
       </el-table-column>
       <el-table-column prop="amount" label="Amount" width="120">
       </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="principal"
+        label="Principal"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="amount_vat"
+        label="Amount_vat"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="land_use_fee"
+        label="Land_use_fee"
+      >
+      </el-table-column>
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData)"
-            type="text"
-            size="small"
-          >
-            Remove
-          </el-button>
+          <el-button size="mini" icon="el-icon-s-promotion" @click="handleClickMail(scope.row)"
+              >Send Mail</el-button
+            >
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +99,6 @@ export default {
   },
   methods: {
     searchResult() {
-      console.log("'" + this.period + "'");
       if (this.period) {
         axios
           .post("/due-date", {
@@ -114,29 +130,32 @@ export default {
         });
       }
     },
-    changeStatus(row) {
-      if (row.payment == "Approved") {
-        this.$notify({
-          title: "Warning",
-          message: "This is a warning",
-          type: "warning",
-        });
-      } else {
-        axios
-          .get(`approved-ds/${row.id}`)
-          .then(() => {
-            this.$message({
-              showClose: true,
-              message: "Congrats, this is a success message.",
-              type: "success",
-            });
-            this.getAllDS();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+    handleClickMail(row) {
+      this.$router.push({ path: `/menu/period-mail/${row.id}` });
     },
+    // changeStatus(row) {
+    //   if (row.payment == "Approved") {
+    //     this.$notify({
+    //       title: "Warning",
+    //       message: "This is a warning",
+    //       type: "warning",
+    //     });
+    //   } else {
+    //     axios
+    //       .get(`approved-ds/${row.id}`)
+    //       .then(() => {
+    //         this.$message({
+    //           showClose: true,
+    //           message: "Congrats, this is a success message.",
+    //           type: "success",
+    //         });
+    //         this.getAllDS();
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // },
   },
   mounted() {},
 };

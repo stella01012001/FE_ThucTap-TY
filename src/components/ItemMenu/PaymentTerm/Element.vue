@@ -1,29 +1,30 @@
 <template>
   <div>
-    <el-table :data="data.paymentTerm" style="width: 100%">
-      <el-table-column fixed prop="id" label="ID" width="150">
+
+    <el-table border :data="data.paymentTerm" style="width: 100%">
+      <el-table-column fixed prop="id" label="ID" width="50">
       </el-table-column>
-      <el-table-column prop="idPaymentTerm" label="ID Payment Term" width="120">
+      <el-table-column prop="idPaymentTerm" label="ID Payment Term" width="150">
       </el-table-column>
-      <el-table-column prop="installmentNo" label="Installment No" width="120">
+      <el-table-column prop="installmentNo" label="Installment No" width="130">
       </el-table-column>
       <el-table-column prop="description" label="Description" width="120">
       </el-table-column>
-      <el-table-column prop="percent" label="Percent" width="300">
+      <el-table-column prop="percent" label="Percent" width="100">
       </el-table-column>
       <el-table-column prop="quantity" label="Quantity" width="120">
       </el-table-column>
       <el-table-column prop="timeUnit" label="TimeUnit" width="120">
       </el-table-column>
       <el-table-column prop="vat" label="Vat" width="120"> </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="120">
+      <el-table-column fixed="right" label="Operations" width="170">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button size="mini" type="primary" @click="handleClick"
+            <el-button size="small" type="primary" @click="handleClick"
               >Fix</el-button
             >
             <el-button
-              type="primary"
+              type="danger"
               size="small"
               @click="handleDelete(scope.row)"
               >Delete</el-button

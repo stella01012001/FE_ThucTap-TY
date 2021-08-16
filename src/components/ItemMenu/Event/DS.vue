@@ -216,7 +216,7 @@ export default {
                 title: "Successful!",
                 showConfirmButton: false,
               });
-              this.getAllBlock();
+              //this.getAllBlock();
             })
             .catch((err) => {
               console.log(err);
