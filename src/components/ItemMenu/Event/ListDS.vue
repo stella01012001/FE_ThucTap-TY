@@ -221,4 +221,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.el-tag--light{
+  cursor: pointer;
+}
+</style>

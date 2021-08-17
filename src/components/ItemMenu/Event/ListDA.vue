@@ -162,5 +162,7 @@ export default {
 </script>
 
 <style>
-
+  .el-tag--light{
+  cursor: pointer;
+}
 </style>

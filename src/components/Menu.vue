@@ -5,7 +5,8 @@
     </el-aside>
     <el-container>
       <el-header
-        style="text-align: right; font-size: 12px; background-color: #7e909a;"
+        height="74px"
+        style="text-align: right; font-size: 12px; background-color: #7e909a"
       >
         <el-dropdown>
           <span>{{ user }}</span>

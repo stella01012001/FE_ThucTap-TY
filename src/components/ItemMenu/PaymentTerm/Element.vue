@@ -246,6 +246,9 @@ export default {
       clearTimeout(this.timer);
       this.$refs["form"].resetFields();
     },
+    handleClick(){
+      
+    }
   },
   mounted() {
     this.getPaymentTermByID();

@@ -99,7 +99,15 @@
         </div>
         <span>REPORT</span>
       </el-menu-item>
+
+      <el-menu-item index="12">
+        <div class="wrapp-icon">
+          <i class="el-icon-s-promotion icon-color"></i>
+        </div>
+        <span>ACCOUNT</span>
+      </el-menu-item>
     </el-menu>
+    
   </el-col>
 </template>
 

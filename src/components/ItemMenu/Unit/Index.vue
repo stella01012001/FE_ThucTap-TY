@@ -1,43 +1,8 @@
 <template>
   <div>
-    <el-button type="primary" @click="swicthToAdd"
-      >Add new</el-button
-    >
-
-    <!-- Sửa
-    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
-      <el-form :model="editform">
-        <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input
-            :value="editform.name"
-            autocomplete="off"
-            :disabled="true"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="Tax Code" :label-width="formLabelWidth">
-          <el-input v-model="editform.taxCode" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Birth" :label-width="formLabelWidth">
-          <el-input v-model="editform.birth" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Phone" :label-width="formLabelWidth">
-          <el-input v-model="editform.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Address" :label-width="formLabelWidth">
-          <el-input v-model="editform.address" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Email" :label-width="formLabelWidth">
-          <el-input v-model="editform.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Gender" :label-width="formLabelWidth">
-          <el-input v-model="editform.gender" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormEdit = false">Cancel</el-button>
-        <el-button type="primary" @click="editEmployee">Confirm</el-button>
-      </span>
-    </el-dialog> -->
+    <el-button type="primary" @click="swicthToAdd">Add new</el-button>
+    <el-button type="primary" @click="getAllUnit">Refesh</el-button>
+    <el-button type="primary" @click="handleExportUnit">Export</el-button>
 
     <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -84,22 +49,75 @@
       </span>
     </el-dialog>
 
-    <el-table border :data="units">
-      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
-      <el-table-column align="center" width="95" prop="unit_type.description" label="Unit Type"> </el-table-column>
-      <el-table-column align="center" width="95" prop="unit_code" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" prop="block.description" label="Block"> </el-table-column>
-      <el-table-column align="center" prop="floor.numFloor" label="Floor"> </el-table-column>
-      <el-table-column align="center" width="150" prop="amount" label="Amount"> </el-table-column>
-      <el-table-column align="center" prop="status" label="Status"> </el-table-column>
+    <el-table border :data="units" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column align="center" fixed prop="id" label="Id">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="95"
+        prop="unit_type.description"
+        label="Unit Type"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="95"
+        prop="unit_code"
+        label="Unit Code"
+      >
+      </el-table-column>
+      <el-table-column align="center" prop="block.description" label="Block">
+      </el-table-column>
+      <el-table-column align="center" prop="floor.numFloor" label="Floor">
+      </el-table-column>
+      <el-table-column align="center" width="150" prop="amount" label="Amount">
+      </el-table-column>
+      <el-table-column align="center" prop="status" label="Status">
+      </el-table-column>
       <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
       <el-table-column align="center" prop="GFA" label="GFA"> </el-table-column>
-      <el-table-column align="center" width="95" prop="price_NFA" label="Price NFA"> </el-table-column>
-      <el-table-column align="center" width="95" prop="land_area" label="Land Area"> </el-table-column>
-      <el-table-column align="center" width="150" prop="no_of_br" label="Num of bedroom"></el-table-column>
-      <el-table-column align="center" width="115" prop="land_use_fee" label="Land Use Fee"> </el-table-column>
-      <el-table-column align="center" width="95" prop="direction" label="Direction"> </el-table-column>
-      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
+      <el-table-column
+        align="center"
+        width="95"
+        prop="price_NFA"
+        label="Price NFA"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="95"
+        prop="land_area"
+        label="Land Area"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="no_of_br"
+        label="Num of bedroom"
+      ></el-table-column>
+      <el-table-column
+        align="center"
+        width="115"
+        prop="land_use_fee"
+        label="Land Use Fee"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="95"
+        prop="direction"
+        label="Direction"
+      >
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        width="200"
+        align="center"
+        prop="aciton"
+        label="Action"
+      >
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
@@ -126,6 +144,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      multipleSelection: [],
+      checked: true,
       formLabelWidth: "120px",
       units: [],
       dialogFormVisible: false,
@@ -160,8 +180,8 @@ export default {
     this.getAllUnit();
   },
   methods: {
-    swicthToAdd(){
-       this.$router.push(`/add-unit`)
+    swicthToAdd() {
+      this.$router.push(`/add-unit`);
     },
     handSubmit() {
       this.dialogFormVisible = false;
@@ -195,7 +215,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`)
+      this.$router.push(`/detail-unit/${row.id}`);
     },
     editEmployee() {
       axios
@@ -210,8 +230,8 @@ export default {
         });
     },
     formatPrice(value) {
-        let val = (value/1).toFixed(2).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     handleDelete(index, row) {
       console.log(index, row);
@@ -253,10 +273,31 @@ export default {
           }
         });
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(this.multipleSelection);
+    },
+    handleExportUnit() {
+      if (this.multipleSelection.length != 0) {
+        axios
+          .post("", this.multipleSelection)
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      }
+    },
   },
 };
 </script>
 
 <style>
-
 </style>

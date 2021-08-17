@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+      <form action=""></form>
+  </div>
 </template>
 
 <script>
@@ -9,7 +11,7 @@ export default {
     return {
       form: {},
       data: {
-        infoMail: [],
+        infoMail: {},
       },
     };
   },
