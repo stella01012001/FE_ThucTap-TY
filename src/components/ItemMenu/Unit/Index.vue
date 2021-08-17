@@ -280,7 +280,7 @@ export default {
     handleExportUnit() {
       if (this.multipleSelection.length != 0) {
         axios
-          .post("", this.multipleSelection)
+          .post("exportunit", this.multipleSelection)
           .then((result) => {
             console.log(result);
           })
