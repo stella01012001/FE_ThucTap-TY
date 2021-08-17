@@ -144,7 +144,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      multipleSelection: [],
+      data: {
+        multipleSelection: [],
+      },
       checked: true,
       formLabelWidth: "120px",
       units: [],
@@ -274,13 +276,13 @@ export default {
         });
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      this.data.multipleSelection = val;
+      console.log(this.data.multipleSelection);
     },
     handleExportUnit() {
-      if (this.multipleSelection.length != 0) {
+      if (this.data.multipleSelection.length != 0) {
         axios
-          .post("exportunit", this.multipleSelection)
+          .post("exportunit", this.data.multipleSelection)
           .then((result) => {
             console.log(result);
           })
@@ -299,5 +301,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
