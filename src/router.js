@@ -24,6 +24,8 @@ import DA from "./components/ItemMenu/Event/DA.vue"
 import CTR from "./components/ItemMenu/Event/Contract.vue"
 import LGCTR from "./components/ItemMenu/LedgerContract/Index.vue"
 import Period from "./components/ItemMenu/Period/Index.vue"
+import Account from "./components/ItemMenu/Account/Index.vue"
+import AccountE from "./components/ItemMenu/Account/Element.vue"
 import PeriodSendMailDueDate from "./components/ItemMenu/Period/SendMailDueDate.vue"
 
 Vue.use(Router)
@@ -35,6 +37,7 @@ const router = new Router({
         { path: '/detail-unit/:id', component: EUnit },
         { path: '/add-unit/', component: AUnit },
         { path: '/test/', component: UnitTest },
+        { path: '/add-account/', component: AccountE },
         {
             path: '/menu', component: Menu, children: [
                 { path: '/menu/event-type', component: EventType },
@@ -53,6 +56,7 @@ const router = new Router({
                 { path: '/menu/ctr', component: CTR },
                 { path: '/menu/lgctr', component: LGCTR },
                 { path: '/menu/period', component: Period },
+                { path: '/menu/account', component: Account },
                 { path: '/menu/period-mail/:id', component: PeriodSendMailDueDate },
             ]
         },

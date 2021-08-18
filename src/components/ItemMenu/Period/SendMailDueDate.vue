@@ -1,6 +1,6 @@
 <template>
-  <div class="container-mail">
-    <el-form ref="form" :model="form" label-width="120px">
+  <div class="container-mail" v-loading="loading">
+    <el-form ref="form" :model="form" label-width="120px" >
       <el-form-item label="Customer name">
         <el-input :value="data.infoMail.customer" readonly></el-input>
       </el-form-item>
@@ -56,11 +56,22 @@ export default {
       form: {
         note: "",
         id: this.$route.params.id,
+        idContract: "",
+        dueDate: "",
+        amount: "",
+        principal: "",
+        amount_vat: "",
+        land_use_fee: "",
+        customer: "",
       },
       data: {
         infoMail: {},
       },
+      loading: false,
     };
+  },
+  mounted() {
+    this.getMail();
   },
   methods: {
     getMail() {
@@ -68,15 +79,29 @@ export default {
         .get(`mail-due-date/${this.$route.params.id}`)
         .then((result) => {
           this.data.infoMail = result.data.data;
+          this.form.idContract = result.data.data.idContract;
+          this.form.dueDate = result.data.data.dueDate;
+          this.form.amount = result.data.data.amount;
+          this.form.principal = result.data.data.principal;
+          this.form.amount_vat = result.data.data.amount_vat;
+          this.form.land_use_fee = result.data.data.land_use_fee;
+          this.form.customer = result.data.data.customer;
         })
         .catch((err) => {
           console.log(err);
         });
     },
     onSubmit() {
+        this.loading = true;
       axios
         .post(`send-mail-due`, this.form)
         .then((result) => {
+            this.$swal({
+            icon: "success",
+            title: "Successful!",
+            showConfirmButton: false,
+          });
+          this.loading = false;
           console.log(result);
         })
         .catch((err) => {

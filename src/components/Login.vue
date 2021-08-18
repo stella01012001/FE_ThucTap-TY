@@ -60,8 +60,9 @@ export default {
         .post("login", this.user)
         .then((result) => {
           console.log(result);
+          console.log(result.data.username);
           if (result.data.status == 1) {
-            console.log(result);
+            //console.log(result);
             this.$swal({
               icon: "success",
               title: "Đăng nhập thành công!!!",
@@ -75,17 +76,23 @@ export default {
             this.$store.dispatch("user", result.data.username);
             this.$store.dispatch("idRole", result.data.idRole);
             this.$router.push("/menu");
-          } else {
+          } else if (result.data.status == 0){
             this.$swal({
               icon: "error",
               title: "Tài khoản đã bị khóa",
               showConfirmButton: false,
             });
+          } else {
+            this.$swal({
+              icon: "error",
+              title: result.data.username,
+              showConfirmButton: false,
+            });
           }
         })
         .catch((err) => {
-          this.erorrs = err.response.data.errors;
-          console.log(err.response.data.errors);
+          
+          console.log(err);
         });
     },
   },

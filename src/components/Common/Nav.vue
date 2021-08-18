@@ -104,7 +104,7 @@
         <div class="wrapp-icon">
           <i class="el-icon-s-promotion icon-color"></i>
         </div>
-        <span>ACCOUNT</span>
+        <router-link to="/menu/account">ACCOUNT</router-link>
       </el-menu-item>
     </el-menu>
     

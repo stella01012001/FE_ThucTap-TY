@@ -22,8 +22,8 @@
           <el-form-item label="InstallmentNo" prop="installmentNo">
             <el-input v-model="form.installmentNo"></el-input>
           </el-form-item>
-          <el-form-item label="Desription" prop="desription">
-            <el-input v-model="form.desription"></el-input>
+          <el-form-item label="Description" prop="description">
+            <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="Percent" prop="percent">
             <el-input v-model="form.percent"></el-input>
@@ -31,14 +31,14 @@
           <el-form-item label="Quantity" prop="quantity">
             <el-input v-model="form.quantity"></el-input>
           </el-form-item>
-          <el-form-item label="Vat" prop="vat">
-            <el-input v-model="form.vat"></el-input>
-          </el-form-item>
           <el-form-item label="Timeunit" prop="timeunit">
-            <el-radio-group v-model="form.timeunit">
+            <el-radio-group v-model="form.timeUnit">
               <el-radio label="D"></el-radio>
               <el-radio label="M"></el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item label="Vat" prop="vat">
+            <el-input v-model="form.vat"></el-input>
           </el-form-item>
           <el-form-item label="Active" prop="active">
             <el-switch v-model="form.active"></el-switch>
@@ -67,6 +67,8 @@
       <el-table-column prop="timeUnit" label="TimeUnit" width="120">
       </el-table-column>
       <el-table-column prop="vat" label="Vat" width="120"> </el-table-column>
+      <el-table-column prop="active" label="Land_fee" width="120">
+      </el-table-column>
       <el-table-column fixed="right" label="Operations" width="170">
         <template slot-scope="scope">
           <el-button-group>
@@ -100,10 +102,10 @@ export default {
       form: {
         idPaymentTerm: "",
         installmentNo: "",
-        desription: "",
+        description: "",
         percent: "",
         quantity: "",
-        timeunit: "",
+        timeUnit: "",
         vat: "",
         active: false,
       },
@@ -114,12 +116,6 @@ export default {
           {
             required: true,
             message: "Please input Activity name",
-            trigger: "blur",
-          },
-          {
-            min: 3,
-            max: 5,
-            message: "Length should be 3 to 5",
             trigger: "blur",
           },
         ],
@@ -151,13 +147,6 @@ export default {
             trigger: "blur",
           },
         ],
-        timeunit: [
-          {
-            required: true,
-            message: "Please select activity resource",
-            trigger: "change",
-          },
-        ],
       },
     };
   },
@@ -167,6 +156,7 @@ export default {
         .get(`paymentTermDefinitions/${this.$route.params.id}`)
         .then((result) => {
           this.data.paymentTerm = result.data.data;
+          this.form.idPaymentTerm = this.data.paymentTerm[0].idPaymentTerm;
         })
         .catch((err) => {
           console.log(err);
@@ -197,7 +187,7 @@ export default {
               .delete(`paymentTermDefinition/${row.id}`)
               .then(() => {
                 swalWithBootstrapButtons.fire("Deleted!", "", "success");
-                this.getAllPaymentterms();
+                this.getPaymentTermByID();
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
@@ -217,7 +207,7 @@ export default {
             if (valid) {
               this.loading = true;
               axios
-                .post("", this.form)
+                .post("paymentTermDefinition", this.form)
                 .then(() => {
                   this.dialog = false;
                   this.$notify({
@@ -225,6 +215,7 @@ export default {
                     message: "This is a success ok",
                     type: "success",
                   });
+                  this.getPaymentTermByID();
                 })
                 .catch((err) => {
                   this.$notify.error({

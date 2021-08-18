@@ -1,9 +1,10 @@
 <template>
   <div>
     <el-button type="primary" @click="swicthToAdd">Add new</el-button>
-    <el-button type="primary" @click="getAllUnit">Refesh</el-button>
-    <el-button type="primary" @click="handleExportUnit">Export</el-button>
+    <el-button type="primary" @click="getAllAccount">Refesh</el-button>
+    <!-- <el-button type="primary" @click="handleExportUnit">Export</el-button> -->
 
+    <!-- edit -->
     <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Unit Type" :label-width="formLabelWidth">
@@ -49,68 +50,33 @@
       </span>
     </el-dialog>
 
-    <el-table border :data="units" @selection-change="handleSelectionChange">
+    <el-table border :data="listAcc" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column align="center" fixed prop="id" label="Id">
+      <el-table-column align="center" width="55" fixed prop="id" label="Id">
       </el-table-column>
       <el-table-column
         align="center"
         width="95"
-        prop="unit_type.description"
-        label="Unit Type"
+        prop="username"
+        label="User name"
       >
       </el-table-column>
       <el-table-column
         align="center"
-        width="95"
-        prop="unit_code"
-        label="Unit Code"
+        width="120"
+        prop="description"
+        label="Description"
       >
-      </el-table-column>
-      <el-table-column align="center" prop="block.description" label="Block">
-      </el-table-column>
-      <el-table-column align="center" prop="floor.numFloor" label="Floor">
-      </el-table-column>
-      <el-table-column align="center" width="150" prop="amount" label="Amount">
       </el-table-column>
       <el-table-column align="center" prop="status" label="Status">
       </el-table-column>
-      <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
-      <el-table-column align="center" prop="GFA" label="GFA"> </el-table-column>
-      <el-table-column
-        align="center"
-        width="95"
-        prop="price_NFA"
-        label="Price NFA"
-      >
+      <el-table-column align="center" prop="idEmployee" label="idEmployee">
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="95"
-        prop="land_area"
-        label="Land Area"
-      >
+      <el-table-column align="center" width="150" prop="name" label="Employee">
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="150"
-        prop="no_of_br"
-        label="Num of bedroom"
-      ></el-table-column>
-      <el-table-column
-        align="center"
-        width="115"
-        prop="land_use_fee"
-        label="Land Use Fee"
-      >
+      <el-table-column align="center" prop="email" label="Email">
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="95"
-        prop="direction"
-        label="Direction"
-      >
-      </el-table-column>
+
       <el-table-column
         fixed="right"
         width="200"
@@ -124,7 +90,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
+            >Edit</el-button
           >
           <el-button
             icon="el-icon-delete"
@@ -149,7 +115,7 @@ export default {
       },
       checked: true,
       formLabelWidth: "120px",
-      units: [],
+      listAcc: [],
       dialogFormVisible: false,
       form: {
         idFloor: "",
@@ -179,11 +145,11 @@ export default {
     };
   },
   created() {
-    this.getAllUnit();
+    this.getAllAccount();
   },
   methods: {
     swicthToAdd() {
-      this.$router.push(`/add-unit`);
+      this.$router.push(`/add-account`);
     },
     handSubmit() {
       this.dialogFormVisible = false;
@@ -196,18 +162,18 @@ export default {
             title: "Successful!",
             showConfirmButton: false,
           });
-          this.getAllUnit();
+          this.getAllAccount();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getAllUnit() {
+    getAllAccount() {
       axios
-        .get("unit")
+        .get("account")
         .then((result) => {
-          this.units = result.data.data;
-          console.log(this.units);
+          this.listAcc = result.data.data;
+          console.log(this.listAcc);
         })
         .catch((err) => {
           console.log(err);
@@ -225,7 +191,7 @@ export default {
         .then((result) => {
           console.log(result);
           this.dialogFormEdit = false;
-          this.getAllUnit();
+          this.getAllAccount();
         })
         .catch((err) => {
           console.log(err);
@@ -261,7 +227,7 @@ export default {
               .delete(`customer/${row.id}`)
               .then(() => {
                 swalWithBootstrapButtons.fire("Deleted!", "", "success");
-                this.getAllUnit();
+                this.getAllAccount();
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
