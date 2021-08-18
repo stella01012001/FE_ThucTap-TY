@@ -39,7 +39,9 @@ export default {
       user: {
         pass: "",
         checkpass: "",
+        token: localStorage.getItem('token'),
       },
+
     };
   },
   methods: {

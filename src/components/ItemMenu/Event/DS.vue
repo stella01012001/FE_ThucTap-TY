@@ -35,10 +35,10 @@
               <el-option
                 v-for="item in data.units"
                 :key="item.id"
-                :label="item.amount"
+                :label="item.unit_code"
                 :value="item.id"
               >
-                <span style="float: left">{{ item.id }}</span>
+                <span style="float: left">{{ item.unit_code }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{
                   item.amount
                 }}</span>
