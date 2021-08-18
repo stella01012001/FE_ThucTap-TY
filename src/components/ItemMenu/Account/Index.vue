@@ -174,6 +174,13 @@ export default {
         .then((result) => {
           this.listAcc = result.data.data;
           console.log(this.listAcc);
+          this.listAcc.forEach((element) => {
+            if (element.status == 0) {
+              element.status = "Block";
+            } else {
+              element.status = "Actived";
+            }
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -223,6 +230,10 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
+            if (this.$store.getters.id == row.id) {
+              swalWithBootstrapButtons.fire("Canceled", "Not delete", "error");
+              return;
+            }
             axios
               .delete(`delete-acc/${row.id}`)
               .then(() => {
@@ -249,25 +260,22 @@ export default {
       if (this.data.multipleSelection.length != 0) {
         axios
           .post("exportunit", this.data.multipleSelection, {
-            responseType: 'blob'
+            responseType: "blob",
           })
           .then((result) => {
             // programmatically 'click'.
-            const link = document.createElement('a');
-    
+            const link = document.createElement("a");
+
             // Tell the browser to associate the response data to
             // the URL of the link we created above.
-            link.href = window.URL.createObjectURL(
-                new Blob([result.data])
-            );
-    
+            link.href = window.URL.createObjectURL(new Blob([result.data]));
+
             // Tell the browser to download, not render, the file.
-            link.setAttribute('download', 'report.xlsx');
+            link.setAttribute("download", "report.xlsx");
             document.body.appendChild(link);
-    
+
             // Make the magic happen!
             link.click();
-    
           })
           .catch((err) => {
             console.log(err);
