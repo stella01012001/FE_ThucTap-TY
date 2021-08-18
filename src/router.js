@@ -10,6 +10,9 @@ import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 import Ele_PaymentTerm from './components/ItemMenu/PaymentTerm/Element.vue'
 
+// Forgot
+import Forgot from "./components/Forgot/Forgot.vue";
+import Reset from "./components/Forgot/Reset.vue";
 
 import Unit from './components/ItemMenu/Unit/Index.vue'
 import UnitTest from './components/ItemMenu/Unit/Test.vue'
@@ -34,6 +37,8 @@ const router = new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Login },
+        { path: '/forgot', component: Forgot },
+        { path: '/reset', component: Reset },
         { path: '/detail-unit/:id', component: EUnit },
         { path: '/add-unit/', component: AUnit },
         { path: '/test/', component: UnitTest },

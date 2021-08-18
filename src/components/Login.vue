@@ -2,7 +2,7 @@
   <div class="jumbotron full-height">
     <div class="row justify-content-md-center align-items-center">
       <div class="col-4 custom-frm">
-        <form action="/action_page.php" @submit.prevent="handleSubmit()">
+        <form  @submit.prevent="handleSubmit()">
           <div class="form-group">
             <h2>Login</h2>
           </div>
@@ -33,6 +33,9 @@
               {{ erorrs.password[0] }}
             </div>
           </div>
+          <div class="forgot-pass">
+            <span @click="switchForgot">Fo gót pát wợt ?</span>
+          </div>
           <button type="submit" class="btn btn-primary">Login</button>
         </form>
       </div>
@@ -55,6 +58,10 @@ export default {
   },
   computed: {},
   methods: {
+    switchForgot() {
+      this.$router.push("/forgot");
+    },
+
     handleSubmit() {
       axios
         .post("login", this.user)
@@ -76,7 +83,7 @@ export default {
             this.$store.dispatch("user", result.data.username);
             this.$store.dispatch("idRole", result.data.idRole);
             this.$router.push("/menu");
-          } else if (result.data.status == 0){
+          } else if (result.data.status == 0) {
             this.$swal({
               icon: "error",
               title: "Tài khoản đã bị khóa",
@@ -91,7 +98,6 @@ export default {
           }
         })
         .catch((err) => {
-          
           console.log(err);
         });
     },
@@ -99,7 +105,17 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style>
+.forgot-pass span {
+  color: #007bff !important;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.forgot-pass span:hover {
+  text-decoration: underline;
+}
+
 .jumbotron {
   margin: unset;
   /* background: url(https://scontent-hkg4-2.xx.fbcdn.net/v/t1.18169-9/26230647_2025678734376646_8716683300838614448_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=-mX8O-Ngzg4AX9IsCo9&tn=aYXSSniwU4XMkkl4&_nc_ht=scontent-hkg4-2.xx&oh=08d92a3579af00df5289dcd113fec3c6&oe=60FBDA92); */
