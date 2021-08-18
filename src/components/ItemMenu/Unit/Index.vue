@@ -208,6 +208,13 @@ export default {
         .then((result) => {
           this.units = result.data.data;
           console.log(this.units);
+          this.units.forEach((element) => {
+            if (parseInt(element.status) >= 0) {
+              element.status = "used";
+            } else {
+              element.status = "";
+            }
+          });
         })
         .catch((err) => {
           console.log(err);

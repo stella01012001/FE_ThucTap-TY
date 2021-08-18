@@ -2,6 +2,8 @@
   <div>
     <el-button type="primary" @click="add_new">Add new</el-button>
 
+    
+
     <el-table border :data="listDS">
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>

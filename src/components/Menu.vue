@@ -26,21 +26,22 @@
 
       <el-dialog title="Change Pass" :visible.sync="dialogFormVisible">
         <el-form :model="form">
-          <el-form-item label="Promotion name" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-form-item label="Old Password" :label-width="formLabelWidth">
+            <el-input v-model="form.passwordOld" autocomplete="off" type="password"></el-input>
           </el-form-item>
-          <el-form-item label="Zones" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="Please select a zone">
-              <el-option label="Zone No.1" value="shanghai"></el-option>
-              <el-option label="Zone No.2" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="New Password" :label-width="formLabelWidth">
+            <el-input v-model="form.passwordNew" autocomplete="off" type="password"></el-input>
+          </el-form-item>
+          <el-form-item label="Confirm Password" :label-width="formLabelWidth">
+            <el-input
+              v-model="form.confirm_passwordNew"
+              autocomplete="off" type="password"
+            ></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
-            >Confirm</el-button
-          >
+          <el-button type="primary" @click="change_pass">Confirm</el-button>
         </span>
       </el-dialog>
 
@@ -61,14 +62,10 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
+        id: localStorage.getItem("id"),
+        passwordOld: "",
+        passwordNew: "",
+        confirm_passwordNew: "",
       },
       formLabelWidth: "120px",
     };
@@ -96,22 +93,42 @@ export default {
       this.$router.push("/");
     },
     change_pass() {
-      //chua lam
-      axios
-        .post("logout")
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
+      if (
+        this.form.passwordNew.trim() === this.form.confirm_passwordNew.trim()
+      ) {
+        axios
+          .post("change-pass", this.form)
+          .then((result) => {
+            console.log(result);
+            if (this.result.data.data.mess != "failed") {
+              this.$swal({
+              icon: "success",
+              title: result.data.mess,
+              showConfirmButton: false,
+            });
+            this.log_out();
+            }
+            this.dialogFormVisible = false;
+            this.$swal({
+              icon: "error",
+              title: this.result.data.data.mess,
+              showConfirmButton: false,
+            });
+          })
+          .catch((err) => {
+            this.$swal({
+              icon: "error",
+              title: err,
+              showConfirmButton: false,
+            });
+          });
+      } else {
+        this.$notify({
+          title: "Error",
+          message: "Confirm not match Password",
+          type: "warning",
         });
-      localStorage.removeItem("token");
-      this.$swal({
-        icon: "info",
-        title: "Đã đăng xuất",
-        showConfirmButton: false,
-      });
-      this.$router.push("/");
+      }
     },
   },
   computed: {
