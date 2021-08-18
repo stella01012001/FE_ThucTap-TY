@@ -37,7 +37,7 @@ const router = new Router({
         { path: '/detail-unit/:id', component: EUnit },
         { path: '/add-unit/', component: AUnit },
         { path: '/test/', component: UnitTest },
-        { path: '/add-account/', component: AccountE },
+        
         {
             path: '/menu', component: Menu, children: [
                 { path: '/menu/event-type', component: EventType },
@@ -58,6 +58,7 @@ const router = new Router({
                 { path: '/menu/period', component: Period },
                 { path: '/menu/account', component: Account },
                 { path: '/menu/period-mail/:id', component: PeriodSendMailDueDate },
+                { path: '/add-account/', component: AccountE },
             ]
         },
         { path: '/404', name: 'errorpage', component: ErrorPage },//token, user
