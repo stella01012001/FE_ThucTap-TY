@@ -27,15 +27,24 @@
       <el-dialog title="Change Pass" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="Old Password" :label-width="formLabelWidth">
-            <el-input v-model="form.passwordOld" autocomplete="off" type="password"></el-input>
+            <el-input
+              v-model="form.passwordOld"
+              autocomplete="off"
+              type="password"
+            ></el-input>
           </el-form-item>
           <el-form-item label="New Password" :label-width="formLabelWidth">
-            <el-input v-model="form.passwordNew" autocomplete="off" type="password"></el-input>
+            <el-input
+              v-model="form.passwordNew"
+              autocomplete="off"
+              type="password"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="Confirm Password" :label-width="formLabelWidth">
+          <el-form-item label="Confirm" :label-width="formLabelWidth">
             <el-input
               v-model="form.confirm_passwordNew"
-              autocomplete="off" type="password"
+              autocomplete="off"
+              type="password"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -96,30 +105,29 @@ export default {
       if (
         this.form.passwordNew.trim() === this.form.confirm_passwordNew.trim()
       ) {
+        this.dialogFormVisible = false;
         axios
           .post("change-pass", this.form)
           .then((result) => {
             console.log(result);
             if (this.result.data.data.mess != "failed") {
-              this.$swal({
-              icon: "success",
-              title: result.data.mess,
-              showConfirmButton: false,
-            });
-            this.log_out();
+              this.$notify({
+                title: "Success",
+                message: result.data.mess,
+                type: "success",
+              });
+              this.log_out();
             }
-            this.dialogFormVisible = false;
-            this.$swal({
-              icon: "error",
-              title: this.result.data.data.mess,
-              showConfirmButton: false,
+
+            this.$notify.error({
+              title: "Error",
+              message: this.result.data.data.mess,
             });
           })
           .catch((err) => {
-            this.$swal({
-              icon: "error",
-              title: err,
-              showConfirmButton: false,
+            this.$notify.error({
+              title: "Error",
+              message: err,
             });
           });
       } else {
