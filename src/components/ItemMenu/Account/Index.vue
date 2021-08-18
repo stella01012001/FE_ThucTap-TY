@@ -68,7 +68,23 @@
         label="Description"
       >
       </el-table-column>
-      <el-table-column align="center" prop="status" label="Status">
+      <el-table-column
+        align="center"
+        prop="status"
+        label="Status"
+        fixed
+        width="120"
+        :filter-method="filterTag"
+        filter-placement="bottom-end"
+      >
+        <template slot-scope="scope">
+          <el-tag
+            @click="changeStatus(scope.row)"
+            :type="scope.row.payment === 'Block' ? 'danger' : 'success'"
+            disable-transitions
+            >{{ scope.row.status }}</el-tag
+          >
+        </template>
       </el-table-column>
       <el-table-column align="center" prop="idEmployee" label="idEmployee">
       </el-table-column>
@@ -141,6 +157,9 @@ export default {
         address: "",
         email: "",
         gender: "",
+      },
+      changeActive: {
+        status: "",
       },
     };
   },
@@ -287,6 +306,27 @@ export default {
           text: "Something went wrong!",
         });
       }
+    },
+    changeStatus(row) {
+      this.changeActive.status = row.status;
+      axios
+        .patch(`update-acc/${row.id}`, this.changeActive)
+        .then((res) => {
+          this.$message({
+            showClose: true,
+            message: res,
+            type: "success",
+          });
+          this.getAllAccount();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message({
+            showClose: true,
+            message: err,
+            type: "error",
+          });
+        });
     },
   },
 };
