@@ -224,7 +224,7 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             axios
-              .delete(`customer/${row.id}`)
+              .delete(`delete-acc/${row.id}`)
               .then(() => {
                 swalWithBootstrapButtons.fire("Deleted!", "", "success");
                 this.getAllAccount();

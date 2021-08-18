@@ -29,6 +29,7 @@
 // import axios from "axios";
 import Nav from "./Common/Nav.vue";
 import { mapGetters } from "vuex";
+import axios from "axios";
 export default {
   components: {
     Nav,
@@ -36,6 +37,14 @@ export default {
   created() {},
   methods: {
     log_out() {
+      axios
+        .post("logout")
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       localStorage.removeItem("token");
       this.$swal({
         icon: "info",
