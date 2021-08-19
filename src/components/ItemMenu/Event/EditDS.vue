@@ -11,26 +11,26 @@
         <el-col :span="8">
           <el-form-item label="Purchaser" prop="purchaser">
             <el-input
-              v-model="form.purchaser"
+              v-model="form.customer.name"
               readonly
             ></el-input> </el-form-item
         ></el-col>
         <el-col :span="8"
           ><el-form-item label="Unit" prop="unit">
-            <el-input v-model="form.unit" readonly></el-input>
+            <el-input v-model="form.unit.unit_code" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item label="Payment term" prop="payment_term">
-            <el-input v-model="form.payment_term" readonly></el-input>
+            <el-input v-model="form.payment_term.description" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Employee" prop="employee">
             <el-input
-              v-model="form.employee"
+              v-model="form.employee.name"
               readonly
             ></el-input> </el-form-item
         ></el-col>
@@ -67,7 +67,7 @@
 
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
-          >Create</el-button
+          >Update</el-button
         >
         <el-button @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
@@ -141,14 +141,16 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() {
+      this.getDSById();
+  },
   methods: {
     submitForm(formName) {
       console.log(this.form);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-            .post("ds", this.form)
+            .patch(`ds/${this.$route.params.id}`, this.form)
             .then((result) => {
               console.log(result);
               this.$swal({

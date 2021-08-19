@@ -49,7 +49,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
+            >Edit</el-button
           >
           <el-button
             icon="el-icon-delete"
@@ -92,7 +92,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`)
+      this.$router.push(`edit-da/${row.id}`)
     },
     editEmployee() {
       axios

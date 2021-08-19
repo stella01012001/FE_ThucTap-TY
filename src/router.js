@@ -23,6 +23,7 @@ import DS from "./components/ItemMenu/Event/DS.vue"
 import EditDS from "./components/ItemMenu/Event/EditDS.vue"
 import ListDS from "./components/ItemMenu/Event/ListDS.vue"
 import ListDA from "./components/ItemMenu/Event/ListDA.vue"
+import EditDA from "./components/ItemMenu/Event/EditDA.vue"
 import ListCTR from "./components/ItemMenu/Event/ListContract.vue"
 import DA from "./components/ItemMenu/Event/DA.vue"
 import CTR from "./components/ItemMenu/Event/Contract.vue"
@@ -58,6 +59,7 @@ const router = new Router({
                 { path: '/menu/edit-ds/:id', component: EditDS },
                 { path: '/menu/list-ds', component: ListDS },
                 { path: '/menu/list-da', component: ListDA },
+                { path: '/menu/edit-da/:id', component: EditDA },
                 { path: '/menu/list-ctr', component: ListCTR },
                 { path: '/menu/da', component: DA },
                 { path: '/menu/ctr', component: CTR },
