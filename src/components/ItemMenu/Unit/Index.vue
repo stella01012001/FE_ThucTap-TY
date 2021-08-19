@@ -1,15 +1,23 @@
 <template>
   <div>
-    <el-button type="primary" @click="swicthToAdd">Add new</el-button>
-    <el-button type="primary" @click="getAllUnit">Refesh</el-button>
-    <el-button type="primary" @click="handleExportUnit">Export</el-button>
-
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type Unit code to search"
-      class="custom-input-search"
-    />
+    <!-- copy từ đây -->
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút ở dây -->
+        <el-button type="primary" @click="swicthToAdd">Add new</el-button>
+        <el-button type="primary" @click="getAllUnit">Refesh</el-button>
+        <el-button type="primary" @click="handleExportUnit">Export</el-button>
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type Unit code to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>  
+    <!-- tới đây -->
 
     <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -56,7 +64,17 @@
       </span>
     </el-dialog>
 
-    <el-table border :data="units.filter(data => !search || data.unit_code.toLowerCase().includes(search.toLowerCase()))" @selection-change="handleSelectionChange">
+    <el-table
+      border
+      :data="
+        units.filter(
+          (data) =>
+            !search ||
+            data.unit_code.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>
@@ -298,25 +316,22 @@ export default {
       if (this.data.multipleSelection.length != 0) {
         axios
           .post("exportunit", this.data.multipleSelection, {
-            responseType: 'blob'
+            responseType: "blob",
           })
           .then((result) => {
             // programmatically 'click'.
-            const link = document.createElement('a');
-    
+            const link = document.createElement("a");
+
             // Tell the browser to associate the response data to
             // the URL of the link we created above.
-            link.href = window.URL.createObjectURL(
-                new Blob([result.data])
-            );
-    
+            link.href = window.URL.createObjectURL(new Blob([result.data]));
+
             // Tell the browser to download, not render, the file.
-            link.setAttribute('download', 'report.xlsx');
+            link.setAttribute("download", "report.xlsx");
             document.body.appendChild(link);
-    
+
             // Make the magic happen!
             link.click();
-    
           })
           .catch((err) => {
             console.log(err);
@@ -333,4 +348,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.container-search input {
+  height: 40px;
+  border-radius: 4px;
+  border-color: #d4d4d4;
+}
+
+.container-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+</style>
