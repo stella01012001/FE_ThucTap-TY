@@ -1,11 +1,26 @@
 <template>
   <div>
     <el-button type="primary" @click="add_new">...</el-button>
-
-    <el-table  :data="listCTR">
-        <el-table-column align="center" fixed prop="id" width="50" label="id">
+    <input
+      type="text"
+      v-model="search"
+      @change="show"
+      placeholder="Type Contract to search"
+      class="custom-input-search"
+    />
+    <!-- "tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" -->
+    <el-table
+      :data="listCTR.filter((data) => !search || data.idContract.toString().includes(search.toString()))"
+    >
+      <el-table-column align="center" fixed prop="id" width="50" label="id">
       </el-table-column>
-      <el-table-column align="center" fixed width="100" prop="idContract" label="#contract">
+      <el-table-column
+        align="center"
+        fixed
+        width="100"
+        prop="idContract"
+        label="#contract"
+      >
       </el-table-column>
       <el-table-column
         align="center"
@@ -13,11 +28,6 @@
         width="100"
         prop="payment"
         label="Status"
-        :filters="[
-          { text: 'Pendding', value: 'Pendding' },
-          { text: 'Approved', value: 'Approved' },
-        ]"
-        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -31,9 +41,19 @@
       </el-table-column>
       <el-table-column align="center" width="150" prop="unit" label="Unit Code">
       </el-table-column>
-      <el-table-column align="center" width="150" prop="customer" label="Purchaser">
-      </el-table-column> 
-      <el-table-column align="center" width="200" prop="dueDate" label="Due Date">
+      <el-table-column
+        align="center"
+        width="150"
+        prop="customer"
+        label="Purchaser"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="200"
+        prop="dueDate"
+        label="Due Date"
+      >
       </el-table-column>
       <el-table-column
         align="center"
@@ -42,12 +62,7 @@
         label="Description"
       >
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="150"
-        prop="amount"
-        label="Amount"
-      >
+      <el-table-column align="center" width="150" prop="amount" label="Amount">
       </el-table-column>
       <el-table-column
         align="center"
@@ -70,7 +85,6 @@
         label="Land_use_fee"
       >
       </el-table-column>
-
     </el-table>
   </div>
 </template>
@@ -81,6 +95,7 @@ export default {
   data() {
     return {
       listCTR: [],
+      search: "",
     };
   },
   created() {
@@ -91,12 +106,12 @@ export default {
       axios
         .get("contract-pay")
         .then((result) => {
-          this.listCTR = result.data.data;  
-          this.listCTR.forEach(element => {
-            if (element.payment == '') {
-              element.payment = 'Pendding'
+          this.listCTR = result.data.data;
+          this.listCTR.forEach((element) => {
+            if (element.payment == "") {
+              element.payment = "Pendding";
             } else {
-              element.payment = 'Approved'
+              element.payment = "Approved";
             }
           });
         })
@@ -180,12 +195,15 @@ export default {
     add_new() {
       this.$router.push("/menu/ctr");
     },
+    show() {
+      console.log(this.search);
+    },
   },
 };
 </script>
 
 <style>
-.el-tag--light{
+.el-tag--light {
   cursor: pointer;
 }
 </style>

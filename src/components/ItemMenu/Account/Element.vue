@@ -37,8 +37,7 @@
             <el-input
               v-model="form.add.username"
               class="set-width"
-            ></el-input> 
-            </el-form-item
+            ></el-input> </el-form-item
         ></el-col>
       </el-row>
 
@@ -171,16 +170,16 @@ export default {
                 showConfirmButton: false,
               });
             })
-            .catch(function (error) {
-                this.$swal({
-                icon: "success",
-                title: `${error.response.data.errors.username[0]}`,
-                showConfirmButton: false,
+            .catch( (error) => {
+              console.log(error.response.data.errors.username[0]);
+              this.$notify.error({
+                title: "Error",
+                message: error.response.data.errors.username[0],
               });
             });
         } else {
           console.log("error submit!!");
-          
+
           return false;
         }
       });

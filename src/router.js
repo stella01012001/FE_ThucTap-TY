@@ -20,6 +20,7 @@ import EUnit from './components/ItemMenu/Unit/Element.vue'
 import AUnit from './components/ItemMenu/Unit/AddUnit.vue'
 import ErrorPage from "./components/Error/404.vue"
 import DS from "./components/ItemMenu/Event/DS.vue"
+import EditDS from "./components/ItemMenu/Event/EditDS.vue"
 import ListDS from "./components/ItemMenu/Event/ListDS.vue"
 import ListDA from "./components/ItemMenu/Event/ListDA.vue"
 import ListCTR from "./components/ItemMenu/Event/ListContract.vue"
@@ -54,6 +55,7 @@ const router = new Router({
                 { path: '/menu/paymentterm/:id', component: Ele_PaymentTerm },
                 { path: '/menu/unit', component: Unit },
                 { path: '/menu/ds', component: DS },
+                { path: '/menu/edit-ds/:id', component: EditDS },
                 { path: '/menu/list-ds', component: ListDS },
                 { path: '/menu/list-da', component: ListDA },
                 { path: '/menu/list-ctr', component: ListCTR },

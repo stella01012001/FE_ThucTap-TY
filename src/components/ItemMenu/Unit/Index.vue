@@ -4,6 +4,13 @@
     <el-button type="primary" @click="getAllUnit">Refesh</el-button>
     <el-button type="primary" @click="handleExportUnit">Export</el-button>
 
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type Unit code to search"
+      class="custom-input-search"
+    />
+
     <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Unit Type" :label-width="formLabelWidth">
@@ -49,7 +56,7 @@
       </span>
     </el-dialog>
 
-    <el-table border :data="units" @selection-change="handleSelectionChange">
+    <el-table border :data="units.filter(data => !search || data.unit_code.toLowerCase().includes(search.toLowerCase()))" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>
@@ -144,6 +151,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      search: "",
       data: {
         multipleSelection: [],
       },

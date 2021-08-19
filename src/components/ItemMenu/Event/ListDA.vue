@@ -4,7 +4,14 @@
       >Add new</el-button
     >
 
-    <el-table border :data="listDA">
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type purchaser to search"
+      class="custom-input-search"
+    />
+
+    <el-table border :data="listDA.filter(data => !search || data.customer.toLowerCase().includes(search.toLowerCase()))">
       <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
       <el-table-column
         align="center"
@@ -16,7 +23,6 @@
           { text: 'Pendding', value: 'Pendding' },
           { text: 'Approved', value: 'Approved' },
         ]"
-        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -64,6 +70,7 @@ export default {
   data() {
     return {
       listDA: [],
+      search: "",
     };
   },
   created() {

@@ -2,6 +2,13 @@
   <div>
     <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type id to search"
+      class="custom-input-search"
+    />
+
     <!-- Sửa -->
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
       <el-form :model="editform">
@@ -61,7 +68,7 @@
       </span>
     </el-dialog>
 
-    <el-table :data="employees">
+    <el-table :data="employees.filter((data) => !search || data.id.toString().includes(search.toString()))">
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>
@@ -96,6 +103,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      search: "",
       employees: [],
       formLabelWidth: "120px",
       dialogFormVisible: false,

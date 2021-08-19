@@ -74,13 +74,12 @@
         label="Status"
         fixed
         width="120"
-        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
           <el-tag
             @click="changeStatus(scope.row)"
-            :type="scope.row.payment === 'Block' ? 'danger' : 'success'"
+            :type="scope.row.status === 'Block' ? 'primary' : 'success'"
             disable-transitions
             >{{ scope.row.status }}</el-tag
           >
@@ -309,12 +308,14 @@ export default {
     },
     changeStatus(row) {
       this.changeActive.status = row.status;
+      console.log(this.changeActive.status);
       axios
         .patch(`update-acc/${row.id}`, this.changeActive)
         .then((res) => {
+          console.log(res.data.status.status);
           this.$message({
             showClose: true,
-            message: res,
+            message: res.data.status,
             type: "success",
           });
           this.getAllAccount();

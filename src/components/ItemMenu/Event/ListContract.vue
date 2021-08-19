@@ -2,7 +2,14 @@
   <div>
     <el-button type="primary" @click="add_new">Add new</el-button>
 
-    <el-table border :data="listCTR">
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type purchaser to search"
+      class="custom-input-search"
+    />
+
+    <el-table border :data="listCTR.filter(data => !search || data.customer.toLowerCase().includes(search.toLowerCase()))">
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>
       <el-table-column
@@ -15,7 +22,6 @@
           { text: 'Pendding', value: 'Pendding' },
           { text: 'Approved', value: 'Approved' },
         ]"
-        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -97,6 +103,7 @@ export default {
   data() {
     return {
       listCTR: [],
+      search: "",
     };
   },
   created() {
@@ -174,14 +181,14 @@ export default {
     },
     changeStatus(row) {
       axios
-        .get(`approved-da/${row.id}`) //api chua lam
+        .get(`approved-contract/${row.id}`)
         .then(() => {
           this.$message({
             showClose: true,
             message: "Congrats, this is a success message.",
             type: "success",
           });
-          this.getListDA();
+          this.getListCTR();
         })
         .catch((err) => {
           console.log(err);

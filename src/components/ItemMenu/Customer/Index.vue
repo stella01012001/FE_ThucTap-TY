@@ -4,6 +4,13 @@
       >Add new</el-button
     >
 
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type name to search"
+      class="custom-input-search"
+    />
+
     <!-- Sửa -->
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
       <el-form :model="editform" rules="rules" ref="editform">
@@ -174,7 +181,7 @@
       </span>
     </el-dialog>
 
-    <el-table :data="customers">
+    <el-table :data="customers.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>
@@ -209,6 +216,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      search: "",
       formLabelWidth: "120px",
       customers: [],
       dialogFormVisible: false,

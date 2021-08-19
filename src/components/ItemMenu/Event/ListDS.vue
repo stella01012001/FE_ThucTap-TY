@@ -2,9 +2,14 @@
   <div>
     <el-button type="primary" @click="add_new">Add new</el-button>
 
-    
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Type purchaser to search"
+      class="custom-input-search"
+    />
 
-    <el-table border :data="listDS">
+    <el-table border :data="listDS.filter(data => !search || data.customer.name.toLowerCase().includes(search.toLowerCase()))">
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>
       <el-table-column
@@ -17,7 +22,6 @@
           { text: 'Pendding', value: 'Pendding' },
           { text: 'Approved', value: 'Approved' },
         ]"
-        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -109,6 +113,7 @@ export default {
   data() {
     return {
       listDS: [],
+      search: "",
     };
   },
   created() {
@@ -147,7 +152,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`);
+      this.$router.push(`edit-ds/${row.id}`);
     },
     editEmployee() {
       axios
