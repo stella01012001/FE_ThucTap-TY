@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form
-      :model="data"
+      :model="form"
       :rules="rules"
       ref="ruleForm"
       label-width="120px"
@@ -9,58 +9,44 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="Purchaser" prop="customer.name">
-            <el-select
-              
-              placeholder="Purchaser"
-              @change="getIDPurchaser"
-            >
-            </el-select>
-          </el-form-item></el-col
-        >
+          <el-form-item label="Purchaser" prop="purchaser">
+            <el-input
+              v-model="form.purchaser"
+              readonly
+            ></el-input> </el-form-item
+        ></el-col>
         <el-col :span="8"
           ><el-form-item label="Unit" prop="unit">
-            <el-select placeholder="Unit">
-              
-            </el-select>
+            <el-input v-model="form.unit" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item label="Payment term" prop="payment_term">
-            <el-select placeholder="Payment term">
-              
-            </el-select>
+            <el-input v-model="form.payment_term" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Employee" prop="employee">
-            <el-select  placeholder="Employee">
-              
-            </el-select>
-          </el-form-item></el-col
-        >
+            <el-input
+              v-model="form.employee"
+              readonly
+            ></el-input> </el-form-item
+        ></el-col>
       </el-row>
 
       <el-row>
         <el-col :span="8">
           <el-form-item label="Event date" required>
             <el-form-item prop="event_date">
-              <el-date-picker
-                type="date"
-                format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
-                placeholder="Pick a date"
-                v-model="form.event_date"
-                style="width: 100%;"
-              ></el-date-picker>
+              <el-input v-model="form.event_date" readonly></el-input>
             </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Amount" prop="amount">
-            <el-input v-model="form.amount"></el-input>
+            <el-input v-model="form.amount" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,16 +80,16 @@ import axios from "axios";
 export default {
   data() {
     return {
-    //   form: {
-    //     purchaser: "", // cmb lưu id
-    //     unit: "",
-    //     payment_term: "", // cmb lưu id
-    //     event_date: "", //date picker
-    //     amount: 200000000,
-    //     description: "Deposit Slip (SPA/LTLA) ",
-    //     note: "",
-    //     employee: null, //cmb lưu id
-    //   },
+      form: {
+        purchaser: "", // cmb lưu id
+        unit: "",
+        payment_term: "", // cmb lưu id
+        event_date: "", //date picker
+        amount: 200000000,
+        description: "Deposit Slip (SPA/LTLA) ",
+        note: "",
+        employee: null, //cmb lưu id
+      },
       data: {
         listDS: [],
         // payment_terms: [],
@@ -155,9 +141,7 @@ export default {
       },
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     submitForm(formName) {
       console.log(this.form);
@@ -195,7 +179,7 @@ export default {
       axios
         .get(`ds/${this.$route.params.id}`)
         .then((result) => {
-          this.data.listDS = result.data.data;
+          this.form = result.data.data;
           console.log(this.data.listDS);
         })
         .catch((err) => {
