@@ -3,10 +3,11 @@
     <!-- copy từ đây -->
     <div class="container-bar">
       <div>
-        <!-- Thay nút ở dây -->
+        <!-- Thay nút từ dây -->
         <el-button type="primary" @click="swicthToAdd">Add new</el-button>
         <el-button type="primary" @click="getAllUnit">Refesh</el-button>
         <el-button type="primary" @click="handleExportUnit">Export</el-button>
+        <!-- tới đây  -->
       </div>
       <div class="container-search">
         <input
