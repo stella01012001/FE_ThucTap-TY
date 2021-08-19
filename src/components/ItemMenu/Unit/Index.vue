@@ -97,6 +97,12 @@
       <el-table-column align="center" prop="floor.numFloor" label="Floor">
       </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount">
+        <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.amount) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column align="center" prop="status" label="Status">
       </el-table-column>
@@ -208,6 +214,10 @@ export default {
     this.getAllUnit();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
     swicthToAdd() {
       this.$router.push(`/add-unit`);
     },
@@ -263,10 +273,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     handleDelete(index, row) {
       console.log(index, row);

@@ -92,7 +92,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
+            >Edit</el-button
           >
           <el-button
             icon="el-icon-delete"
