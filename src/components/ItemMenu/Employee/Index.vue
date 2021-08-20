@@ -1,13 +1,22 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
-
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type id to search"
-      class="custom-input-search"
-    />
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="dialogFormVisible = true"
+          >Add new</el-button
+        >
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type id to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>
 
     <!-- Sửa -->
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
@@ -68,7 +77,13 @@
       </span>
     </el-dialog>
 
-    <el-table :data="employees.filter((data) => !search || data.id.toString().includes(search.toString()))">
+    <el-table
+      :data="
+        employees.filter(
+          (data) => !search || data.id.toString().includes(search.toString())
+        )
+      "
+    >
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>

@@ -1,16 +1,30 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new">...</el-button>
-    <input
-      type="text"
-      v-model="search"
-      @change="show"
-      placeholder="Type Contract to search"
-      class="custom-input-search"
-    />
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="add_new">...</el-button>
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          @change="show"
+          placeholder="Type Contract to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>
+
     <!-- "tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" -->
     <el-table
-      :data="listCTR.filter((data) => !search || data.idContract.toString().includes(search.toString()))"
+      :data="
+        listCTR.filter(
+          (data) =>
+            !search || data.idContract.toString().includes(search.toString())
+        )
+      "
     >
       <el-table-column align="center" fixed prop="id" width="50" label="id">
       </el-table-column>
@@ -63,6 +77,11 @@
       >
       </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount">
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.amount) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -70,6 +89,11 @@
         prop="principal"
         label="Principal"
       >
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.principal) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -77,6 +101,11 @@
         prop="amount_vat"
         label="Amount_vat"
       >
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.amount_vat) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -84,6 +113,11 @@
         prop="land_use_fee"
         label="Land_use_fee"
       >
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.land_use_fee) }}
+          </p>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -102,6 +136,10 @@ export default {
     this.getListCTR();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     getListCTR() {
       axios
         .get("contract-pay")

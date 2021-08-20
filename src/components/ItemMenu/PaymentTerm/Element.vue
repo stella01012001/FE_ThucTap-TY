@@ -61,12 +61,25 @@
       <el-table-column prop="description" label="Description" width="120">
       </el-table-column>
       <el-table-column prop="percent" label="Percent" width="100">
+        <template slot-scope="scope">
+        <p> 
+          {{ scope.row.percent*100 }}%
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column prop="quantity" label="Quantity" width="120">
       </el-table-column>
       <el-table-column prop="timeUnit" label="TimeUnit" width="120">
       </el-table-column>
-      <el-table-column prop="vat" label="Vat" width="120"> </el-table-column>
+      <el-table-column prop="vat" label="Vat" width="120">
+        <template slot-scope="scope">
+        <p> 
+          {{ scope.row.vat*100 }}%
+        </p>
+        
+      </template>
+      </el-table-column>
       <el-table-column prop="active" label="Land_fee" width="120">
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="170">

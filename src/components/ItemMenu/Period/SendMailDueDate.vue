@@ -1,6 +1,6 @@
 <template>
   <div class="container-mail" v-loading="loading">
-    <el-form ref="form" :model="form" label-width="120px" >
+    <el-form ref="form" :model="form" label-width="120px">
       <el-form-item label="Customer name">
         <el-input :value="data.infoMail.customer" readonly></el-input>
       </el-form-item>
@@ -14,12 +14,24 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="Amount">
-            <el-input :value="data.infoMail.amount" readonly></el-input>
+            <el-input :value="data.infoMail.amount" readonly>
+              <template slot-scope="scope">
+                <p>
+                  {{ formatPrice(scope.row.amount) }}
+                </p>
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="Principal">
-            <el-input :value="data.infoMail.principal" readonly></el-input>
+            <el-input :value="data.infoMail.principal" readonly>
+              <template slot-scope="scope">
+                <p>
+                  {{ formatPrice(scope.row.principal) }}
+                </p>
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -27,12 +39,24 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="Amount_vat">
-            <el-input :value="data.infoMail.amount_vat" readonly></el-input>
+            <el-input :value="data.infoMail.amount_vat" readonly>
+              <template slot-scope="scope">
+                <p>
+                  {{ formatPrice(scope.row.amount_vat) }}
+                </p>
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="Land Fee">
-            <el-input :value="data.infoMail.land_use_fee" readonly></el-input>
+            <el-input :value="data.infoMail.land_use_fee" readonly>
+              <template slot-scope="scope">
+                <p>
+                  {{ formatPrice(scope.row.land_use_fee) }}
+                </p>
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,6 +98,10 @@ export default {
     this.getMail();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     getMail() {
       axios
         .get(`mail-due-date/${this.$route.params.id}`)
@@ -92,11 +120,11 @@ export default {
         });
     },
     onSubmit() {
-        this.loading = true;
+      this.loading = true;
       axios
         .post(`send-mail-due`, this.form)
         .then((result) => {
-            this.$swal({
+          this.$swal({
             icon: "success",
             title: "Successful!",
             showConfirmButton: false,

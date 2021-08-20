@@ -1,18 +1,33 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new"
-      >Add new</el-button
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="add_new">Add new</el-button>
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type purchaser to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>
+
+    <el-table
+      border
+      :data="
+        listDA.filter(
+          (data) =>
+            !search ||
+            data.customer.toLowerCase().includes(search.toLowerCase())
+        )
+      "
     >
-
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type purchaser to search"
-      class="custom-input-search"
-    />
-
-    <el-table border :data="listDA.filter(data => !search || data.customer.toLowerCase().includes(search.toLowerCase()))">
-      <el-table-column align="center" fixed prop="id" label="Id"> </el-table-column>
+      <el-table-column align="center" fixed prop="id" label="Id">
+      </el-table-column>
       <el-table-column
         align="center"
         fixed
@@ -34,15 +49,54 @@
           >
         </template>
       </el-table-column>
-      <el-table-column align="center" width="200" prop="customer" label="Purchaser"> </el-table-column>
-      <el-table-column align="center" width="150" prop="unit" label="Unit Code"> </el-table-column>
-      <el-table-column align="center" width="200" prop="name" label="Employee"> </el-table-column>
-      <el-table-column align="center" width="250" prop="paymentTerm" label="Payment Term"> </el-table-column>
-      <el-table-column align="center" width="150" prop="event_date" label="Event Date"> </el-table-column>
-      <el-table-column align="center" width="450" prop="description" label="Description"> </el-table-column>
-      <el-table-column align="center" width="250" prop="note" label="Note"> </el-table-column>
-      <el-table-column align="center" width="250" prop="amount" label="Amount"> </el-table-column>
-      <el-table-column fixed="right" width="200" align="center" prop="aciton" label="Action">
+      <el-table-column
+        align="center"
+        width="200"
+        prop="customer"
+        label="Purchaser"
+      >
+      </el-table-column>
+      <el-table-column align="center" width="150" prop="unit" label="Unit Code">
+      </el-table-column>
+      <el-table-column align="center" width="200" prop="name" label="Employee">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="250"
+        prop="paymentTerm"
+        label="Payment Term"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="150"
+        prop="event_date"
+        label="Event Date"
+      >
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="450"
+        prop="description"
+        label="Description"
+      >
+      </el-table-column>
+      <el-table-column align="center" width="250" prop="note" label="Note">
+      </el-table-column>
+      <el-table-column align="center" width="250" prop="amount" label="Amount">
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.amount) }}
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        width="200"
+        align="center"
+        prop="aciton"
+        label="Action"
+      >
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
@@ -77,6 +131,10 @@ export default {
     this.getListDA();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     getListDA() {
       axios
         .get("da")
@@ -92,7 +150,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`edit-da/${row.id}`)
+      this.$router.push(`edit-da/${row.id}`);
     },
     editEmployee() {
       axios
@@ -161,15 +219,15 @@ export default {
           console.log(err);
         });
     },
-    add_new(){
-        this.$router.push('/menu/da')
-    }
+    add_new() {
+      this.$router.push("/menu/da");
+    },
   },
 };
 </script>
 
 <style>
-  .el-tag--light{
+.el-tag--light {
   cursor: pointer;
 }
 </style>

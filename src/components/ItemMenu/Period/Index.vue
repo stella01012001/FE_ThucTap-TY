@@ -53,6 +53,12 @@
       <el-table-column prop="description" label="Description" width="300">
       </el-table-column>
       <el-table-column prop="amount" label="Amount" width="120">
+        <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.amount) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -60,6 +66,12 @@
         prop="principal"
         label="Principal"
       >
+      <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.principal) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -67,6 +79,12 @@
         prop="amount_vat"
         label="Amount_vat"
       >
+      <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.amount_vat) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -74,10 +92,16 @@
         prop="land_use_fee"
         label="Land_use_fee"
       >
+      <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.land_use_fee) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
-          <el-button size="mini" icon="el-icon-s-promotion" @click="handleClickMail(scope.row)"
+          <el-button v-if="date.getMonth" size="mini" icon="el-icon-s-promotion" @click="handleClickMail(scope.row)"
               >Send Mail</el-button
             >
         </template>
@@ -92,12 +116,17 @@ export default {
   data() {
     return {
       period: "",
+      date : new Date(),
       data: {
         periods: [],
       },
     };
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     searchResult() {
       if (this.period) {
         axios
@@ -133,6 +162,18 @@ export default {
     handleClickMail(row) {
       this.$router.push({ path: `/menu/period-mail/${row.id}` });
     },
+    getAllDD() {
+      
+      axios
+        .get("/due-date")
+        .then((result) => {
+          this.data.periods = result.data.data;
+          console.log(this.date);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // changeStatus(row) {
     //   if (row.payment == "Approved") {
     //     this.$notify({
@@ -157,7 +198,9 @@ export default {
     //   }
     // },
   },
-  mounted() {},
+  mounted() {
+    this.getAllDD();
+  },
 };
 </script>
 

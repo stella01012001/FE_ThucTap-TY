@@ -1,15 +1,31 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new">Add new</el-button>
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="add_new">Add new</el-button>
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type purchaser to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>
 
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type purchaser to search"
-      class="custom-input-search"
-    />
-
-    <el-table border :data="listCTR.filter(data => !search || data.customer.toLowerCase().includes(search.toLowerCase()))">
+    <el-table
+      border
+      :data="
+        listCTR.filter(
+          (data) =>
+            !search ||
+            data.customer.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+    >
       <el-table-column align="center" fixed prop="id" label="Id">
       </el-table-column>
       <el-table-column
@@ -68,6 +84,11 @@
       <el-table-column align="center" width="250" prop="note" label="Note">
       </el-table-column>
       <el-table-column align="center" width="250" prop="amount" label="Amount">
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.amount) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -82,7 +103,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >Info</el-button
+            >Edit</el-button
           >
           <el-button
             icon="el-icon-delete"
@@ -110,6 +131,10 @@ export default {
     this.getListCTR();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     getListCTR() {
       axios
         .get("contract")
@@ -125,7 +150,7 @@ export default {
       this.dialogFormEdit = true;
       this.editform = row;
       console.log(index, row);
-      this.$router.push(`/detail-unit/${row.id}`);
+      this.$router.push(`edit-ctr/${row.id}`);
     },
     editEmployee() {
       axios
@@ -202,7 +227,7 @@ export default {
 </script>
 
 <style>
-.el-tag--light{
+.el-tag--light {
   cursor: pointer;
 }
 </style>
