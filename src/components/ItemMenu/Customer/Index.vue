@@ -1,15 +1,22 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true"
-      >Add new</el-button
-    >
-
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type name to search"
-      class="custom-input-search"
-    />
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="dialogFormVisible = true"
+          >Add new</el-button
+        >
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type name to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div>
 
     <!-- Sửa -->
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
@@ -45,7 +52,7 @@
                 type="date"
                 placeholder="Pick a date"
                 v-model="editform.birth"
-                style="width: 100%;"
+                style="width: 100%"
                 format="yyyy/MM/dd"
                 value-format="yyyy-MM-dd"
               ></el-date-picker>
@@ -95,7 +102,9 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormEdit = false">Cancel</el-button>
-        <el-button type="primary" @click="editEmployee('editform')">Confirm</el-button>
+        <el-button type="primary" @click="editEmployee('editform')"
+          >Confirm</el-button
+        >
       </span>
     </el-dialog>
 
@@ -125,7 +134,7 @@
                 type="date"
                 placeholder="Pick a date"
                 v-model="form.birth"
-                style="width: 100%;"
+                style="width: 100%"
                 format="yyyy/MM/dd"
                 value-format="yyyy-MM-dd"
               ></el-date-picker>
@@ -181,7 +190,14 @@
       </span>
     </el-dialog>
 
-    <el-table :data="customers.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
+    <el-table
+      :data="
+        customers.filter(
+          (data) =>
+            !search || data.name.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+    >
       <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>

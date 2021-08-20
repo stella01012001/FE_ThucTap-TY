@@ -135,6 +135,12 @@
         prop="land_use_fee"
         label="Land Use Fee"
       >
+      <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.land_use_fee) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -217,7 +223,7 @@ export default {
   methods: {
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
     },
     swicthToAdd() {
       this.$router.push(`/add-unit`);

@@ -125,7 +125,7 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="DA Amount" prop="da_amount">
+          <el-form-item label="Contract Amount" prop="da_amount">
             <el-input
               v-model="form.add.amount"
               readonly

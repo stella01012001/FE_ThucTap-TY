@@ -1,13 +1,21 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_new">Add new</el-button>
 
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Type purchaser to search"
-      class="custom-input-search"
-    />
+    <div class="container-bar">
+      <div>
+        <!-- Thay nút từ dây -->
+        <el-button type="primary" @click="add_new">Add new</el-button>
+        <!-- tới đây  -->
+      </div>
+      <div class="container-search">
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Type purchaser to search"
+          class="custom-input-search"
+        />
+      </div>
+    </div> 
 
     <el-table border :data="listDS.filter(data => !search || data.customer.name.toLowerCase().includes(search.toLowerCase()))">
       <el-table-column align="center" fixed prop="id" label="Id">
@@ -78,6 +86,12 @@
       <el-table-column align="center" width="250" prop="note" label="Note">
       </el-table-column>
       <el-table-column align="center" width="250" prop="amount" label="Amount">
+        <template slot-scope="scope">
+        <p> 
+          {{ formatPrice(scope.row.amount) }}
+        </p>
+        
+      </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -120,6 +134,10 @@ export default {
     this.getAllDS();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    },
     handSubmit() {
       this.dialogFormVisible = false;
       axios
