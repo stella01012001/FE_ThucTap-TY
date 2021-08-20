@@ -77,7 +77,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
-          <el-button size="mini" icon="el-icon-s-promotion" @click="handleClickMail(scope.row)"
+          <el-button v-if="date.getMonth() > scope.row.dueDate" size="mini" icon="el-icon-s-promotion" @click="handleClickMail(scope.row)"
               >Send Mail</el-button
             >
         </template>
