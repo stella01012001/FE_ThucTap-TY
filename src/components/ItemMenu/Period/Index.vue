@@ -97,7 +97,7 @@
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button
-            v-if="date >= scope.row.checksdate && year == scope.row.checkYear"
+            v-if="date >= scope.row.checksdate && year >= scope.row.checkYear"
             size="mini"
             icon="el-icon-s-promotion"
             @click="handleClickMail(scope.row)"
@@ -165,7 +165,7 @@ export default {
     },
     getAllDD() {
       this.date = this.date.getMonth() + 1;
-      this.year = this.date.getFullYear() + 1;
+      this.year = this.year.getYear();
       console.log(this.date);
       axios
         .get("/due-date")
@@ -179,8 +179,7 @@ export default {
             
             element.checkYear = new Date(
               element.dueDate
-            ).getFullYear();
-            element.checkYear = element.checkYear +1;
+            ).getYear();
           });
           console.log(this.data.periods);
         })
