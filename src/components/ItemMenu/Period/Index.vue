@@ -97,7 +97,7 @@
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button
-            v-if="date = scope.row.checksdate"
+            v-if="date >= scope.row.checksdate"
             size="mini"
             icon="el-icon-s-promotion"
             @click="handleClickMail(scope.row)"
@@ -136,11 +136,12 @@ export default {
             console.log(result);
             this.data.periods = result.data.data;
             this.data.periods.forEach((element) => {
-              if (element.payment == "") {
-                element.payment = "Pendding";
-              } else {
-                element.payment = "Approved";
-              }
+              element.checksdate = new Date(
+              element.dueDate
+            ).getMonth();
+            element.checksdate = element.checksdate +1;
+            console.log(element.checksdate);
+
             });
             this.$message({
               message: "Congrats, this is a success data.",
@@ -163,15 +164,20 @@ export default {
     },
     getAllDD() {
       this.date = this.date.getMonth() + 1;
+      console.log(this.date);
       axios
         .get("/due-date")
         .then((result) => {
           this.data.periods = result.data.data;
           this.data.periods.forEach((element) => {
             element.checksdate = new Date(
-              this.data.periods[0].dueDate
+              element.dueDate
             ).getMonth();
+            element.checksdate = element.checksdate +1;
+            console.log(element.checksdate);
+
           });
+          console.log(this.data.periods);
         })
         .catch((err) => {
           console.log(err);
