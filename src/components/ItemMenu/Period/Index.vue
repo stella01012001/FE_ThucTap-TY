@@ -168,7 +168,8 @@ export default {
         .get("/due-date")
         .then((result) => {
           this.data.periods = result.data.data;
-          console.log(this.date);
+          console.log(this.date.getMonth());
+          console.log(new Date(this.data.periods[0].dueDate).getMonth());
         })
         .catch((err) => {
           console.log(err);
