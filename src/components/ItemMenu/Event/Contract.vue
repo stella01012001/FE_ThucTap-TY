@@ -225,7 +225,7 @@ export default {
       axios
         .get(`/info-for-ctr/${this.form.add.idDA}`)
         .then((result) => {
-          this.data.daid = result.data.data;
+          this.data.daid = result.data.data[0];
           console.log(result);
           this.form.add.amount = this.data.daid.amount;
         })

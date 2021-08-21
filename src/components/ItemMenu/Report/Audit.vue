@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block">
-      <span class="demonstration">Month </span>
+      <!-- <span class="demonstration">Month </span>
       <el-date-picker
         prefix-icon
         v-model="period"
@@ -13,15 +13,17 @@
       </el-date-picker>
       <el-button type="primary" icon="el-icon-search" @click="searchResult">
         Search</el-button
-      >
+      > -->
+      <el-button type="primary" @click="handleExportAudit">Export</el-button>
     </div>
+    
     <el-table
       v-if="data.periods"
       :data="data.periods"
       style="width: 100%"
-      max-height="250"
+      max-height="400"
     >
-      <el-table-column fixed prop="id" label="ID" width="50"> </el-table-column>
+      <!-- <el-table-column fixed prop="id" label="ID" width="50"> </el-table-column> -->
       <!-- <el-table-column
         fixed
         prop="payment"
@@ -45,66 +47,32 @@
       </el-table-column> -->
       <el-table-column prop="idContract" label="Contract" width="120">
       </el-table-column>
-      <el-table-column prop="installmentNo" label="InstallmentNo" width="120">
+      <el-table-column prop="customer" label="Purchaser" width="120">
       </el-table-column>
-      <el-table-column prop="dueDate" label="Due Date" width="120">
+      <el-table-column prop="unit" label="Unit" width="120">
       </el-table-column>
-      <el-table-column prop="description" label="Description" width="300">
-      </el-table-column>
-      <el-table-column prop="amount" label="Amount" width="120">
-        <template slot-scope="scope">
+      <el-table-column prop="paid" label="Total Paid" width="300">
+          <template slot-scope="scope">
           <p>
-            {{ formatPrice(scope.row.amount) }}
+            {{ formatPrice(scope.row.paid) }}
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="balance" label="Total Balance" width="300">
+          <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.balance) }}
           </p>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
         width="150"
-        prop="principal"
-        label="Principal"
+        prop="paidNo"
+        label="PaidNo"
       >
-        <template slot-scope="scope">
-          <p>
-            {{ formatPrice(scope.row.principal) }}
-          </p>
-        </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="150"
-        prop="amount_vat"
-        label="Amount_vat"
-      >
-        <template slot-scope="scope">
-          <p>
-            {{ formatPrice(scope.row.amount_vat) }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        width="150"
-        prop="land_use_fee"
-        label="Land_use_fee"
-      >
-        <template slot-scope="scope">
-          <p>
-            {{ formatPrice(scope.row.land_use_fee) }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="120">
-        <template slot-scope="scope">
-          <el-button
-            v-if="date >= scope.row.checksdate && year >= scope.row.checkYear"
-            size="mini"
-            icon="el-icon-s-promotion"
-            @click="handleClickMail(scope.row)"
-            >Send Mail</el-button
-          >
-        </template>
-      </el-table-column>
+      
     </el-table>
   </div>
 </template>
@@ -123,6 +91,32 @@ export default {
     };
   },
   methods: {
+      handleExportAudit() {
+        axios
+          .post("export-audit", {
+            responseType: "blob",
+          })
+          .then((result) => {
+            // programmatically 'click'.
+            const link = document.createElement("a");
+
+            // Tell the browser to associate the response data to
+            // the URL of the link we created above.
+            link.href = window.URL.createObjectURL(new Blob([result[0]]));
+            console.log(result.data);
+
+            // Tell the browser to download, not render, the file.
+            link.setAttribute("download", "report.xlsx");
+            document.body.appendChild(link);
+
+            // Make the magic happen!
+            link.click();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      
+    },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -167,12 +161,12 @@ export default {
     handleClickMail(row) {
       this.$router.push({ path: `/menu/period-mail/${row.id}` });
     },
-    getAllDD() {
+    getRP() {
       this.date = this.date.getMonth() + 1;
       this.year = this.year.getYear();
       console.log(this.date);
       axios
-        .get("/due-date")
+        .get("/report-audit")
         .then((result) => {
           this.data.periods = result.data.data;
           this.data.periods.forEach((element) => {
@@ -214,9 +208,10 @@ export default {
     //       });
     //   }
     // },
+    
   },
   mounted() {
-    this.getAllDD();
+    this.getRP();
   },
 };
 </script>

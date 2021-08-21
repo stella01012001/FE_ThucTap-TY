@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="text" @click="dialog = true"
+    <el-button v-if="idRole == '1'" type="text" @click="dialog = true"
       >Add new</el-button
     >
 
@@ -85,10 +85,10 @@
       <el-table-column fixed="right" label="Operations" width="170">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button size="small" type="primary" @click="handleClick"
+            <!-- <el-button size="small" type="primary" @click="handleClick"
               >Fix</el-button
-            >
-            <el-button
+            > -->
+            <el-button v-if="idRole == '1'"
               type="danger"
               size="small"
               @click="handleDelete(scope.row)"
@@ -103,6 +103,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -162,6 +163,9 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     getPaymentTermByID() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -18,11 +18,10 @@
     </el-dialog>
 
     <el-table :data="floors">
-      <el-table-column prop="id" label="Id"> </el-table-column>
       <el-table-column prop="numFloor" label="Num Floor"> </el-table-column>
       <el-table-column prop="description" label="Description">
       </el-table-column>
-      <el-table-column prop="aciton" label="Action">
+      <el-table-column v-if="idRole == '1'" prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-delete"
@@ -39,6 +38,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -53,6 +53,9 @@ export default {
   },
   created() {
     this.getAllFloor();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     getEvent_type(id) {
@@ -104,10 +107,10 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             axios
-              .delete(`floor/${row.id}`)
-              .then(() => {
+              .delete(`floor/${row.numFloor}`)
+              .then((result) => {
                 this.getAllFloor();
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");

@@ -100,13 +100,13 @@
         label="Action"
       >
         <template slot-scope="scope">
-          <el-button
+          <!-- <el-button
             icon="el-icon-edit"
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
-          >
+          > -->
           <el-button
             icon="el-icon-delete"
             size="mini"

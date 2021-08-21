@@ -37,6 +37,7 @@
         :filters="[
           { text: 'Pendding', value: 'Pendding' },
           { text: 'Approved', value: 'Approved' },
+          { text: 'Canceled', value: 'Canceled' },
         ]"
         filter-placement="bottom-end"
       >
@@ -105,12 +106,12 @@
             @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
           >
-          <el-button
+          <el-button v-if="idRole == '1'"
             icon="el-icon-delete"
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
+            >Cancel</el-button
           >
         </template>
       </el-table-column>
@@ -120,6 +121,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -129,6 +131,9 @@ export default {
   },
   created() {
     this.getListCTR();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     formatPrice(value) {
@@ -177,19 +182,19 @@ export default {
       swalWithBootstrapButtons
         .fire({
           title: "Are you sure?",
-          text: "You will not be able to recover after deleting!",
+          text: "You will be able to recover after cancel!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Yes, delete it!",
+          confirmButtonText: "Yes, cancel it!",
           cancelButtonText: "No!",
           reverseButtons: true,
         })
         .then((result) => {
           if (result.isConfirmed) {
             axios
-              .delete(`customer/${row.id}`)
+              .delete(`contract/${row.id}`)
               .then(() => {
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                swalWithBootstrapButtons.fire("Success!", "", "success");
                 this.getListCTR();
               })
               .catch((err) => {
@@ -204,8 +209,16 @@ export default {
           }
         });
     },
+
     changeStatus(row) {
-      axios
+      if (row.payment == "Approved") {
+        this.$notify({
+          title: "Warning",
+          message: "This is a warning",
+          type: "warning",
+        });
+      } else {
+          axios
         .get(`approved-contract/${row.id}`)
         .then(() => {
           this.$message({
@@ -218,6 +231,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }
     },
     add_new() {
       this.$router.push("/menu/ctr");

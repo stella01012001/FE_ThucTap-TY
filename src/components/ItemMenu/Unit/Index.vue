@@ -4,7 +4,7 @@
     <div class="container-bar">
       <div>
         <!-- Thay nút từ dây -->
-        <el-button type="primary" @click="swicthToAdd">Add new</el-button>
+        <el-button v-if="idRole == '1'" type="primary" @click="swicthToAdd">Add new</el-button>
         <el-button type="primary" @click="getAllUnit">Refesh</el-button>
         <el-button type="primary" @click="handleExportUnit">Export</el-button>
         <!-- tới đây  -->
@@ -32,7 +32,7 @@
           <el-input v-model="form.idBlock" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Floor" :label-width="formLabelWidth">
-          <el-input v-model="form.idFloor" autocomplete="off"></el-input>
+          <el-input v-model="form.numFloor" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Amount" :label-width="formLabelWidth">
           <el-input v-model="form.amount" autocomplete="off"></el-input>
@@ -95,7 +95,7 @@
       </el-table-column>
       <el-table-column align="center" prop="block.description" label="Block">
       </el-table-column>
-      <el-table-column align="center" prop="floor.numFloor" label="Floor">
+      <el-table-column align="center" prop="numFloor" label="Floor">
       </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount">
         <template slot-scope="scope">
@@ -164,7 +164,7 @@
             @click="handleEdit(scope.$index, scope.row)"
             >Info</el-button
           >
-          <el-button
+          <el-button v-if="idRole == '1'"
             icon="el-icon-delete"
             size="mini"
             type="danger"
@@ -179,6 +179,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -191,7 +192,7 @@ export default {
       units: [],
       dialogFormVisible: false,
       form: {
-        idFloor: "",
+        numFloor: "",
         idUnitType: "",
         amount: "",
         unit_code: "",
@@ -219,6 +220,9 @@ export default {
   },
   created() {
     this.getAllUnit();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     formatPrice(value) {
@@ -304,9 +308,9 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             axios
-              .delete(`customer/${row.id}`)
-              .then(() => {
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+              .delete(`unit/${row.id}`)
+              .then((result) => {
+                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
                 this.getAllUnit();
               })
               .catch((err) => {

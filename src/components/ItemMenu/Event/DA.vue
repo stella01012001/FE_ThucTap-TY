@@ -69,7 +69,7 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="DS Amount">
+          <el-form-item label="CTR Amount">
             <el-input
               :value="data.dsid.amount"
               readonly
@@ -125,7 +125,7 @@
 
       <el-row>
         <el-col :span="16">
-          <el-form-item label="Contract Amount" prop="da_amount">
+          <el-form-item label="DA Amount" prop="da_amount">
             <el-input
               v-model="form.add.amount"
               readonly
@@ -245,7 +245,7 @@ export default {
       axios
         .get(`/info-for-da/${this.form.add.idDS}`)
         .then((result) => {
-          this.data.dsid = result.data.data;
+          this.data.dsid = result.data.data[0];
           console.log(result);
           this.form.add.amount = this.data.dsid.ddAAmount;
         })

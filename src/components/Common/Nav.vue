@@ -93,7 +93,7 @@
         </router-link>
       </el-menu-item>
 
-      <el-submenu index="1">
+      <el-submenu index="11">
         <template slot="title">
           <div class="wrapp-icon">
             <i class="el-icon-s-promotion icon-color"></i>
@@ -101,14 +101,14 @@
           <span>REPORT</span>
         </template>
 
-        <router-link to="/menu/list-da">
-          <el-menu-item index="9-2"
-            >Deposit Agreement</el-menu-item
+        <router-link to="/menu/report-audit">
+          <el-menu-item index="11-2"
+            >Report Audit</el-menu-item
           ></router-link
         >
-        <router-link to="/menu/list-da">
-          <el-menu-item index="9-2"
-            >Deposit Agreement</el-menu-item
+        <router-link to="/menu/report-mr">
+          <el-menu-item index="11-2"
+            >Monthly Revenue</el-menu-item
           ></router-link
         >
       </el-submenu>

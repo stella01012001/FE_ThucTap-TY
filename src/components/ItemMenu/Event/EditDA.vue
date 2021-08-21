@@ -182,7 +182,7 @@ export default {
       axios
         .get(`da/${this.$route.params.id}`)
         .then((result) => {
-          this.form.add = result.data.data;
+          this.form.add = result.data.data[0];
           console.log(result);
         })
         .catch((err) => {
@@ -194,7 +194,7 @@ export default {
       axios
         .get(`/info-for-da/${this.form.add.idDS}`)
         .then((result) => {
-          this.data.dsid = result.data.data;
+          this.data.dsid = result.data.data[0];
           console.log(result);
           this.form.add.amount = this.data.dsid.ddAAmount;
         })

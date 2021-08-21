@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true">Add new</el-button>
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -119,9 +119,9 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(`block/${row.id}`)
-              .then(() => {
+              .then((result) => {
                 this.getAllBlock();
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");

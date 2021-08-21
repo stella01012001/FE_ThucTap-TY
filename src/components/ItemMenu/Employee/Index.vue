@@ -3,7 +3,7 @@
     <div class="container-bar">
       <div>
         <!-- Thay nút từ dây -->
-        <el-button type="primary" @click="dialogFormVisible = true"
+        <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true"
           >Add new</el-button
         >
         <!-- tới đây  -->
@@ -93,7 +93,7 @@
       <el-table-column prop="email" label="Email"> </el-table-column>
       <el-table-column prop="idAcc" label="Account"> </el-table-column>
       <el-table-column width="190" prop="aciton" label="Action">
-        <template slot-scope="scope">
+        <template v-if="idRole == '1'" slot-scope="scope">
           <el-button
             icon="el-icon-edit"
             size="mini"
@@ -115,6 +115,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -144,6 +145,9 @@ export default {
   },
   created() {
     this.getAllEmployee();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     handSubmit() {

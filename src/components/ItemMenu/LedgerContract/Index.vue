@@ -53,12 +53,12 @@
           >
         </template>
       </el-table-column>
-      <el-table-column align="center" width="150" prop="unit" label="Unit Code">
+      <el-table-column align="center" width="150" prop="unit_code" label="Unit Code">
       </el-table-column>
       <el-table-column
         align="center"
         width="150"
-        prop="customer"
+        prop="name"
         label="Purchaser"
       >
       </el-table-column>
@@ -148,7 +148,10 @@ export default {
           this.listCTR.forEach((element) => {
             if (element.payment == "") {
               element.payment = "Pendding";
-            } else {
+            } else if (element.payment == "Canceled") {
+              element.payment = "Canceled";
+            }
+            else {
               element.payment = "Approved";
             }
           });
@@ -216,7 +219,14 @@ export default {
         });
     },
     changeStatus(row) {
-      axios
+      if (row.payment == "Approved") {
+        this.$notify({
+          title: "Warning",
+          message: "This is a warning",
+          type: "warning",
+        });
+      } else {
+          axios
         .get(`contract-pay/${row.id}`) //api chua lam
         .then(() => {
           this.$message({
@@ -229,6 +239,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }
     },
     add_new() {
       this.$router.push("/menu/ctr");

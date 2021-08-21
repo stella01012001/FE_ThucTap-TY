@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true"
+    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true"
       >Add new</el-button
     >
 
@@ -26,14 +26,14 @@
             <el-button size="mini" icon="el-icon-share" @click="handleClick(scope.row)"
               >See more</el-button
             >
-            <el-button
+            <!-- <el-button
               icon="el-icon-edit"
               size="mini"
               type="primary"
               @click="handleEdit(scope.$index, scope.row)"
               >Fix</el-button
-            >
-            <el-button
+            > -->
+            <el-button v-if="idRole == '1'"
               icon="el-icon-delete"
               size="mini"
               type="danger"
@@ -49,6 +49,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -62,6 +63,9 @@ export default {
   },
   created() {
     this.getAllPaymentterms();
+  },
+  computed: {
+    ...mapGetters(["idRole"]),
   },
   methods: {
     handSubmit() {

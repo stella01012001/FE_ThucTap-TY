@@ -57,9 +57,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Floor" prop="idFloor">
+              <el-form-item label="Floor" prop="numFloor">
                 <el-select
-                  v-model="ruleForm.idFloor"
+                  v-model="ruleForm.numFloor"
                   placeholder="Activity zone"
                 >
                   <el-option
@@ -158,7 +158,7 @@ export default {
         idUnitType: null,
         unit_code: null,
         idBlock: null,
-        idFloor: null,
+        numFloor: null,
         amount: null,
         NFA: "",
         GFA: "",
@@ -196,7 +196,7 @@ export default {
             trigger: "change",
           },
         ],
-        idFloor: [
+        numFloor: [
           {
             required: true,
             message: "Please select Floor",

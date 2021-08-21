@@ -62,7 +62,7 @@
       </el-row>
 
       <el-form-item label="Note">
-        <el-input type="textarea" v-model="form.note"></el-input>
+        <el-input type="textarea" v-model="form.showNote"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Send Mail</el-button>
@@ -78,6 +78,8 @@ export default {
   data() {
     return {
       form: {
+        days: "",
+        showNote: "",
         note: "",
         id: this.$route.params.id,
         idContract: "",
@@ -114,6 +116,9 @@ export default {
           this.form.amount_vat = result.data.data.amount_vat;
           this.form.land_use_fee = result.data.data.land_use_fee;
           this.form.customer = result.data.data.customer;
+          this.form.note = result.data.data.note;
+          this.form.days = result.data.data.days;
+          this.form.showNote = "Late payment penalty interest " + this.form.days + " day: " + this.form.note;
         })
         .catch((err) => {
           console.log(err);

@@ -145,7 +145,7 @@ export default {
       axios
         .get(`contract/${this.$route.params.id}`)
         .then((result) => {
-          this.form.add = result.data.data;
+          this.form.add = result.data.data[0];
           console.log(result);
         })
         .catch((err) => {

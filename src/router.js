@@ -9,6 +9,8 @@ import Employee from './components/ItemMenu/Employee/Index.vue'
 import Floor from './components/ItemMenu/Floor/Index.vue'
 import PaymentTerm from './components/ItemMenu/PaymentTerm/Index.vue'
 import Ele_PaymentTerm from './components/ItemMenu/PaymentTerm/Element.vue'
+import ReportAudit from './components/ItemMenu/Report/Audit.vue'
+import ReportMR from './components/ItemMenu/Report/MR.vue'
 
 // Forgot
 import Forgot from "./components/Forgot/Forgot.vue";
@@ -70,6 +72,8 @@ const router = new Router({
                 { path: '/menu/account', component: Account },
                 { path: '/menu/period-mail/:id', component: PeriodSendMailDueDate },
                 { path: '/add-account/', component: AccountE },
+                { path: '/menu/report-audit', component: ReportAudit },
+                { path: '/menu/report-mr', component: ReportMR },
             ]
         },
         { path: '/404', name: 'errorpage', component: ErrorPage },//token, user
