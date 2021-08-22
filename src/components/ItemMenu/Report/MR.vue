@@ -17,16 +17,29 @@
       <el-button type="primary" @click="handleExportAudit">Export</el-button>
     </div>
 
-    
-
-    <el-table
-      v-if="data.periods"
-      :data="data.periods"
-      style="width: 100%"
-      max-height="400"
-    >
-      <!-- <el-table-column fixed prop="id" label="ID" width="50"> </el-table-column> -->
-      <!-- <el-table-column
+    <div class="container-Mr">
+      <div class="container-left">
+        <h5>Doanh thu theo gì gì đó</h5>
+        <!-- có api thay  activities -> report-->
+        <el-timeline reverse="true">
+          <el-timeline-item
+            v-for="(activity, index) in activities"
+            :key="index"
+            :timestamp="activity.timestamp"
+          >
+            {{ activity.content }}
+          </el-timeline-item>
+        </el-timeline>
+      </div>
+      <div class="container-right">
+        <el-table
+          v-if="data.periods"
+          :data="data.periods"
+          style="width: 100%"
+          max-height="400"
+        >
+          <!-- <el-table-column fixed prop="id" label="ID" width="50"> </el-table-column> -->
+          <!-- <el-table-column
         fixed
         prop="payment"
         label="Payment"
@@ -49,35 +62,36 @@
       
       </el-table-column> -->
 
-      
-
-
-      <el-table-column prop="idContract" label="Contract" width="120">
-      </el-table-column>
-      <el-table-column prop="customer" label="Purchaser" width="120">
-      </el-table-column>
-      <el-table-column prop="unit" label="Unit" width="120"> </el-table-column>
-      <el-table-column prop="paid" label="Total Paid" width="300">
-        <template slot-scope="scope">
-          <p>
-            {{ formatPrice(scope.row.paid) }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column prop="balance" label="Total Balance" width="300">
-        <template slot-scope="scope">
-          <p>
-            {{ formatPrice(scope.row.balance) }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" width="150" prop="paidNo" label="PaidNo">
-      </el-table-column>
-    </el-table>
-
-    <!-- <div class="wapper-chart">
-        <line-chart v-if="loaded" :chartdata="chartdata" :options="options" />
-      </div> -->
+          <el-table-column prop="idContract" label="Contract" width="120">
+          </el-table-column>
+          <el-table-column prop="customer" label="Purchaser" width="120">
+          </el-table-column>
+          <el-table-column prop="unit" label="Unit" width="120">
+          </el-table-column>
+          <el-table-column prop="paid" label="Total Paid" width="300">
+            <template slot-scope="scope">
+              <p>
+                {{ formatPrice(scope.row.paid) }}
+              </p>
+            </template>
+          </el-table-column>
+          <el-table-column prop="balance" label="Total Balance" width="300">
+            <template slot-scope="scope">
+              <p>
+                {{ formatPrice(scope.row.balance) }}
+              </p>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            width="150"
+            prop="paidNo"
+            label="PaidNo"
+          >
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,9 +106,24 @@ export default {
       data: {
         periods: [],
       },
+      report: [],
+      activities: [
+        {
+          content: "Event start",
+          timestamp: "2018-04-15",
+        },
+        {
+          content: "Approved",
+          timestamp: "2018-04-13",
+        },
+        {
+          content: "Success",
+          timestamp: "2018-04-11",
+        },
+      ],
     };
   },
-  
+
   methods: {
     handleExportAudit() {
       axios
@@ -203,9 +232,20 @@ export default {
     //       });
     //   }
     // },
+    getChart() {
+      axios
+        .get(``)
+        .then((result) => {
+          this.report = result.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.getRP();
+    this.getChart();
   },
 };
 </script>
@@ -216,5 +256,22 @@ export default {
 }
 .el-date-editor {
   margin-right: 10px;
+}
+
+.container-Mr {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.container-Mr .container-left {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  padding: 20px;
+  text-align: left;
+}
+
+.container-Mr .container-right {
+  width: 790px;
+  padding-left: 20px;
 }
 </style>
