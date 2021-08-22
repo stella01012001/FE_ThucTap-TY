@@ -36,6 +36,9 @@ import Account from "./components/ItemMenu/Account/Index.vue"
 import AccountE from "./components/ItemMenu/Account/Element.vue"
 import PeriodSendMailDueDate from "./components/ItemMenu/Period/SendMailDueDate.vue"
 
+
+// ---DashBoard
+import DashBoard from "./components/ItemMenu/Dashboard/Index.vue";
 Vue.use(Router)
 
 const router = new Router({
@@ -50,6 +53,8 @@ const router = new Router({
         
         {
             path: '/menu', component: Menu, children: [
+
+                { path: '/', component: DashBoard },
                 { path: '/menu/event-type', component: EventType },
                 { path: '/menu/block', component: Block },
                 { path: '/menu/customer', component: Customer },
