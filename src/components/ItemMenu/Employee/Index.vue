@@ -218,8 +218,8 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(`employee/${row.id}`)
-              .then(() => {
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+              .then((result) => {
+                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
                 this.getAllEmployee();
               })
               .catch((err) => {

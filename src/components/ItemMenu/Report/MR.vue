@@ -19,15 +19,16 @@
 
     <div class="container-Mr">
       <div class="container-left">
-        <h5>Doanh thu theo gì gì đó</h5>
+        <h5>Current May Revenue {{ new Date().getFullYear() }}
+</h5>
         <!-- có api thay  activities -> report-->
-        <el-timeline reverse="true">
+        <el-timeline :reverse="true">
           <el-timeline-item
             v-for="(activity, index) in activities"
             :key="index"
-            :timestamp="activity.timestamp"
+            :timestamp="activity.key"
           >
-            {{ activity.content }}
+            {{ formatPrice(activity.value || 0) }}
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -62,33 +63,31 @@
       
       </el-table-column> -->
 
-          <el-table-column prop="idContract" label="Contract" width="120">
+          <el-table-column prop="Jan" label="Jan" width="120">
           </el-table-column>
-          <el-table-column prop="customer" label="Purchaser" width="120">
+          <el-table-column prop="Feb" label="Feb" width="120">
           </el-table-column>
-          <el-table-column prop="unit" label="Unit" width="120">
+          <el-table-column prop="Mar" label="Mar" width="120">
           </el-table-column>
-          <el-table-column prop="paid" label="Total Paid" width="300">
-            <template slot-scope="scope">
-              <p>
-                {{ formatPrice(scope.row.paid) }}
-              </p>
-            </template>
+          <el-table-column prop="Apr" label="Apr" width="120">
           </el-table-column>
-          <el-table-column prop="balance" label="Total Balance" width="300">
-            <template slot-scope="scope">
-              <p>
-                {{ formatPrice(scope.row.balance) }}
-              </p>
-            </template>
+          <el-table-column prop="May" label="May" width="120">
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="150"
-            prop="paidNo"
-            label="PaidNo"
-          >
+          <el-table-column prop="Jun" label="Jun" width="120">
           </el-table-column>
+          <el-table-column prop="Jul" label="Jul" width="120">
+          </el-table-column>
+          <el-table-column prop="Aug" label="Aug" width="120">
+          </el-table-column>
+          <el-table-column prop="Sep" label="Sep" width="120">
+          </el-table-column>
+          <el-table-column prop="Oct" label="Oct" width="120">
+          </el-table-column>
+          <el-table-column prop="Nov" label="Nov" width="120">
+          </el-table-column>
+          <el-table-column prop="Dec" label="Dec" width="120">
+          </el-table-column>
+
         </el-table>
       </div>
     </div>
@@ -108,18 +107,7 @@ export default {
       },
       report: [],
       activities: [
-        {
-          content: "Event start",
-          timestamp: "2018-04-15",
-        },
-        {
-          content: "Approved",
-          timestamp: "2018-04-13",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
+
       ],
     };
   },
@@ -152,7 +140,7 @@ export default {
     },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
     },
     searchResult() {
       if (this.period) {
@@ -194,7 +182,7 @@ export default {
       this.year = this.year.getYear();
       console.log(this.date);
       axios
-        .get("/report-audit")
+        .get("test")
         .then((result) => {
           this.data.periods = result.data.data;
           this.data.periods.forEach((element) => {
@@ -234,9 +222,14 @@ export default {
     // },
     getChart() {
       axios
-        .get(``)
+        .get(`test`)
         .then((result) => {
-          this.report = result.data.data;
+          this.report = result.data.data[0];
+          for (const key in this.report) {
+            
+              this.activities.push({key, value: this.report[key]})
+          }
+          this.activities = this.activities.reverse()
         })
         .catch((err) => {
           console.log(err);

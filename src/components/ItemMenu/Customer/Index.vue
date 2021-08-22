@@ -400,8 +400,8 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(`customer/${row.id}`)
-              .then(() => {
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+              .then((result) => {
+                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
                 this.getAllCus();
               })
               .catch((err) => {
