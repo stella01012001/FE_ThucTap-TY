@@ -6,9 +6,9 @@
         <el-timeline-item
           v-for="(activity, index) in activities"
           :key="index"
-          :timestamp="activity.timestamp"
+          :timestamp="activity.key"
         >
-          {{ activity.content || 0 }}
+          {{ formatPrice(activity.value || 0) }}
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -58,59 +58,14 @@ export default {
     return {
       value: new Date(),
       report: [],
-      activities: [
-        {
-          content: "Event start",
-          timestamp: "2018-04-15",
-        },
-        {
-          content: "Approved",
-          timestamp: "2018-04-13",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-        {
-          content: "Success",
-          timestamp: "2018-04-11",
-        },
-      ],
+      activities: [],
     };
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
+    },
     getChart() {
       axios
         .get(`test`)
@@ -132,7 +87,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .item {
   grid-column: 1 / 3;
 }
