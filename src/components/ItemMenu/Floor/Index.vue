@@ -1,19 +1,36 @@
 <template>
   <div>
-    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button
+      v-if="idRole == '1'"
+      type="primary"
+      @click="dialogFormVisible = true"
+      >Add new</el-button
+    >
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="Num of Floor" :label-width="formLabelWidth">
-          <el-input v-model="form.numFloor" autocomplete="off"></el-input>
+      <el-form :model="form" ref="form" :rules="rules">
+        <el-form-item
+          label="Num of Floor"
+          :label-width="formLabelWidth"
+          prop="numFloor"
+        >
+          <el-input
+            v-model="form.numFloor"
+            @keypress="isInputNumber"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="Description" :label-width="formLabelWidth">
+        <el-form-item
+          label="Description"
+          :label-width="formLabelWidth"
+          prop="description"
+        >
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handSubmit">Confirm</el-button>
+        <el-button type="primary" @click="handSubmit('form')">Confirm</el-button>
       </span>
     </el-dialog>
 
@@ -49,6 +66,22 @@ export default {
         description: "",
       },
       formLabelWidth: "120px",
+      rules: {
+        numFloor: [
+          {
+            required: true,
+            message: "Please input Activity name",
+            trigger: "blur",
+          },
+        ],
+        description: [
+          {
+            required: true,
+            message: "Please input Activity name",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   async created() {
@@ -61,17 +94,24 @@ export default {
     getEvent_type(id) {
       console.log(id);
     },
-    handSubmit() {
-      axios
-        .post("floor", this.form)
-        .then((result) => {
-          console.log(result);
-          this.dialogFormVisible = false;
-          this.getAllFloor();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    handSubmit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          axios
+            .post("floor", this.form)
+            .then((result) => {
+              console.log(result);
+              this.dialogFormVisible = false;
+              this.getAllFloor();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     getAllFloor() {
       axios
@@ -110,7 +150,11 @@ export default {
               .delete(`floor/${row.numFloor}`)
               .then((result) => {
                 this.getAllFloor();
-                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
+                swalWithBootstrapButtons.fire(
+                  "Status!",
+                  `${result.data.status}`,
+                  ""
+                );
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
@@ -122,6 +166,12 @@ export default {
             swalWithBootstrapButtons.fire("Canceled", "", "error");
           }
         });
+    },
+    isInputNumber(evt) {
+      var char = String.fromCharCode(evt.which);
+      if (!/[0-9]/.test(char)) {
+        evt.preventDefault();
+      }
     },
   },
 };
