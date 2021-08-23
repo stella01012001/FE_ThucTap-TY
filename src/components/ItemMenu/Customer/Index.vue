@@ -20,7 +20,7 @@
 
     <!-- Sửa -->
     <el-dialog title="Edit" :visible.sync="dialogFormEdit">
-      <el-form :model="editform" rules="rules" ref="editform">
+      <el-form :model="editform" rules="rules1" ref="editform">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
           <el-input
             :value="editform.name"
@@ -256,6 +256,61 @@ export default {
         gender: "",
       },
       rules: {
+        phone: [
+          { required: true, message: "age is required",  },
+          {
+            min: 9999999999,
+            max: 12,
+            type: "number",
+            message: "Length should be 9",
+            trigger: "blur",
+          },
+          
+        ],
+        email: [
+          {
+            required: true,
+            message: "Please input NFA",
+            trigger: "blur",
+          },
+          {
+            type: "email",
+            message: "Please input NFA",
+            trigger: "blur",
+          },
+        ],
+        name: [
+          {
+            required: true,
+            message: "Please input NFA",
+            trigger: "blur",
+          },
+        ],
+
+        birth: [
+          {
+            type: "date",
+            required: true,
+            message: "Please pick a date",
+            trigger: "change",
+          },
+        ],
+        address: [
+          {
+            required: true,
+            message: "Please input NFA",
+            trigger: "blur",
+          },
+        ],
+        gender: [
+          {
+            required: true,
+            message: "Please select activity resource",
+            trigger: "change",
+          },
+        ],
+      },
+      rules1: {
         phone: [
           { required: true, message: "age is required",  },
           {

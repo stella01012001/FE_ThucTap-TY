@@ -22,7 +22,7 @@
     </div>
 
     <!-- Sửa -->
-    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
+    <!-- <el-dialog title="Edit" :visible.sync="dialogFormEdit">
       <el-form :model="editform">
         <el-form-item label="Name" :label-width="formLabelWidth">
           <el-input
@@ -50,6 +50,102 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormEdit = false">Cancel</el-button>
         <el-button type="primary" @click="editEmployee">Confirm</el-button>
+      </span>
+    </el-dialog> -->
+
+    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
+      <el-form :model="editform" rules="rules1" ref="editform">
+        <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
+          <el-input
+            :value="editform.name"
+            autocomplete="off"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="Tax Code"
+              prop="taxCode"
+              :label-width="formLabelWidth"
+            >
+              <el-input
+                v-model.number="editform.taxCode"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              label="Birth"
+              :label-width="formLabelWidth"
+              prop="birth"
+            >
+              <el-date-picker
+                type="date"
+                placeholder="Pick a date"
+                v-model="editform.birth"
+                style="width: 100%"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="Phone"
+              prop="phone"
+              :label-width="formLabelWidth"
+            >
+              <el-input
+                v-model.number="editform.phone"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              label="Email"
+              prop="email"
+              :label-width="formLabelWidth"
+            >
+              <el-input
+                v-model="editform.email"
+                type="email"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item
+          label="Address"
+          prop="address"
+          :label-width="formLabelWidth"
+        >
+          <el-input v-model="editform.address" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="Gender"
+          prop="gender"
+          :label-width="formLabelWidth"
+        >
+          <el-radio-group v-model="editform.gender">
+            <el-radio label="Nam"></el-radio>
+            <el-radio label="Nữ"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormEdit = false">Cancel</el-button>
+        <el-button type="primary" @click="editEmployee('editform')"
+          >Confirm</el-button
+        >
       </span>
     </el-dialog>
 
@@ -222,9 +318,9 @@ export default {
         email: "",
         gender: "",
       },
-       rules: {
+      rules: {
         phone: [
-          { required: true, message: "age is required",  },
+          { required: true, message: "age is required" },
           {
             min: 9999999999,
             max: 12,
@@ -232,7 +328,6 @@ export default {
             message: "Length should be 9",
             trigger: "blur",
           },
-          
         ],
         email: [
           {
@@ -287,23 +382,23 @@ export default {
   },
   methods: {
     handSubmit(formName) {
-       this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-        .post("employee", this.form)
-        .then((result) => {
-          console.log(result);
-          this.dialogFormVisible = false;
-          this.$swal({
-            icon: "success",
-            title: "Successful!",
-            showConfirmButton: false,
-          });
-          this.getAllEmployee();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+            .post("employee", this.form)
+            .then((result) => {
+              console.log(result);
+              this.dialogFormVisible = false;
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
+              });
+              this.getAllEmployee();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           console.log("error submit!!");
           return false;
