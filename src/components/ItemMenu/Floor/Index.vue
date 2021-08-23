@@ -15,7 +15,7 @@
           prop="numFloor"
         >
           <el-input
-            v-model="form.numFloor"
+            v-model.number="form.numFloor"
             @keypress="isInputNumber"
             autocomplete="off"
           ></el-input>
@@ -73,6 +73,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
+          { type: 'number', message: 'age must be a number'}
         ],
         description: [
           {
@@ -172,6 +173,7 @@ export default {
       if (!/[0-9]/.test(char)) {
         evt.preventDefault();
       }
+      console.log('okii');
     },
   },
 };

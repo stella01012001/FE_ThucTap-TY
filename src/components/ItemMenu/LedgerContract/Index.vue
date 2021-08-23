@@ -18,7 +18,7 @@
     </div>
 
     <!-- "tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" -->
-    <el-table
+    <el-table height="600"
       :data="
         listCTR.filter(
           (data) =>
