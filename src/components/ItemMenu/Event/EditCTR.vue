@@ -177,7 +177,7 @@ export default {
         });
     },
   },
-  mounted() {
+  async mounted() {
     this.getAllEmployees();
     this.getCTRById();
   },

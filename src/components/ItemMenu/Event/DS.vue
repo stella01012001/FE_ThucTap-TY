@@ -196,7 +196,7 @@ export default {
       },
     };
   },
-  mounted() {
+  async mounted() {
     this.getAllUnit();
     this.getAllPayment_term();
     this.getAllPurchaser();

@@ -19,7 +19,7 @@
 
     <div class="container-Mr">
       <div class="container-left">
-        <h5>Current May Revenue {{ new Date().getFullYear() }}
+        <h5>Revenue {{ new Date().getFullYear() }}
 </h5>
         <!-- có api thay  activities -> report-->
         <el-timeline :reverse="true">
@@ -236,7 +236,7 @@ export default {
         });
     },
   },
-  mounted() {
+  async mounted() {
     this.getRP();
     this.getChart();
   },

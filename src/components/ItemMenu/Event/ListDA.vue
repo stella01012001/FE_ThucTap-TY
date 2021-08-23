@@ -128,7 +128,7 @@ export default {
       search: "",
     };
   },
-  created() {
+  async created() {
     this.getListDA();
   },
   computed: {

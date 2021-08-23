@@ -51,7 +51,7 @@ export default {
       formLabelWidth: "120px",
     };
   },
-  created() {
+  async created() {
     this.getAllFloor();
   },
   computed: {

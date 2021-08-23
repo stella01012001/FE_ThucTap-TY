@@ -225,7 +225,7 @@ export default {
         });
     },
   },
-  mounted() {
+  async mounted() {
     this.getRoles();
     this.getAllEmps();
   },

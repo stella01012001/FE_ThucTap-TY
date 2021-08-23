@@ -132,7 +132,7 @@ export default {
       search: "",
     };
   },
-  created() {
+  async created() {
     this.getListCTR();
   },
   methods: {

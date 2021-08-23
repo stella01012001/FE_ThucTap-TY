@@ -84,13 +84,13 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="NFA" prop="NFA">
-                <el-input v-model="ruleForm.NFA"></el-input>
+                <el-input v-model="ruleForm.NFA" @keypress="isInputNumber"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Price NFA" prop="price_NFA">
                 <el-input
-                  v-model="ruleForm.price_NFA"
+                  v-model.number="ruleForm.price_NFA"
                   class="format-money"
                 ></el-input>
               </el-form-item>
@@ -98,24 +98,24 @@
           </el-row>
 
           <el-form-item label="GFA" prop="GFA">
-            <el-input v-model="ruleForm.GFA"></el-input>
+            <el-input v-model.number="ruleForm.GFA"></el-input>
           </el-form-item>
 
           <el-row :gutter="20">
             <el-col :span="12"
               ><el-form-item label="NOB" prop="no_of_br">
-                <el-input v-model="ruleForm.no_of_br"></el-input> </el-form-item
+                <el-input v-model.number="ruleForm.no_of_br"></el-input> </el-form-item
             ></el-col>
             <el-col :span="12">
               <el-form-item label="Land Use Fee" prop="land_use_fee">
                 <el-input
-                  v-model="ruleForm.land_use_fee"
+                  v-model.number="ruleForm.land_use_fee"
                 ></el-input> </el-form-item
             ></el-col>
           </el-row>
 
           <el-form-item label="Land Area" prop="land_area">
-            <el-input type="textarea" v-model="ruleForm.land_area"></el-input>
+            <el-input type="textarea" v-model.number="ruleForm.land_area"></el-input>
           </el-form-item>
           <el-form-item label="Direction" prop="direction">
             <el-radio-group v-model="ruleForm.direction">
@@ -205,14 +205,14 @@ export default {
         ],
 
         amount: [
-          { required: true, message: "age is required" },
+          { required: true, message: "age is required", trigger: "blur", },
           { type: "number", message: "age must be a number" },
         ],
 
         NFA: [
           {
             required: true,
-            message: "Please input NFA",
+            message: `Please enter floating point number`,
             trigger: "blur",
           },
         ],
@@ -223,6 +223,7 @@ export default {
             message: "Please input NFA",
             trigger: "blur",
           },
+          { type: "number", message: "age must be a number" },
         ],
 
         price_NFA: [
@@ -240,6 +241,7 @@ export default {
             message: "Please input NFA",
             trigger: "blur",
           },
+          { type: "number", message: "age must be a number" },
         ],
 
         direction: [
@@ -256,11 +258,12 @@ export default {
             message: "Please input Land Area",
             trigger: "blur",
           },
+          { type: "number", message: "age must be a number" },
         ],
       },
     };
   },
-  mounted() {
+  async mounted() {
     this.getAllUnitType();
     this.getAllBlock();
     this.getAllFloor();
@@ -269,6 +272,12 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
+    isInputNumber(evt) {
+      var char = String.fromCharCode(evt.which);
+      if (!/[0-9.]/.test(char)) {
+        evt.preventDefault();
+      }
+    },
     getAllUnitType() {
       axios
         .get(`unitType`)

@@ -96,7 +96,7 @@ export default {
       loading: false,
     };
   },
-  mounted() {
+  async mounted() {
     this.getMail();
   },
   methods: {

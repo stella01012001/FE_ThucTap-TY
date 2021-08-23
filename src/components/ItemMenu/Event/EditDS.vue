@@ -141,7 +141,7 @@ export default {
       },
     };
   },
-  mounted() {
+  async mounted() {
       this.getDSById();
   },
   methods: {

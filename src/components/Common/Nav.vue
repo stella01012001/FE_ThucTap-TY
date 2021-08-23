@@ -96,7 +96,7 @@
       <el-submenu index="11">
         <template slot="title">
           <div class="wrapp-icon">
-            <i class="el-icon-s-promotion icon-color"></i>
+            <i class="el-icon-tickets"></i>
           </div>
           <span>REPORT</span>
         </template>
@@ -115,7 +115,7 @@
 
       <el-menu-item index="12">
         <div class="wrapp-icon">
-          <i class="el-icon-s-promotion icon-color"></i>
+          <i class="el-icon-user"></i>
         </div>
         <router-link to="/menu/account">ACCOUNT</router-link>
       </el-menu-item>

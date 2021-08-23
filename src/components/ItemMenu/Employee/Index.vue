@@ -143,7 +143,7 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     this.getAllEmployee();
   },
   computed: {

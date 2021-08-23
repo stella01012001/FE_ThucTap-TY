@@ -290,7 +290,7 @@ export default {
                 });
         }
     },
-    mounted() {
+    async mounted() {
         axios.get("/api/classes").then(response => {
             console.log(response);
             this.classes = response.data.data;

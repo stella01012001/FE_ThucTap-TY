@@ -37,7 +37,7 @@
               :label-width="formLabelWidth"
             >
               <el-input
-                v-model="editform.taxCode"
+                v-model.number="editform.taxCode"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
@@ -67,7 +67,7 @@
               prop="phone"
               :label-width="formLabelWidth"
             >
-              <el-input v-model="editform.phone" autocomplete="off"></el-input>
+              <el-input v-model.number="editform.phone" autocomplete="off"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -76,7 +76,7 @@
               prop="email"
               :label-width="formLabelWidth"
             >
-              <el-input v-model="editform.email" autocomplete="off"></el-input>
+              <el-input v-model="editform.email" type="email" autocomplete="off"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -118,7 +118,6 @@
           <el-col :span="12">
             <el-form-item
               label="Tax Code"
-              prop="taxCode"
               :label-width="formLabelWidth"
             >
               <el-input v-model="form.taxCode" autocomplete="off"></el-input>
@@ -258,12 +257,24 @@ export default {
       },
       rules: {
         phone: [
-          { required: true, message: "age is required" },
-          { type: "number", message: "age must be a number" },
+          { required: true, message: "age is required",  },
+          {
+            min: 9999999999,
+            max: 12,
+            type: "number",
+            message: "Length should be 9",
+            trigger: "blur",
+          },
+          
         ],
         email: [
           {
             required: true,
+            message: "Please input NFA",
+            trigger: "blur",
+          },
+          {
+            type: "email",
             message: "Please input NFA",
             trigger: "blur",
           },
@@ -274,10 +285,6 @@ export default {
             message: "Please input NFA",
             trigger: "blur",
           },
-        ],
-        taxCode: [
-          { required: true, message: "age is required" },
-          { type: "number", message: "age must be a number" },
         ],
 
         birth: [
@@ -305,7 +312,7 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     this.getAllCus();
   },
   methods: {

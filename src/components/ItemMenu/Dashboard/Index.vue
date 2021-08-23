@@ -1,7 +1,7 @@
 <template>
   <div class="container-dashboard">
     <div class="left">
-      <h5>Current May Revenue {{ new Date().getFullYear() }}</h5>
+      <h5>Revenue {{ new Date().getFullYear() }}</h5>
       <el-timeline :reverse="true">
         <el-timeline-item
           v-for="(activity, index) in activities"
@@ -14,32 +14,46 @@
     </div>
     <div class="right">
       <div class="container-concept">
-        <div class="element-concept">
-          <h3><i class="el-icon-box"></i> Sản phẩm</h3>
-          <p class="index-num">0</p>
-          <router-link to="/menu/product">
-            <p class="link-go">Đi đến <i class="el-icon-right"></i></p
+        <div class="element-concept block">
+          <h3><i class="fas fa-building icon-color"></i> Block</h3>
+          <p class="index-num">{{db.block}} </p>
+          <router-link to="/menu/block">
+            <p class="link-go">go to <i class="el-icon-right"></i></p
           ></router-link>
         </div>
-        <div class="element-concept">
-          <h3><i class="el-icon-box"></i> Sản phẩm</h3>
-          <p class="index-num">0</p>
-          <router-link to="/menu/product">
-            <p class="link-go">Đi đến <i class="el-icon-right"></i></p
+        <div class="element-concept floor">
+          <h3><i class="fas fa-kaaba icon-color"></i> Floor</h3>
+          <p class="index-num">{{db.floor}}</p>
+          <router-link to="/menu/floor">
+            <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
-        <div class="element-concept">
-          <h3><i class="el-icon-box"></i> Sản phẩm</h3>
-          <p class="index-num">0</p>
-          <router-link to="/menu/product">
-            <p class="link-go">Đi đến <i class="el-icon-right"></i></p
+        <div class="element-concept unit">
+          <h3><i class="fas fa-warehouse icon-color"></i> Unit</h3>
+          <p class="index-num">{{db.unit}}</p>
+          <router-link to="/menu/unit">
+            <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
-        <div class="element-concept">
-          <h3><i class="el-icon-box"></i> Sản phẩm</h3>
-          <p class="index-num">0</p>
-          <router-link to="/menu/product">
-            <p class="link-go">Đi đến <i class="el-icon-right"></i></p
+        <div class="element-concept ds">
+          <h3>Deposit Slip (SPA/LTLA)</h3>
+          <p class="index-num">{{db.countDS}} Pendding</p>
+          <router-link to="/menu/list-ds">
+            <p class="link-go">go to<i class="el-icon-right"></i></p
+          ></router-link>
+        </div>
+        <div class="element-concept da">
+          <h3> Deposit Agreement</h3>
+          <p class="index-num">{{db.countDA}} Pendding</p>
+          <router-link to="/menu/list-da">
+            <p class="link-go">go to<i class="el-icon-right"></i></p
+          ></router-link>
+        </div>
+        <div class="element-concept ctr">
+          <h3>Contract</h3>
+          <p class="index-num">{{db.countCTR}} Pendding</p>
+          <router-link to="/menu/list-ctr">
+            <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="item">
@@ -59,6 +73,7 @@ export default {
       value: new Date(),
       report: [],
       activities: [],
+      db: {},
     };
   },
   methods: {
@@ -80,15 +95,46 @@ export default {
           console.log(err);
         });
     },
+    getDB() {
+      axios
+        .get(`dashboard`)
+        .then((result) => {
+          this.db = result.data.data;
+          console.log(this.re);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
-  mounted() {
-    // this.getChart;
+  async mounted() {
+    this.getChart();
+    this.getDB();
   },
 };
 </script>
 <style scoped>
+.block{
+  background: #597ed6;
+}
+.floor{
+  background: #597ed6;
+}
+.unit{
+  background: #597ed6;
+}
+.ds{
+  background: #f0583d;
+}
+.da{
+  background: #f0583d;
+}
+.ctr{
+  background: #f0583d;
+}
+
 .item {
-  grid-column: 1 / 3;
+  grid-column: 1 / 4;
 }
 
 .container-dashboard {
@@ -99,7 +145,7 @@ export default {
 
 .container-concept {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   padding: 20px;
 }
@@ -111,7 +157,7 @@ export default {
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  background: #000;
+  /* background: #fff; */
   border: 1px solid #dcdfe6;
   -webkit-appearance: none;
   text-align: center;
@@ -127,7 +173,7 @@ export default {
 }
 
 .element-concept h3 {
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .element-concept .index-num {

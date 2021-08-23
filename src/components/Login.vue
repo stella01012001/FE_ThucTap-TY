@@ -2,7 +2,7 @@
   <div class="jumbotron full-height">
     <div class="row justify-content-md-center align-items-center">
       <div class="col-4 custom-frm">
-        <form  @submit.prevent="handleSubmit()">
+        <form @submit.prevent="handleSubmit()">
           <div class="form-group">
             <h2>Login</h2>
           </div>
@@ -118,7 +118,10 @@ export default {
 
 .jumbotron {
   margin: unset;
-  /* background: url(https://scontent-hkg4-2.xx.fbcdn.net/v/t1.18169-9/26230647_2025678734376646_8716683300838614448_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=-mX8O-Ngzg4AX9IsCo9&tn=aYXSSniwU4XMkkl4&_nc_ht=scontent-hkg4-2.xx&oh=08d92a3579af00df5289dcd113fec3c6&oe=60FBDA92); */
+
+  background: url(https://img.freepik.com/free-vector/silhouette-skyline-illustration_53876-78786.jpg?size=626&ext=jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .row {
