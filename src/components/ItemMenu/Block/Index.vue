@@ -1,16 +1,27 @@
 <template>
   <div>
-    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true">Add new</el-button>
+    <el-button
+      v-if="idRole == '1'"
+      type="primary"
+      @click="dialogFormVisible = true"
+      >Add new</el-button
+    >
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="Description" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item
+          label="Description"
+          prop="description"
+          :label-width="formLabelWidth"
+        >
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handSubmit">Confirm</el-button>
+        <el-button type="primary" @click="handSubmit('form')"
+          >Confirm</el-button
+        >
       </span>
     </el-dialog>
 
@@ -45,6 +56,15 @@ export default {
         description: "",
       },
       formLabelWidth: "120px",
+      rules: {
+        description: [
+          {
+            required: true,
+            message: "Please input Activity name",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   async created() {
@@ -54,35 +74,42 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
-    handSubmit() {
-      this.dialogFormVisible = false;
-      this.$swal
-        .fire({
-          title: "Are you sure?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "I'm sure!",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            axios
-              .post("block", this.form)
-              .then((result) => {
-                console.log(result);
-                this.$swal({
-                  icon: "success",
-                  title: "Successful!",
-                  showConfirmButton: false,
-                });
-                this.getAllBlock();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        });
+    handSubmit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.dialogFormVisible = false;
+          this.$swal
+            .fire({
+              title: "Are you sure?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "I'm sure!",
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                axios
+                  .post("block", this.form)
+                  .then((result) => {
+                    console.log(result);
+                    this.$swal({
+                      icon: "success",
+                      title: "Successful!",
+                      showConfirmButton: false,
+                    });
+                    this.getAllBlock();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     getAllBlock() {
       axios
@@ -121,7 +148,11 @@ export default {
               .delete(`block/${row.id}`)
               .then((result) => {
                 this.getAllBlock();
-                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
+                swalWithBootstrapButtons.fire(
+                  "Status!",
+                  `${result.data.status}`,
+                  ""
+                );
               })
               .catch((err) => {
                 swalWithBootstrapButtons.fire("Error~~~", `${err}`, "error");
