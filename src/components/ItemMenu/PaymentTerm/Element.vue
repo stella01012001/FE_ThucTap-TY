@@ -26,7 +26,6 @@
             <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="Percent" prop="percent">
-            <<<<<<< HEAD
             <el-input
               v-model.number="form.percent"
               placeholder="0 to 100"
