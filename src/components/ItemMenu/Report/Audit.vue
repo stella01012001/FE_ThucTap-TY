@@ -102,7 +102,7 @@ export default {
 
             // Tell the browser to associate the response data to
             // the URL of the link we created above.
-            link.href = window.URL.createObjectURL(new Blob([result[0]]));
+            link.href = window.URL.createObjectURL(new Blob([result.data]));
             console.log(result.data);
 
             // Tell the browser to download, not render, the file.

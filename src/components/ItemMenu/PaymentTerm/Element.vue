@@ -20,7 +20,7 @@
           class="demo-form"
         >
           <el-form-item label="InstallmentNo" prop="installmentNo">
-            <el-input v-model="form.installmentNo"></el-input>
+            <el-input v-model="form.installmentNo" @keypress="isInputNumber"></el-input>
           </el-form-item>
           <el-form-item label="Description" prop="description">
             <el-input v-model="form.description"></el-input>
@@ -169,6 +169,12 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
+    isInputNumber(evt) {
+      var char = String.fromCharCode(evt.which);
+      if (!/[0-9]/.test(char)) {
+        evt.preventDefault();
+      }
+    },
     getPaymentTermByID() {
       axios
         .get(`paymentTermDefinitions/${this.$route.params.id}`)
