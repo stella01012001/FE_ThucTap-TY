@@ -20,16 +20,16 @@
           class="demo-form"
         >
           <el-form-item label="InstallmentNo" prop="installmentNo">
-            <el-input v-model="form.installmentNo" @keypress="isInputNumber"></el-input>
+            <el-input v-model="form.installmentNo"></el-input>
           </el-form-item>
           <el-form-item label="Description" prop="description">
             <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="Percent" prop="percent">
-            <el-input v-model.number="form.percent"></el-input>
+            <el-input v-model.number="form.percent" placeholder="0 to 100"></el-input>
           </el-form-item>
           <el-form-item label="Quantity" prop="quantity">
-            <el-input v-model="form.quantity"></el-input>
+            <el-input v-model.number="form.quantity"></el-input>
           </el-form-item>
           <el-form-item label="Timeunit" prop="timeunit">
             <el-radio-group v-model="form.timeUnit">
@@ -38,7 +38,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="Vat" prop="vat">
-            <el-input v-model="form.vat"></el-input>
+            <el-input v-model.number="form.vat" placeholder="0 to 100"></el-input>
           </el-form-item>
           <el-form-item label="Active" prop="active">
             <el-switch v-model="form.active"></el-switch>
@@ -111,7 +111,7 @@ export default {
         return callback(new Error("Please input the age"));
       }
       setTimeout(() => {
-        if (!Number.isFinite(value)) {
+        if (!Number.isInteger(value)) {
           callback(new Error("Please input digits"));
         } else {
           if (value > 100) {
@@ -173,6 +173,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
+          { validator: checkAge, trigger: "blur" },
         ],
         vat: [
           {
@@ -180,6 +181,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
+          { validator: checkAge, trigger: "blur" },
         ],
       },
     };
@@ -188,12 +190,6 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
-    isInputNumber(evt) {
-      var char = String.fromCharCode(evt.which);
-      if (!/[0-9]/.test(char)) {
-        evt.preventDefault();
-      }
-    },
     getPaymentTermByID() {
       axios
         .get(`paymentTermDefinitions/${this.$route.params.id}`)
