@@ -264,6 +264,8 @@ export default {
                     type: "success",
                   });
                   this.getPaymentTermByID();
+                  this.loading = false;
+                  this.$refs['form'].resetFields();
                 })
                 .catch((err) => {
                   this.$notify.error({
