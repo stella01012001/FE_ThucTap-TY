@@ -20,7 +20,7 @@
           class="demo-form"
         >
           <el-form-item label="InstallmentNo" prop="installmentNo">
-            <el-input v-model="form.installmentNo"></el-input>
+            <el-input v-model.number="form.installmentNo"></el-input>
           </el-form-item>
           <el-form-item label="Description" prop="description">
             <el-input v-model="form.description"></el-input>
@@ -30,9 +30,6 @@
               v-model.number="form.percent"
               placeholder="0 to 100"
             ></el-input>
-            =======
-            <el-input v-model="form.percent"></el-input>
-            >>>>>>> 0d8f280d757e618b88c75611dbda15f4ba7162fc
           </el-form-item>
           <el-form-item label="Quantity" prop="quantity">
             <el-input v-model.number="form.quantity"></el-input>
@@ -123,7 +120,7 @@ export default {
         if (!Number.isInteger(value)) {
           callback(new Error("Please input digits"));
         } else {
-          if (value >= 1) {
+          if (value >= 100) {
             callback(new Error("Age must be greater than 100"));
           } else if (value < 0) {
             callback(new Error("Age must be greater than 0"));
