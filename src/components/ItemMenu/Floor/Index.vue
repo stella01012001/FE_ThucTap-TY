@@ -70,15 +70,15 @@ export default {
         numFloor: [
           {
             required: true,
-            message: "Please input Activity name",
+            message: "Please input Activity num of floor",
             trigger: "blur",
           },
-          { type: 'number', message: 'age must be a number'}
+          { type: 'number', message: 'num floor must be a number'}
         ],
         description: [
           {
             required: true,
-            message: "Please input Activity name",
+            message: "Please input Activity description",
             trigger: "blur",
           },
         ],

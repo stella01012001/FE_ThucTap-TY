@@ -189,14 +189,14 @@ export default {
         idDS: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity DS",
             trigger: "change",
           },
         ],
         agency: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity employee",
             trigger: "change",
           },
         ],

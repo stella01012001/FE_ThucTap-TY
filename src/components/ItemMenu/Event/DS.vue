@@ -168,28 +168,28 @@ export default {
         purchaser: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity purchaser",
             trigger: "change",
           },
         ],
         unit: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity unit",
             trigger: "change",
           },
         ],
         payment_term: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity payment term",
             trigger: "change",
           },
         ],
         employee: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity employee",
             trigger: "change",
           },
         ],

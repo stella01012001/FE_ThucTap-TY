@@ -128,21 +128,21 @@ export default {
         username: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please input username",
             trigger: "change",
           },
         ],
         password: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please input password",
             trigger: "change",
           },
         ],
         confirm_password: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please input confirm password",
             trigger: "change",
           },
         ],

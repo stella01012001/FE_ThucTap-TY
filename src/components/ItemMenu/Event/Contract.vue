@@ -169,14 +169,14 @@ export default {
         idDA: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity DA",
             trigger: "change",
           },
         ],
         employee: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select Activity employee",
             trigger: "change",
           },
         ],

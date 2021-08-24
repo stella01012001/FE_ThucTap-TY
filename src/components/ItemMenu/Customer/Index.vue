@@ -257,7 +257,7 @@ export default {
       },
       rules: {
         phone: [
-          { required: true, message: "age is required",  },
+          { required: true, message: "Please input phone",  },
           {
             min: 9999999999,
             max: 12,
@@ -270,19 +270,19 @@ export default {
         email: [
           {
             required: true,
-            message: "Please input NFA",
+            message: "Please input email",
             trigger: "blur",
           },
           {
             type: "email",
-            message: "Please input NFA",
+            message: "You should input email",
             trigger: "blur",
           },
         ],
         name: [
           {
             required: true,
-            message: "Please input NFA",
+            message: "Please input name",
             trigger: "blur",
           },
         ],
@@ -298,14 +298,14 @@ export default {
         address: [
           {
             required: true,
-            message: "Please input NFA",
+            message: "Please input address",
             trigger: "blur",
           },
         ],
         gender: [
           {
             required: true,
-            message: "Please select activity resource",
+            message: "Please select activity gender",
             trigger: "change",
           },
         ],

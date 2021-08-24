@@ -82,7 +82,7 @@
       </el-table-column>
       <el-table-column prop="active" label="Land_fee" width="120">
       </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="170">
+      <el-table-column fixed="right" label="Operations" width="100" align="center">
         <template slot-scope="scope">
           <el-button-group>
             <!-- <el-button size="small" type="primary" @click="handleClick"
@@ -132,6 +132,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
+          { type: 'number', message: 'num floor must be a number'}
         ],
         desription: [
           {

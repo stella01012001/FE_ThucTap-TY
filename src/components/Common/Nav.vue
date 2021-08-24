@@ -1,7 +1,7 @@
 <template>
   <el-col>
     <div class="name-web">
-      <h5>Phoebus</h5>
+      <router-link to="/menu"><h5>Phoebus</h5></router-link>
     </div>
     <el-menu
       default-active="1"
