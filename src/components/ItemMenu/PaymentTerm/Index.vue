@@ -1,18 +1,27 @@
 <template>
   <div>
-    <el-button v-if="idRole == '1'" type="primary" @click="dialogFormVisible = true"
+    <el-button
+      v-if="idRole == '1'"
+      type="primary"
+      @click="dialogFormVisible = true"
       >Add new</el-button
     >
 
-    <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="Description" :label-width="formLabelWidth">
+    <el-dialog title="Add New" :visible.sync="dialogFormVisible">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item
+          label="Description"
+          prop="description"
+          :label-width="formLabelWidth"
+        >
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handSubmit">Confirm</el-button>
+        <el-button type="primary" @click="handSubmit('form')"
+          >Confirm</el-button
+        >
       </span>
     </el-dialog>
 
@@ -23,7 +32,10 @@
       <el-table-column prop="aciton" label="Action">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button size="mini" icon="el-icon-share" @click="handleClick(scope.row)"
+            <el-button
+              size="mini"
+              icon="el-icon-share"
+              @click="handleClick(scope.row)"
               >See more</el-button
             >
             <!-- <el-button
@@ -33,7 +45,8 @@
               @click="handleEdit(scope.$index, scope.row)"
               >Fix</el-button
             > -->
-            <el-button v-if="idRole == '1'"
+            <el-button
+              v-if="idRole == '1'"
               icon="el-icon-delete"
               size="mini"
               type="danger"
@@ -59,6 +72,9 @@ export default {
         description: "",
       },
       formLabelWidth: "120px",
+      rules: {
+        description: [{ required: true, message: "Please input phone" }],
+      },
     };
   },
   async created() {
@@ -68,22 +84,29 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
-    handSubmit() {
-      axios
-        .post("paymentTerm", this.form)
-        .then((result) => {
-          console.log(result);
-          this.dialogFormVisible = false;
-          this.$swal({
-            icon: "success",
-            title: "Successful!",
-            showConfirmButton: false,
-          });
-          this.getAllPaymentterms();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    handSubmit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          axios
+            .post("paymentTerm", this.form)
+            .then((result) => {
+              console.log(result);
+              this.dialogFormVisible = false;
+              this.$swal({
+                icon: "success",
+                title: "Successful!",
+                showConfirmButton: false,
+              });
+              this.getAllPaymentterms();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     getAllPaymentterms() {
       axios
