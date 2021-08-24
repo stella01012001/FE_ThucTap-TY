@@ -111,11 +111,13 @@ export default {
         return callback(new Error("Please input the age"));
       }
       setTimeout(() => {
-        if (!Number.isInteger(value)) {
+        if (!Number.isFinite(value)) {
           callback(new Error("Please input digits"));
         } else {
-          if (value < 18) {
-            callback(new Error("Age must be greater than 18"));
+          if (value > 100) {
+            callback(new Error("Age must be greater than 100"));
+          } else if (value < 0) {
+            callback(new Error("Age must be greater than 0"));
           } else {
             callback();
           }
@@ -163,7 +165,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
-          { validator: checkAge, trigger: 'blur' }
+          { validator: checkAge, trigger: "blur" },
         ],
         quantity: [
           {
