@@ -26,7 +26,7 @@
             <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="Percent" prop="percent">
-            <el-input v-model="form.percent"></el-input>
+            <el-input v-model.number="form.percent"></el-input>
           </el-form-item>
           <el-form-item label="Quantity" prop="quantity">
             <el-input v-model="form.quantity"></el-input>
@@ -62,11 +62,8 @@
       </el-table-column>
       <el-table-column prop="percent" label="Percent" width="100">
         <template slot-scope="scope">
-        <p> 
-          {{ scope.row.percent*100 }}%
-        </p>
-        
-      </template>
+          <p>{{ scope.row.percent * 100 }}%</p>
+        </template>
       </el-table-column>
       <el-table-column prop="quantity" label="Quantity" width="120">
       </el-table-column>
@@ -74,21 +71,24 @@
       </el-table-column>
       <el-table-column prop="vat" label="Vat" width="120">
         <template slot-scope="scope">
-        <p> 
-          {{ scope.row.vat*100 }}%
-        </p>
-        
-      </template>
+          <p>{{ scope.row.vat * 100 }}%</p>
+        </template>
       </el-table-column>
       <el-table-column prop="active" label="Land_fee" width="120">
       </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="100" align="center">
+      <el-table-column
+        fixed="right"
+        label="Operations"
+        width="100"
+        align="center"
+      >
         <template slot-scope="scope">
           <el-button-group>
             <!-- <el-button size="small" type="primary" @click="handleClick"
               >Fix</el-button
             > -->
-            <el-button v-if="idRole == '1'"
+            <el-button
+              v-if="idRole == '1'"
               type="danger"
               size="small"
               @click="handleDelete(scope.row)"
@@ -106,6 +106,22 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data() {
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("Please input the age"));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error("Please input digits"));
+        } else {
+          if (value < 18) {
+            callback(new Error("Age must be greater than 18"));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+    };
     return {
       data: {
         paymentTerm: [],
@@ -132,7 +148,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
-          { type: 'number', message: 'num floor must be a number'}
+          { type: "number", message: "num floor must be a number" },
         ],
         desription: [
           {
@@ -147,6 +163,7 @@ export default {
             message: "Please input Activity name",
             trigger: "blur",
           },
+          { validator: checkAge, trigger: 'blur' }
         ],
         quantity: [
           {
@@ -261,9 +278,7 @@ export default {
       clearTimeout(this.timer);
       this.$refs["form"].resetFields();
     },
-    handleClick(){
-      
-    }
+    handleClick() {},
   },
   async mounted() {
     this.getPaymentTermByID();
