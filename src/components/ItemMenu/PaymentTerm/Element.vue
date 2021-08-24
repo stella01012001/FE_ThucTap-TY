@@ -26,7 +26,7 @@
             <el-input v-model="form.description"></el-input>
           </el-form-item>
           <el-form-item label="Percent" prop="percent">
-            <el-input v-model.number="form.percent"></el-input>
+            <el-input v-model="form.percent"></el-input>
           </el-form-item>
           <el-form-item label="Quantity" prop="quantity">
             <el-input v-model="form.quantity"></el-input>
@@ -111,10 +111,11 @@ export default {
         return callback(new Error("Please input the age"));
       }
       setTimeout(() => {
-        if (!Number.isFinite(value)) {
+        console.log(Number.isFinite(parseFloat(value)));
+        if (!Number.isFinite(parseFloat(value))) {
           callback(new Error("Please input digits"));
         } else {
-          if (value > 100) {
+          if (value >= 1) {
             callback(new Error("Age must be greater than 100"));
           } else if (value < 0) {
             callback(new Error("Age must be greater than 0"));
