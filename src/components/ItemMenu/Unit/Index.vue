@@ -4,7 +4,9 @@
     <div class="container-bar">
       <div>
         <!-- Thay nút từ dây -->
-        <el-button v-if="idRole == '1'" type="primary" @click="swicthToAdd">Add new</el-button>
+        <el-button v-if="idRole == '1'" type="primary" @click="swicthToAdd"
+          >Add new</el-button
+        >
         <el-button type="primary" @click="getAllUnit">Refesh</el-button>
         <el-button type="primary" @click="handleExportUnit">Export</el-button>
         <!-- tới đây  -->
@@ -17,7 +19,7 @@
           class="custom-input-search"
         />
       </div>
-    </div>  
+    </div>
     <!-- tới đây -->
 
     <el-dialog title="Add unit" :visible.sync="dialogFormVisible">
@@ -99,17 +101,41 @@
       </el-table-column>
       <el-table-column align="center" width="150" prop="amount" label="Amount">
         <template slot-scope="scope">
-        <p> 
-          {{ formatPrice(scope.row.amount) }}
-        </p>
-        
-      </template>
+          <p>
+            {{ formatPrice(scope.row.amount) }}
+          </p>
+        </template>
       </el-table-column>
-      <el-table-column align="center" prop="status" label="Status"
-      :filters="[{ text: 'CTR', value: 'CTR' }, { text: 'DS', value: 'DS' }, { text: 'DA', value: 'DA' }, { text: 'Empty', value: '' }]"
-      :filter-method="filterTag"
-      filter-placement="bottom-end"
+      <el-table-column
+        align="center"
+        prop="status"
+        label="Status"
+        :filters="[
+          { text: 'CTR', value: 'CTR' },
+          { text: 'DS', value: 'DS' },
+          { text: 'DA', value: 'DA' },
+          { text: 'Empty', value: '' },
+        ]"
+        :filter-method="filterTag"
+        filter-placement="bottom-end"
       >
+        <template slot-scope="scope">
+          <p v-if="!scope.row.status">{{ scope.row.status }}</p>
+
+          <el-popconfirm
+            v-else
+            confirm-button-text="OK"
+            cancel-button-text="No"
+            icon="el-icon-info"
+            icon-color="red"
+            title="Are you sure to cancel this?"
+            @confirm="cancelUnit(scope.row.id)"
+          >
+            <el-button slot="reference" class="fix-heigh status-active">
+              {{ scope.row.status }}
+            </el-button>
+          </el-popconfirm>
+        </template>
       </el-table-column>
       <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
       <el-table-column align="center" prop="GFA" label="GFA"> </el-table-column>
@@ -139,12 +165,11 @@
         prop="land_use_fee"
         label="Land Use Fee"
       >
-      <template slot-scope="scope">
-        <p> 
-          {{ formatPrice(scope.row.land_use_fee) }}
-        </p>
-        
-      </template>
+        <template slot-scope="scope">
+          <p>
+            {{ formatPrice(scope.row.land_use_fee) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -168,7 +193,8 @@
             @click="handleEdit(scope.$index, scope.row)"
             >Info</el-button
           >
-          <el-button v-if="idRole == '1'"
+          <el-button
+            v-if="idRole == '1'"
             icon="el-icon-delete"
             size="mini"
             type="danger"
@@ -229,9 +255,24 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
-     filterTag(value, row) {
-        return row.status === value;
-      },
+    cancelUnit(id) {
+      axios
+        .delete(`cu7t1/${id}`)
+        .then(() => {
+          this.$swal.fire(
+            "Đã khóa!",
+            "Nhân viên này không thể đăng nhập.",
+            "success"
+          );
+          this.getAllUnit();
+        })
+        .catch((err) => {
+          this.$swal.fire("Lỗi!", err, "success");
+        });
+    },
+    filterTag(value, row) {
+      return row.status === value;
+    },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -265,12 +306,11 @@ export default {
           this.units.forEach((element) => {
             if (parseInt(element.status) == 1) {
               element.status = "DS";
-            } else if(parseInt(element.status) == 2) {
+            } else if (parseInt(element.status) == 2) {
               element.status = "DA";
-            } else if(parseInt(element.status) == 3) {
+            } else if (parseInt(element.status) == 3) {
               element.status = "CTR";
-            }
-            else  {
+            } else {
               element.status = "";
             }
           });
@@ -322,7 +362,11 @@ export default {
             axios
               .delete(`unit/${row.id}`)
               .then((result) => {
-                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
+                swalWithBootstrapButtons.fire(
+                  "Status!",
+                  `${result.data.status}`,
+                  ""
+                );
                 this.getAllUnit();
               })
               .catch((err) => {
