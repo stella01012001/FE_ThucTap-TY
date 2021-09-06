@@ -3,7 +3,7 @@
     <div class="container-bar">
       <div>
         <!-- Thay nút từ dây -->
-        <el-button type="primary" @click="add_new">...</el-button>
+
         <!-- tới đây  -->
       </div>
       <div class="container-search">
@@ -18,15 +18,25 @@
     </div>
 
     <!-- "tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" -->
-    <el-table height="600"
+    <el-table
       :data="
         listCTR.filter(
           (data) =>
             !search || data.idContract.toString().includes(search.toString())
         )
       "
+    height="600"
+    border
     >
-      <el-table-column align="center" fixed prop="id" width="50" label="id">
+      <el-table-column
+        align="center"
+        fixed
+        prop="id"
+        width="80"
+        label="id"
+        column-key="id"
+        sortable
+      >
       </el-table-column>
       <el-table-column
         align="center"
@@ -42,6 +52,8 @@
         width="100"
         prop="payment"
         label="Status"
+         :filters="[{ text: 'Pendding', value: 'Pendding' }, { text: 'Approved', value: 'Approved' }, { text: 'Canceled', value: 'Canceled' }]"
+      :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -53,13 +65,20 @@
           >
         </template>
       </el-table-column>
-      <el-table-column align="center" width="150" prop="unit_code" label="Unit Code">
-      </el-table-column>
       <el-table-column
         align="center"
         width="150"
-        prop="name"
-        label="Purchaser"
+        prop="unit_code"
+        label="Unit Code"
+      >
+      </el-table-column>
+      <el-table-column align="center" width="150" prop="name" label="Purchaser">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        width="200"
+        prop="installmentNo"
+        label="InstallmentNo"
       >
       </el-table-column>
       <el-table-column
@@ -136,6 +155,9 @@ export default {
     this.getListCTR();
   },
   methods: {
+    filterTag(value, row) {
+        return row.payment === value;
+      },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -150,8 +172,7 @@ export default {
               element.payment = "Pendding";
             } else if (element.payment == "Canceled") {
               element.payment = "Canceled";
-            }
-            else {
+            } else {
               element.payment = "Approved";
             }
           });
@@ -226,23 +247,29 @@ export default {
           type: "warning",
         });
       } else {
-          axios
-        .get(`contract-pay/${row.id}`) //api chua lam
-        .then(() => {
-          this.$message({
-            showClose: true,
-            message: "Congrats, this is a success message.",
-            type: "success",
+        axios
+          .get(`contract-pay/${row.id}`) 
+          .then((result) => {
+            console.log(result.data.status);
+            if (result.data.status == "Please accept the order!") {
+              this.$notify({
+                title: "Warning",
+                message: "Please accept the order!",
+                type: "warning",
+              });
+            } else {
+              this.$message({
+                showClose: true,
+                message: "Congrats, this is a success message.",
+                type: "success",
+              });
+            }
+            this.getListCTR();
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          this.getListCTR();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       }
-    },
-    add_new() {
-      this.$router.push("/menu/ctr");
     },
     show() {
       console.log(this.search);

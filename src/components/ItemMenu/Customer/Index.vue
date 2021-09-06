@@ -19,8 +19,8 @@
     </div>
 
     <!-- Sửa -->
-    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
-      <el-form :model="editform" rules="rules1" ref="editform">
+    <el-dialog title="Edit Customer" :visible.sync="dialogFormEdit">
+      <el-form :model="editform" :rules="rules1" ref="editform">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
           <el-input
             :value="editform.name"
@@ -54,7 +54,6 @@
                 v-model="editform.birth"
                 style="width: 100%"
                 format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -108,7 +107,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="Add New" :visible.sync="dialogFormVisible">
+    <el-dialog title="Add New Customer" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -135,7 +134,6 @@
                 v-model="form.birth"
                 style="width: 100%"
                 format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -196,16 +194,20 @@
             !search || data.name.toLowerCase().includes(search.toLowerCase())
         )
       "
+      border
+      height="600px"
+      style="width: 100%"
     >
-      <el-table-column prop="id" label="Id"> </el-table-column>
-      <el-table-column prop="name" label="Name"> </el-table-column>
-      <el-table-column prop="gender" label="Gender"> </el-table-column>
-      <el-table-column prop="taxCode" label="Tax Code"> </el-table-column>
-      <el-table-column prop="birth" label="Birth"> </el-table-column>
-      <el-table-column prop="phone" label="Phone"> </el-table-column>
-      <el-table-column prop="address" label="Address"> </el-table-column>
-      <el-table-column prop="email" label="Email"> </el-table-column>
-      <el-table-column width="190" prop="aciton" label="Action">
+      <el-table-column fixed width="90" prop="id" label="Id"> </el-table-column>
+      <el-table-column width="180" prop="name" label="Name"> </el-table-column>
+      <el-table-column width="90" align="center" prop="gender" label="Gender"> </el-table-column>
+      <el-table-column width="200" prop="email" label="Email"> </el-table-column>
+      <el-table-column width="120" prop="phone" label="Phone"> </el-table-column>
+      <el-table-column width="110" prop="taxCode" label="Tax Code"> </el-table-column>
+      <el-table-column width="110" prop="birth" label="Birth"> </el-table-column>
+      <el-table-column width="200" prop="address" label="Address"> </el-table-column>
+      
+      <el-table-column width="190" prop="aciton" label="Action" fixed="right">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-edit"
@@ -230,6 +232,14 @@
 import axios from "axios";
 export default {
   data() {
+    var validatePhone = (rule, value, callback) => {
+      const regex_phone = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
+      if (!value.match(regex_phone)) {
+        callback(new Error("Please input the Phone"));
+      } else {
+        callback();
+      }
+    };
     return {
       search: "",
       formLabelWidth: "120px",
@@ -257,15 +267,8 @@ export default {
       },
       rules: {
         phone: [
-          { required: true, message: "Please input phone",  },
-          {
-            min: 9999999999,
-            max: 12,
-            type: "number",
-            message: "Length should be 9",
-            trigger: "blur",
-          },
-          
+          { required: true, message: "Please input phone", trigger: "blur"},
+          { validator: validatePhone, trigger: "blur" },
         ],
         email: [
           {
@@ -289,7 +292,6 @@ export default {
 
         birth: [
           {
-            type: "date",
             required: true,
             message: "Please pick a date",
             trigger: "change",
@@ -310,61 +312,6 @@ export default {
           },
         ],
       },
-      rules1: {
-        phone: [
-          { required: true, message: "age is required",  },
-          {
-            min: 9999999999,
-            max: 12,
-            type: "number",
-            message: "Length should be 9",
-            trigger: "blur",
-          },
-          
-        ],
-        email: [
-          {
-            required: true,
-            message: "Please input NFA",
-            trigger: "blur",
-          },
-          {
-            type: "email",
-            message: "Please input NFA",
-            trigger: "blur",
-          },
-        ],
-        name: [
-          {
-            required: true,
-            message: "Please input NFA",
-            trigger: "blur",
-          },
-        ],
-
-        birth: [
-          {
-            type: "date",
-            required: true,
-            message: "Please pick a date",
-            trigger: "change",
-          },
-        ],
-        address: [
-          {
-            required: true,
-            message: "Please input NFA",
-            trigger: "blur",
-          },
-        ],
-        gender: [
-          {
-            required: true,
-            message: "Please select activity resource",
-            trigger: "change",
-          },
-        ],
-      },
     };
   },
   async created() {
@@ -374,9 +321,11 @@ export default {
     getEvent_type(id) {
       console.log(id);
     },
+
     handSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.form.birth = this.form.birth.getFullYear() + "-" + (this.form.birth.getMonth() + 1) + "-" + this.form.birth.getDate();
           axios
             .post("customer", this.form)
             .then((result) => {
@@ -415,6 +364,7 @@ export default {
       console.log(index, row);
     },
     editEmployee(formName) {
+      this.editform.birth = this.editform.birth.getFullYear() + "-" + (this.editform.birth.getMonth() + 1) + "-" + this.editform.birth.getDate();
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios

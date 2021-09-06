@@ -12,9 +12,12 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Enter Username"
+              placeholder="Enter Email"
               v-model="user.email"
             />
+          </div>
+          <div class="forgot-pass">
+            <span @click="switchLogin">Login</span>
           </div>
           <button type="submit" class="btn btn-primary">Send</button>
         </form>
@@ -34,6 +37,9 @@ export default {
     };
   },
   methods: {
+    switchLogin(){
+      this.$router.push("/");
+    },
     handleSubmit() {
       axios
         .post("forgot", this.user)

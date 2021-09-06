@@ -13,18 +13,19 @@
             <el-input
               v-model="form.customer.name"
               readonly
+              :disabled="true"
             ></el-input> </el-form-item
         ></el-col>
         <el-col :span="8"
           ><el-form-item label="Unit" prop="unit">
-            <el-input v-model="form.unit.unit_code" readonly></el-input>
+            <el-input v-model="form.unit.unit_code" readonly :disabled="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item label="Payment term" prop="payment_term">
-            <el-input v-model="form.payment_term.description" readonly></el-input>
+            <el-input v-model="form.payment_term.description" readonly :disabled="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">

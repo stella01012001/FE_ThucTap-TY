@@ -21,6 +21,7 @@
                 <el-select
                   v-model="ruleForm.idUnitType"
                   placeholder="Activity zone"
+                  :disabled="true"
                 >
                   <el-option
                     v-for="item in data.units_type"
@@ -34,7 +35,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="Unit Code" prop="unit_code">
-                <el-input v-model="ruleForm.unit_code"></el-input>
+                <el-input v-model="ruleForm.unit_code" :disabled="true"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -45,6 +46,7 @@
                 <el-select
                   v-model="ruleForm.idBlock"
                   placeholder="Activity zone"
+                  :disabled="true"
                 >
                   <el-option
                     v-for="item in data.blocks"
@@ -61,6 +63,7 @@
                 <el-select
                   v-model="ruleForm.numFloor"
                   placeholder="Activity zone"
+                  :disabled="true"
                 >
                   <el-option
                     v-for="item in data.blocks"
@@ -328,7 +331,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios
-            .post("unit", this.ruleForm)
+            .post("update-unit", this.ruleForm)
             .then((result) => {
               console.log(result);
               this.$swal({

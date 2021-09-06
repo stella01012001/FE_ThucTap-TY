@@ -109,6 +109,7 @@ export default {
         .get(`mail-due-date/${this.$route.params.id}`)
         .then((result) => {
           this.data.infoMail = result.data.data;
+          console.log(result.data.data);
           this.form.idContract = result.data.data.idContract;
           this.form.dueDate = result.data.data.dueDate;
           this.form.amount = result.data.data.amount;

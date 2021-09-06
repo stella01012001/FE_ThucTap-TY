@@ -7,7 +7,7 @@
       >Add new</el-button
     >
 
-    <el-dialog title="Add New" :visible.sync="dialogFormVisible">
+    <el-dialog title="Add New PaymentTerm" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item
           label="Description"
@@ -143,8 +143,13 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(`paymentTerm/${row.id}`)
-              .then(() => {
-                swalWithBootstrapButtons.fire("Deleted!", "", "success");
+              .then((result) => {
+                //swalWithBootstrapButtons.fire("Deleted!", "", "success");
+                swalWithBootstrapButtons.fire(
+                  "Status!",
+                  `${result.data.status}`,
+                  ""
+                );
                 this.getAllPaymentterms();
               })
               .catch((err) => {

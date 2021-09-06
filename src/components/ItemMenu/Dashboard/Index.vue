@@ -1,7 +1,23 @@
 <template>
   <div class="container-dashboard">
     <div class="left">
-      <h5>Revenue {{ new Date().getFullYear() }}</h5>
+      <div class="search-dash">
+        <h5>Statistics by year</h5>
+        <el-date-picker
+          prefix-icon
+          v-model="year"
+          type="year"
+          placeholder="Pick a year"
+          format="yyyy"
+          value-format="yyyy"
+        >
+        </el-date-picker>
+        <el-button type="primary" icon="el-icon-search" @click="searchResult">
+          Search</el-button
+        >
+      </div>
+
+      <!-- <h5>Revenue {{ new Date().getFullYear() }}</h5> -->
       <el-timeline :reverse="true">
         <el-timeline-item
           v-for="(activity, index) in activities"
@@ -16,42 +32,42 @@
       <div class="container-concept">
         <div class="element-concept block">
           <h3><i class="fas fa-building icon-color"></i> Block</h3>
-          <p class="index-num">{{db.block}} </p>
+          <p class="index-num">{{ db.block }}</p>
           <router-link to="/menu/block">
             <p class="link-go">go to <i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="element-concept floor">
           <h3><i class="fas fa-kaaba icon-color"></i> Floor</h3>
-          <p class="index-num">{{db.floor}}</p>
+          <p class="index-num">{{ db.floor }}</p>
           <router-link to="/menu/floor">
             <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="element-concept unit">
           <h3><i class="fas fa-warehouse icon-color"></i> Unit</h3>
-          <p class="index-num">{{db.unit}}</p>
+          <p class="index-num">{{ db.unit }}</p>
           <router-link to="/menu/unit">
             <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="element-concept ds">
           <h3>Deposit Slip (SPA/LTLA)</h3>
-          <p class="index-num">{{db.countDS}} Pendding</p>
+          <p class="index-num">{{ db.countDS }} Pendding</p>
           <router-link to="/menu/list-ds">
             <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="element-concept da">
-          <h3> Deposit Agreement</h3>
-          <p class="index-num">{{db.countDA}} Pendding</p>
+          <h3>Deposit Agreement</h3>
+          <p class="index-num">{{ db.countDA }} Pendding</p>
           <router-link to="/menu/list-da">
             <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
         </div>
         <div class="element-concept ctr">
           <h3>Contract</h3>
-          <p class="index-num">{{db.countCTR}} Pendding</p>
+          <p class="index-num">{{ db.countCTR }} Pendding</p>
           <router-link to="/menu/list-ctr">
             <p class="link-go">go to<i class="el-icon-right"></i></p
           ></router-link>
@@ -74,6 +90,7 @@ export default {
       report: [],
       activities: [],
       db: {},
+      year: "",
     };
   },
   methods: {
@@ -106,6 +123,36 @@ export default {
           console.log(err);
         });
     },
+    searchResult() {
+      if (this.year) {
+        axios
+          .post("/mr-year", {
+            year: this.year,
+          })
+          .then((result) => {
+            this.activities = [];
+            this.report = result.data.data[0];
+            for (const key in this.report) {
+              this.activities.push({ key, value: this.report[key] });
+            }
+            this.activities = this.activities.reverse();
+            console.log(result);
+            this.$message({
+              message: "Congrats, this is a success data.",
+              type: "success",
+            });
+          })
+          .catch((err) => {
+            this.$message.error(`Oops, this is a error ${err}.`);
+          });
+      } else {
+        this.$notify({
+          title: "Warning",
+          message: "Input Date",
+          type: "warning",
+        });
+      }
+    },
   },
   async mounted() {
     this.getChart();
@@ -114,22 +161,37 @@ export default {
 };
 </script>
 <style scoped>
-.block{
+
+
+.search-dash {
+  padding: 10px;
+  margin: 23px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
+  border-radius: 4px;
+}
+
+.el-button {
+  margin-top: 15px;
+  width: 86%;
+}
+
+.block {
   background: #597ed6;
 }
-.floor{
+.floor {
   background: #597ed6;
 }
-.unit{
+.unit {
   background: #597ed6;
 }
-.ds{
+.ds {
   background: #f0583d;
 }
-.da{
+.da {
   background: #f0583d;
 }
-.ctr{
+.ctr {
   background: #f0583d;
 }
 

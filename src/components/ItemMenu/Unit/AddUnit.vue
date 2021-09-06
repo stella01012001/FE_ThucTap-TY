@@ -33,18 +33,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Unit Code" prop="unit_code">
-                <el-input v-model="ruleForm.unit_code"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
-            <el-col :span="12">
               <el-form-item label="Block" prop="idBlock">
                 <el-select
                   v-model="ruleForm.idBlock"
                   placeholder="Activity zone"
+                  @change="getBlockForUnit"
                 >
                   <el-option
                     v-for="item in data.blocks"
@@ -56,20 +49,29 @@
                 </el-select>
               </el-form-item>
             </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Floor" prop="numFloor">
                 <el-select
                   v-model="ruleForm.numFloor"
                   placeholder="Activity zone"
+                  @change="getFloorForUnit"
                 >
                   <el-option
-                    v-for="item in data.blocks"
-                    :key="item.id"
+                    v-for="item in data.floor"
+                    :key="item.numFloor"
                     :label="item.numFloor"
-                    :value="item.id"
+                    :value="item.numFloor"
                   >
                   </el-option>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Unit Code" prop="unit_code">
+                <el-input v-model="ruleForm.unit_code"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -84,7 +86,10 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="NFA" prop="NFA">
-                <el-input v-model="ruleForm.NFA" @keypress="isInputNumber"></el-input>
+                <el-input
+                  v-model="ruleForm.NFA"
+                  @keypress="isInputNumber"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -104,7 +109,9 @@
           <el-row :gutter="20">
             <el-col :span="12"
               ><el-form-item label="NOB" prop="no_of_br">
-                <el-input v-model.number="ruleForm.no_of_br"></el-input> </el-form-item
+                <el-input
+                  v-model.number="ruleForm.no_of_br"
+                ></el-input> </el-form-item
             ></el-col>
             <el-col :span="12">
               <el-form-item label="Land Use Fee" prop="land_use_fee">
@@ -115,7 +122,10 @@
           </el-row>
 
           <el-form-item label="Land Area" prop="land_area">
-            <el-input type="textarea" v-model.number="ruleForm.land_area"></el-input>
+            <el-input
+              type="textarea"
+              v-model.number="ruleForm.land_area"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Direction" prop="direction">
             <el-radio-group v-model="ruleForm.direction">
@@ -183,9 +193,9 @@ export default {
             trigger: "blur",
           },
           {
-            min: 4,
+            min: 8,
             max: 15,
-            message: "Length should be 4",
+            message: "Length should be 8",
             trigger: "blur",
           },
         ],
@@ -205,7 +215,7 @@ export default {
         ],
 
         amount: [
-          { required: true, message: "age is required", trigger: "blur", },
+          { required: true, message: "age is required", trigger: "blur" },
           { type: "number", message: "age must be a number" },
         ],
 
@@ -272,6 +282,20 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
+    getFloorForUnit() {
+      this.data.floor.forEach((element) => {
+        if (element.numFloor == this.ruleForm.numFloor) {
+          this.ruleForm.unit_code += "0" + element.numFloor + ".";
+        }
+      });
+    },
+    getBlockForUnit() {
+      this.data.blocks.forEach((element) => {
+        if (element.id == this.ruleForm.idBlock) {
+          this.ruleForm.unit_code = element.description + "01.";
+        }
+      });
+    },
     isInputNumber(evt) {
       var char = String.fromCharCode(evt.which);
       if (!/[0-9.]/.test(char)) {
@@ -303,6 +327,7 @@ export default {
         .get("floor")
         .then((result) => {
           this.data.floor = result.data.data;
+          console.log(this.data.floor);
         })
         .catch((err) => {
           console.log(err);
@@ -326,7 +351,11 @@ export default {
               this.getAllUnit();
             })
             .catch((err) => {
-              console.log(err);
+              console.log(err.response.data);
+              this.$notify.error({
+                title: "Error",
+                message: "Duplicate Unit Code!",
+              });
             });
         } else {
           console.log("error submit!!");

@@ -86,12 +86,14 @@ const router = new Router({
     ]
 })
 
-// router.beforeEach((to, from, next) => {
-//     const loggedIn = localStorage.getItem('token');
-//     if (to.path != '/' && !loggedIn) {
-//         next('/');
-//     }
-//     next();
-// });
+router.beforeEach((to, from, next) => {
+    const loggedIn = localStorage.getItem('token');
+    if (to.path == '/forgot' || to.path == '/reset') {
+        next();
+    } else if (to.path != '/' && !loggedIn) {
+        next('/');
+    }
+    next();
+});
 
 export default router

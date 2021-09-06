@@ -7,7 +7,7 @@
       >Add new</el-button
     >
 
-    <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+    <el-dialog title="Add New Block" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item
           label="Description"
@@ -19,9 +19,15 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
+
         <el-button type="primary" @click="handSubmit('form')"
           >Confirm</el-button
         >
+
+<!-- <el-button type="primary" @click="handSubmit('form')" :loading="loading">{{
+            loading ? "Confirm ..." : "Confirm"
+          }}</el-button> -->
+
       </span>
     </el-dialog>
 
@@ -55,6 +61,7 @@ export default {
       form: {
         description: "",
       },
+      loading: false,
       formLabelWidth: "120px",
       rules: {
         description: [
@@ -93,6 +100,7 @@ export default {
                   .post("block", this.form)
                   .then((result) => {
                     console.log(result);
+                    this.loading = false,
                     this.$swal({
                       icon: "success",
                       title: "Successful!",

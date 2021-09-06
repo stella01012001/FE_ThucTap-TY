@@ -3,14 +3,14 @@
     <el-form
       :model="form"
       :rules="rules"
-      ref="ruleForm"
+      ref="form"
       label-width="120px"
       class="demo-ruleForm"
     >
       <el-row>
         <el-col :span="8">
           <el-form-item label="Purchaser" prop="purchaser">
-            <el-select
+            <!-- <el-select
               v-model="form.purchaser"
               placeholder="Purchaser"
               @change="getIDPurchaser"
@@ -26,9 +26,16 @@
                   - {{ item.name }}</span
                 >
               </el-option>
-            </el-select>
-          </el-form-item></el-col
-        >
+            </el-select> -->
+            <multiselect
+              v-model="form.purchaser"
+              :options="data.purchasers"
+              placeholder="Search and select one"
+              label="name"
+              track-by="id"
+            >
+            </multiselect> </el-form-item
+        ></el-col>
         <el-col :span="8"
           ><el-form-item label="Unit" prop="unit">
             <el-select v-model="form.unit" placeholder="Unit">
@@ -67,7 +74,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="Employee" prop="employee">
-            <el-select v-model="form.employee" placeholder="Employee">
+            <!-- <el-select v-model="form.employee" placeholder="Employee">
               <el-option
                 v-for="item in data.employees"
                 :key="item.id"
@@ -79,9 +86,17 @@
                   item.name
                 }}</span>
               </el-option>
-            </el-select>
-          </el-form-item></el-col
-        >
+            </el-select> -->
+
+            <multiselect
+              v-model="form.employee"
+              :options="data.employees"
+              placeholder="Search and select one"
+              label="name"
+              track-by="id"
+            >
+            </multiselect> </el-form-item
+        ></el-col>
       </el-row>
 
       <el-row>
@@ -90,11 +105,10 @@
             <el-form-item prop="event_date">
               <el-date-picker
                 type="date"
-                format="yyyy/MM/dd"
                 value-format="yyyy-MM-dd"
                 placeholder="Pick a date"
                 v-model="form.event_date"
-                style="width: 100%;"
+                style="width: 100%"
               ></el-date-picker>
             </el-form-item>
           </el-form-item>
@@ -108,7 +122,7 @@
       <el-row>
         <el-col :span="16">
           <el-form-item label="Description" prop="description">
-            <el-input type="textarea" v-model="form.description"></el-input>
+            <el-input type="textarea" v-model="form.description" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -121,10 +135,8 @@
       </el-row>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >Create</el-button
-        >
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+        <el-button type="primary" @click="submitForm('form')">Create</el-button>
+        <el-button @click="resetForm('form')">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -132,14 +144,18 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
 export default {
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       form: {
         purchaser: "", // cmb lưu id
         unit: "",
         payment_term: "", // cmb lưu id
-        event_date: "", //date picker
+        event_date: null, //date picker
         amount: 200000000,
         description: "Deposit Slip (SPA/LTLA) ",
         note: "",
@@ -204,9 +220,12 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      console.log(this.form);
+      //this.form.event_date = this.form.event_date.getFullYear() + "-" + (this.form.event_date.getMonth() + 1) + "-" + this.form.event_date.getDate();
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.form.purchaser = this.form.purchaser.id;
+          this.form.employee = this.form.employee.id;
           axios
             .post("ds", this.form)
             .then((result) => {
@@ -277,7 +296,7 @@ export default {
     },
     getAllEmployees() {
       axios
-        .get("employee")
+        .get("employee-for-action")
         .then((result) => {
           this.data.employees = result.data.data;
         })
@@ -289,4 +308,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+.multiselect__single {
+  height: 43px;
+}
+</style>

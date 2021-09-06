@@ -105,7 +105,11 @@
         
       </template>
       </el-table-column>
-      <el-table-column align="center" prop="status" label="Status">
+      <el-table-column align="center" prop="status" label="Status"
+      :filters="[{ text: 'CTR', value: 'CTR' }, { text: 'DS', value: 'DS' }, { text: 'DA', value: 'DA' }, { text: 'Empty', value: '' }]"
+      :filter-method="filterTag"
+      filter-placement="bottom-end"
+      >
       </el-table-column>
       <el-table-column align="center" prop="NFA" label="NFA"> </el-table-column>
       <el-table-column align="center" prop="GFA" label="GFA"> </el-table-column>
@@ -131,7 +135,7 @@
       ></el-table-column>
       <el-table-column
         align="center"
-        width="115"
+        width="150"
         prop="land_use_fee"
         label="Land Use Fee"
       >
@@ -144,7 +148,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        width="95"
+        width="110"
         prop="direction"
         label="Direction"
       >
@@ -225,7 +229,9 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
-    
+     filterTag(value, row) {
+        return row.status === value;
+      },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -257,9 +263,14 @@ export default {
           this.units = result.data.data;
           console.log(this.units);
           this.units.forEach((element) => {
-            if (parseInt(element.status) >= 0) {
-              element.status = "used";
-            } else {
+            if (parseInt(element.status) == 1) {
+              element.status = "DS";
+            } else if(parseInt(element.status) == 2) {
+              element.status = "DA";
+            } else if(parseInt(element.status) == 3) {
+              element.status = "CTR";
+            }
+            else  {
               element.status = "";
             }
           });

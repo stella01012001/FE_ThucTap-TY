@@ -19,7 +19,7 @@
       v-if="data.periods"
       :data="data.periods"
       style="width: 100%"
-      max-height="250"
+      max-height="600"
     >
       <el-table-column fixed prop="id" label="ID" width="50"> </el-table-column>
       <!-- <el-table-column
@@ -49,9 +49,9 @@
       </el-table-column>
       <el-table-column prop="dueDate" label="Due Date" width="120">
       </el-table-column>
-      <el-table-column prop="description" label="Description" width="300">
+      <el-table-column prop="description" label="Description" align="center" width="300">
       </el-table-column>
-      <el-table-column prop="amount" label="Amount" width="120">
+      <el-table-column prop="amount" label="Amount" width="150">
         <template slot-scope="scope">
           <p>
             {{ formatPrice(scope.row.amount) }}
@@ -97,7 +97,7 @@
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button
-            v-if="date >= scope.row.checksdate && year >= scope.row.checkYear"
+            v-if="(date >= scope.row.checksdate && year >= scope.row.checkYear) || (date < scope.row.checksdate && year > scope.row.checkYear)"
             size="mini"
             icon="el-icon-s-promotion"
             @click="handleClickMail(scope.row)"

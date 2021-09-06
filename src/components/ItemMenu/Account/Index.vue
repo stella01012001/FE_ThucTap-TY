@@ -74,6 +74,11 @@
         label="Status"
         fixed
         width="120"
+        :filters="[
+          { text: 'Block', value: 'Block' },
+          { text: 'Actived', value: 'Actived' },
+        ]"
+        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -166,6 +171,9 @@ export default {
     this.getAllAccount();
   },
   methods: {
+    filterTag(value, row) {
+      return row.status === value;
+    },
     swicthToAdd() {
       this.$router.push(`/add-account`);
     },

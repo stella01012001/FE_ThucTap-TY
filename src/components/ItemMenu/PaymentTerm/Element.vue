@@ -47,7 +47,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="Active" prop="active">
-            <el-switch v-model="form.active"></el-switch>
+            <el-switch v-model="form.active"></el-switch> <span>  Use for payment land use fee</span>
           </el-form-item>
         </el-form>
         <div class="drawer__footer">
@@ -138,7 +138,7 @@ export default {
       dialog: false,
       loading: false,
       form: {
-        idPaymentTerm: "",
+        idPaymentTerm: this.$route.params.id,
         installmentNo: "",
         description: "",
         percent: "",
@@ -201,7 +201,6 @@ export default {
         .get(`paymentTermDefinitions/${this.$route.params.id}`)
         .then((result) => {
           this.data.paymentTerm = result.data.data;
-          this.form.idPaymentTerm = this.data.paymentTerm[0].idPaymentTerm;
         })
         .catch((err) => {
           console.log(err);

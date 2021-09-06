@@ -32,12 +32,19 @@
 
         <el-col :span="8"
           ><el-form-item label="Purchaser" prop="purchaser">
-            <el-select v-model="form.add.purchaser" placeholder="Purchaser">
+            <el-input
+              v-model="form.add.name_purchaser"
+              placeholder="Purchaser"
+              readonly
+              :disabled="true"
+            ></el-input>
+
+            <!-- <el-select v-model="form.add.purchaser" placeholder="Purchaser">
               <el-option
                 :label="data.daid.customer"
                 :value="data.daid.customer"
               ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -45,7 +52,14 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="Payment term" prop="payment_term">
-            <el-select
+            <el-input
+              v-model="form.add.name_payment"
+              placeholder="Payment term"
+              readonly
+              :disabled="true"
+            ></el-input>
+
+            <!-- <el-select
               v-model="form.add.payment_term"
               placeholder="Payment term"
             >
@@ -53,17 +67,24 @@
                 :label="data.daid.paymentTerm"
                 :value="data.daid.paymentTerm"
               ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Unit code" prop="unit_code">
-            <el-select v-model="form.add.unit_code" placeholder="Unit code">
+            <el-input
+              v-model="form.add.name_unit"
+              placeholder="Unit code"
+              readonly
+              :disabled="true"
+            ></el-input>
+
+            <!-- <el-select v-model="form.add.unit_code" placeholder="Unit code">
               <el-option
                 :label="data.daid.unit"
                 :value="data.daid.unit"
               ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,7 +95,6 @@
             <el-input
               v-model="form.add.amount"
               readonly
-              class="set-width"
             ></el-input> </el-form-item
         ></el-col>
       </el-row>
@@ -85,7 +105,6 @@
             <el-input
               v-model="form.add.description"
               readonly
-              class="set-width"
             ></el-input> </el-form-item
         ></el-col>
       </el-row>
@@ -97,17 +116,16 @@
               <el-date-picker
                 type="date"
                 format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
                 placeholder="Pick a date"
                 v-model="form.add.event_date"
-                style="width: 100%;"
+                style="width: 100%"
               ></el-date-picker>
             </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Agency" prop="employee">
-            <el-select v-model="form.add.employee" placeholder="Agency">
+            <!-- <el-select v-model="form.add.employee" placeholder="Agency">
               <el-option
                 v-for="item in data.employees"
                 :key="item.id"
@@ -119,7 +137,16 @@
                   item.name
                 }}</span>
               </el-option>
-            </el-select>
+            </el-select> -->
+
+            <multiselect
+              v-model="form.add.employee"
+              :options="data.employees"
+              placeholder="Search and select one"
+              label="name"
+              track-by="id"
+            >
+            </multiselect>
           </el-form-item>
         </el-col>
       </el-row>
@@ -127,7 +154,7 @@
       <el-row>
         <el-col :span="16">
           <el-form-item label="Note" prop="note">
-            <el-input v-model="form.add.note" class="set-width"> </el-input>
+            <el-input v-model="form.add.note"> </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -144,18 +171,25 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
 export default {
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       form: {
         add: {
           idDA: null, //cmb chọn trc by id`
           purchaser: null, //cmb theo da
+          name_purchaser: null,
           payment_term: null, // theo theo da
+          name_payment: null,
           description: "Contract for DA ", //cớ định theo da  `
           unit_code: "", //cmb theo da
+          name_unit: null,
           amount: null, //set cứng, lưu`
-          event_date: "", //tạo mới `
+          event_date: null, //tạo mới `
           employee: "", // cmb độc lập `
           note: "", //`
         },
@@ -180,13 +214,30 @@ export default {
             trigger: "change",
           },
         ],
+        event_date: [
+          {
+            type: "date",
+            required: true,
+            message: "Please pick a date",
+            trigger: "change",
+          },
+        ],
       },
     };
   },
   methods: {
     submitForm(formName) {
+      //this.form.add.event_date = this.form.add.event_date.getFullYear() + "-" + (this.form.add.event_date.getMonth() + 1) + "-" + this.form.add.event_date.getDate();
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.form.add.event_date =
+            this.form.add.event_date.getFullYear() +
+            "-" +
+            (this.form.add.event_date.getMonth() + 1) +
+            "-" +
+            this.form.add.event_date.getDate();
+          this.form.add.employee = this.form.add.employee.id;
           axios
             .post("/contract", this.form.add)
             .then((result) => {
@@ -225,6 +276,10 @@ export default {
       axios
         .get(`/info-for-ctr/${this.form.add.idDA}`)
         .then((result) => {
+          this.form.add.name_purchaser = result.data.data[0].customer;
+          this.form.add.name_payment = result.data.data[0].paymentTerm;
+          this.form.add.name_unit = result.data.data[0].unit;
+
           this.data.daid = result.data.data[0];
           console.log(result);
           this.form.add.amount = this.data.daid.amount;
@@ -236,7 +291,7 @@ export default {
     },
     getAllEmployees() {
       axios
-        .get("employee")
+        .get("employee-for-action")
         .then((result) => {
           this.data.employees = result.data.data;
         })
@@ -252,7 +307,7 @@ export default {
 };
 </script>
 
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
 .set-width input {
   width: 552px !important;
 }

@@ -26,7 +26,8 @@
         )
       "
     >
-      <el-table-column align="center" fixed prop="id" label="Id">
+      <el-table-column align="center" fixed prop="id" label="Id" column-key="id"
+        sortable>
       </el-table-column>
       <el-table-column
         align="center"
@@ -39,6 +40,7 @@
           { text: 'Approved', value: 'Approved' },
           { text: 'Canceled', value: 'Canceled' },
         ]"
+        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -106,7 +108,7 @@
             @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
           >
-          <el-button v-if="idRole == '1'"
+          <el-button
             icon="el-icon-delete"
             size="mini"
             type="danger"
@@ -136,6 +138,9 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
+    filterTag(value, row) {
+      return row.ctrStatus === value;
+    },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -211,7 +216,7 @@ export default {
     },
 
     changeStatus(row) {
-      if (row.payment == "Approved") {
+      if (row.ctrStatus == "Approved") {
         this.$notify({
           title: "Warning",
           message: "This is a warning",

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="container-bar">
       <div>
         <!-- Thay nút từ dây -->
@@ -15,10 +14,26 @@
           class="custom-input-search"
         />
       </div>
-    </div> 
+    </div>
 
-    <el-table border :data="listDS.filter(data => !search || data.customer.name.toLowerCase().includes(search.toLowerCase()))">
-      <el-table-column align="center" fixed prop="id" label="Id">
+    <el-table
+      border
+      :data="
+        listDS.filter(
+          (data) =>
+            !search ||
+            data.customer.name.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+    >
+      <el-table-column
+        align="center"
+        fixed
+        prop="id"
+        label="Id"
+        column-key="id"
+        sortable
+      >
       </el-table-column>
       <el-table-column
         align="center"
@@ -30,6 +45,7 @@
           { text: 'Pendding', value: 'Pendding' },
           { text: 'Approved', value: 'Approved' },
         ]"
+        :filter-method="filterTag"
         filter-placement="bottom-end"
       >
         <template slot-scope="scope">
@@ -87,11 +103,10 @@
       </el-table-column>
       <el-table-column align="center" width="250" prop="amount" label="Amount">
         <template slot-scope="scope">
-        <p> 
-          {{ formatPrice(scope.row.amount) }}
-        </p>
-        
-      </template>
+          <p>
+            {{ formatPrice(scope.row.amount) }}
+          </p>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -108,7 +123,7 @@
             @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
           >
-          <el-button v-if="idRole == '1'"
+          <el-button
             icon="el-icon-delete"
             size="mini"
             type="danger"
@@ -138,6 +153,9 @@ export default {
     ...mapGetters(["idRole"]),
   },
   methods: {
+     filterTag(value, row) {
+        return row.status === value;
+      },
     formatPrice(value) {
       let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
@@ -214,7 +232,11 @@ export default {
               .delete(`ds/${row.id}`)
               .then((result) => {
                 console.log(result.data);
-                swalWithBootstrapButtons.fire("Status!", `${result.data.status}`, "");
+                swalWithBootstrapButtons.fire(
+                  "Status!",
+                  `${result.data.status}`,
+                  ""
+                );
                 this.getAllDS();
               })
               .catch((err) => {
@@ -230,26 +252,26 @@ export default {
         });
     },
     changeStatus(row) {
-      if (row.payment == "Approved") {
+      if (row.status == "Approved") {
         this.$notify({
           title: "Warning",
           message: "This is a warning",
           type: "warning",
         });
       } else {
-          axios
-        .get(`approved-ds/${row.id}`)
-        .then(() => {
-          this.$message({
-            showClose: true,
-            message: "Congrats, this is a success message.",
-            type: "success",
+        axios
+          .get(`approved-ds/${row.id}`)
+          .then(() => {
+            this.$message({
+              showClose: true,
+              message: "Congrats, this is a success message.",
+              type: "success",
+            });
+            this.getAllDS();
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          this.getAllDS();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       }
     },
     add_new() {
@@ -260,7 +282,7 @@ export default {
 </script>
 
 <style>
-.el-tag--light{
+.el-tag--light {
   cursor: pointer;
 }
 </style>

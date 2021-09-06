@@ -21,40 +21,8 @@
       </div>
     </div>
 
-    <!-- Sửa -->
-    <!-- <el-dialog title="Edit" :visible.sync="dialogFormEdit">
-      <el-form :model="editform">
-        <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input
-            :value="editform.name"
-            autocomplete="off"
-            :disabled="true"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="Birth" :label-width="formLabelWidth">
-          <el-input v-model="editform.birth" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Phone" :label-width="formLabelWidth">
-          <el-input v-model="editform.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Address" :label-width="formLabelWidth">
-          <el-input v-model="editform.address" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Email" :label-width="formLabelWidth">
-          <el-input v-model="editform.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Gender" :label-width="formLabelWidth">
-          <el-input v-model="editform.gender" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormEdit = false">Cancel</el-button>
-        <el-button type="primary" @click="editEmployee">Confirm</el-button>
-      </span>
-    </el-dialog> -->
-
-    <el-dialog title="Edit" :visible.sync="dialogFormEdit">
-      <el-form :model="editform" rules="rules1" ref="editform">
+    <el-dialog title="Edit Employee" :visible.sync="dialogFormEdit">
+      <el-form :model="editform" :rules="rules" ref="editform">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
           <el-input
             :value="editform.name"
@@ -87,8 +55,6 @@
                 placeholder="Pick a date"
                 v-model="editform.birth"
                 style="width: 100%"
-                format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -101,10 +67,7 @@
               prop="phone"
               :label-width="formLabelWidth"
             >
-              <el-input
-                v-model.number="editform.phone"
-                autocomplete="off"
-              ></el-input>
+              <el-input v-model="editform.phone" autocomplete="off"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -149,18 +112,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="Add New" :visible.sync="dialogFormVisible">
+    <el-dialog title="Add New Employee" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="Tax Code" :label-width="formLabelWidth">
-              <el-input v-model="form.taxCode" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item
               label="Birth"
@@ -172,9 +130,19 @@
                 placeholder="Pick a date"
                 v-model="form.birth"
                 style="width: 100%"
-                format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
               ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              label="Gender"
+              prop="gender"
+              :label-width="formLabelWidth"
+            >
+              <el-radio-group v-model="form.gender">
+                <el-radio label="Nam"></el-radio>
+                <el-radio label="Nữ"></el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -207,17 +175,6 @@
         >
           <el-input v-model="form.address" autocomplete="off"></el-input>
         </el-form-item>
-
-        <el-form-item
-          label="Gender"
-          prop="gender"
-          :label-width="formLabelWidth"
-        >
-          <el-radio-group v-model="form.gender">
-            <el-radio label="Nam"></el-radio>
-            <el-radio label="Nữ"></el-radio>
-          </el-radio-group>
-        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -227,49 +184,23 @@
       </span>
     </el-dialog>
 
-    <!-- <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Birth" :label-width="formLabelWidth">
-          <el-input v-model="form.birth" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Phone" :label-width="formLabelWidth">
-          <el-input v-model="form.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Address" :label-width="formLabelWidth">
-          <el-input v-model="form.address" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Email" :label-width="formLabelWidth">
-          <el-input v-model="form.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="Gender" :label-width="formLabelWidth">
-          <el-input v-model="form.gender" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handSubmit">Confirm</el-button>
-      </span>
-    </el-dialog> -->
-
     <el-table
       :data="
         employees.filter(
           (data) => !search || data.id.toString().includes(search.toString())
         )
       "
+      style="width: 100%"
     >
-      <el-table-column prop="id" label="Id"> </el-table-column>
-      <el-table-column prop="name" label="Name"> </el-table-column>
+      <el-table-column fixed width="80" prop="id" label="Id"> </el-table-column>
+      <el-table-column width="200" prop="name" label="Name"> </el-table-column>
       <el-table-column prop="gender" label="Gender"> </el-table-column>
-      <el-table-column prop="birth" label="Birth"> </el-table-column>
-      <el-table-column prop="phone" label="Phone"> </el-table-column>
-      <el-table-column prop="address" label="Address"> </el-table-column>
-      <el-table-column prop="email" label="Email"> </el-table-column>
+      <el-table-column width="150" prop="birth" label="Birth"> </el-table-column>
+      <el-table-column width="150" prop="phone" label="Phone"> </el-table-column>
+      <el-table-column width="200" prop="address" label="Address"> </el-table-column>
+      <el-table-column width="200" prop="email" label="Email"> </el-table-column>
       <el-table-column prop="idAcc" label="Account"> </el-table-column>
-      <el-table-column width="190" prop="aciton" label="Action">
+      <el-table-column  fixed="right" width="190" prop="aciton" label="Action">
         <template v-if="idRole == '1'" slot-scope="scope">
           <el-button
             icon="el-icon-edit"
@@ -295,6 +226,14 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data() {
+    var validatePhone = (rule, value, callback) => {
+      const regex_phone = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
+      if (!value.match(regex_phone)) {
+        callback(new Error("Please input the Phone"));
+      } else {
+        callback();
+      }
+    };
     return {
       search: "",
       employees: [],
@@ -321,13 +260,7 @@ export default {
       rules: {
         phone: [
           { required: true, message: "Please input phone" },
-          {
-            min: 9999999999,
-            max: 12,
-            type: "number",
-            message: "Length should be 9",
-            trigger: "blur",
-          },
+          { validator: validatePhone, trigger: "blur" },
         ],
         email: [
           {
@@ -351,7 +284,6 @@ export default {
 
         birth: [
           {
-            type: "date",
             required: true,
             message: "Please pick a date",
             trigger: "change",
@@ -384,6 +316,12 @@ export default {
     handSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.form.birth =
+            this.form.birth.getFullYear() +
+            "-" +
+            (this.form.birth.getMonth() + 1) +
+            "-" +
+            this.form.birth.getDate();
           axios
             .post("employee", this.form)
             .then((result) => {
@@ -422,12 +360,23 @@ export default {
       console.log(index, row);
     },
     editEmployee() {
+      this.editform.birth =
+        this.editform.birth.getFullYear() +
+        "-" +
+        (this.editform.birth.getMonth() + 1) +
+        "-" +
+        this.editform.birth.getDate();
       axios
         .post("employee", this.editform)
         .then((result) => {
           console.log(result);
           this.dialogFormEdit = false;
           this.getAllEmployee();
+          this.$swal({
+            icon: "success",
+            title: "Successful!",
+            showConfirmButton: false,
+          });
         })
         .catch((err) => {
           console.log(err);

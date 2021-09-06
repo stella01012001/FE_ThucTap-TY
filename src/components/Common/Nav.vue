@@ -24,7 +24,7 @@
         </div>
         <router-link to="/menu/floor">FLOOR</router-link>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="3" v-if="this.$store.getters.idRole == 1">
         <div class="wrapp-icon">
           <i class="fas fa-warehouse icon-color"></i>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <router-link to="/menu/customer">CUSTOMER</router-link>
       </el-menu-item>
-      <el-menu-item index="5">
+      <el-menu-item index="5" v-if="this.$store.getters.idRole == 1">
         <div class="wrapp-icon icon-color">
           <i class="fas fa-user-tie"></i>
         </div>
@@ -54,7 +54,7 @@
         </div>
         <router-link to="/menu/lgctr">LEDGER CONTRACT</router-link>
       </el-menu-item>
-      <el-menu-item index="8">
+      <el-menu-item index="8" v-if="this.$store.getters.idRole == 1">
         <div class="wrapp-icon">
           <i class="fas fa-tasks icon-color"></i>
         </div>
@@ -113,7 +113,7 @@
         >
       </el-submenu>
 
-      <el-menu-item index="12">
+      <el-menu-item index="12" v-if="this.$store.getters.idRole == 1">
         <div class="wrapp-icon">
           <i class="el-icon-user"></i>
         </div>

@@ -9,8 +9,8 @@
     >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="Employee" prop="Employee">
-            <el-select
+          <el-form-item label="Employee" prop="idEmployee">
+            <!-- <el-select
               v-model="form.add.idEmployee"
               placeholder="Employee"
               @change="handleChangeDS"
@@ -26,7 +26,16 @@
                   item.name
                 }}</span>
               </el-option>
-            </el-select>
+            </el-select> -->
+
+            <multiselect
+                v-model="form.add.idEmployee"
+                :options="data.listEmp"
+                placeholder="Search and select one"
+                label="name"
+                track-by="id">
+            </multiselect>
+
           </el-form-item>
         </el-col>
       </el-row>
@@ -62,7 +71,7 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="Role" prop="role">
+          <el-form-item label="Role" prop="idRole">
             <el-select v-model="form.add.idRole" placeholder="Role">
               <el-option
                 v-for="item in data.listRole"
@@ -83,7 +92,12 @@
       <el-row>
         <el-col :span="16">
           <el-form-item label="Active" prop="status">
-            <el-switch v-model="form.add.status"></el-switch>
+            <el-switch
+              v-model="form.add.status"
+              :active-value="1"
+              :inactive-value="0"
+              ></el-switch
+            >
           </el-form-item>
         </el-col>
       </el-row>
@@ -100,7 +114,11 @@
 
 <script>
 import axios from "axios";
+import Multiselect from 'vue-multiselect'
 export default {
+  components: {
+        Multiselect
+    },
   data() {
     return {
       form: {
@@ -121,7 +139,7 @@ export default {
         idEmployee: [
           {
             required: true,
-            message: "Please select Activity zone",
+            message: "Please select employee",
             trigger: "change",
           },
         ],
@@ -170,7 +188,7 @@ export default {
                 showConfirmButton: false,
               });
             })
-            .catch( (error) => {
+            .catch((error) => {
               console.log(error.response.data.errors.username[0]);
               this.$notify.error({
                 title: "Error",
@@ -232,7 +250,7 @@ export default {
 };
 </script>
 
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
 .set-width input {
   width: 552px !important;
 }

@@ -7,7 +7,7 @@
       >Add new</el-button
     >
 
-    <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+    <el-dialog title="Add New Floor" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item
           label="Num of Floor"

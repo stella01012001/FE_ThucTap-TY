@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="forgot-pass">
-            <span @click="switchForgot">Fo gót pát wợt ?</span>
+            <span @click="switchForgot">Forgot password?</span>
           </div>
           <button type="submit" class="btn btn-primary">Login</button>
         </form>
